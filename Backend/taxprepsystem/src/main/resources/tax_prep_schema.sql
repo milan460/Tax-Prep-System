@@ -1,7 +1,7 @@
 -- Drop tables if they exist
-DROP TABLE IF EXISTS PersonalInfoForm;
-DROP TABLE IF EXISTS W2Form;
-DROP TABLE IF EXISTS NEC1099Form;
+DROP TABLE IF EXISTS personal_info_form;
+DROP TABLE IF EXISTS w2_form;
+DROP TABLE IF EXISTS nec_1099_form;
 DROP TABLE IF EXISTS Users;
 
 -- Create Users table
