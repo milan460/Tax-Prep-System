@@ -1,0 +1,22 @@
+/* general header styling */
+header {
+    width: auto;
+    height:25vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2% 10% 0 10%;
+}
+
+/* flag icon styling */
+#flagImage {
+    height: 500px;
+    width: 300px;
+}
+
+/* header logo styling */
+#headerText {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 5.5rem;
+}
