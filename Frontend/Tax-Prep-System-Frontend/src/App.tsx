@@ -1,3 +1,5 @@
+import '@trussworks/react-uswds/lib/index.css';
+import '@trussworks/react-uswds/lib/uswds.css';
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
