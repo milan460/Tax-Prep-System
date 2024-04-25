@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.taxprepsystem.taxprepsystem.models.W2;
 import com.example.taxprepsystem.taxprepsystem.services.W2Service;
 
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
