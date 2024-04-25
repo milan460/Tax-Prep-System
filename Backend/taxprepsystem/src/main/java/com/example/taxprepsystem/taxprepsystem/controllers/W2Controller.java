@@ -70,6 +70,13 @@ public class W2Controller {
         return new ResponseEntity<W2>(updatedW2Form, HttpStatus.CREATED);
     }
 
+    // Put request to update a users W2 Form
+    @PutMapping("/updateW2Form/{userId}")
+    public ResponseEntity<W2> updateW2FormByUserId(@PathVariable("userId") int userId, @RequestBody @Valid W2 formData) {
+            W2 updatedW2Form = w2Service.updateW2FormByUserId(userId, formData);
+            return new ResponseEntity<>(updatedW2Form, HttpStatus.OK);  
+    }
+
     //Delete request to delete an existing W2 form by id
     @DeleteMapping("/deleteW2Form/{id}")
     public ResponseEntity<W2> deleteW2Form(@PathVariable int id){

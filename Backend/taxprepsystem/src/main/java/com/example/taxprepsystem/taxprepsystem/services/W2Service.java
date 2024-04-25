@@ -57,6 +57,30 @@ public class W2Service {
         return w2Repository.save(w2Form);
     }
 
+    // update W2 based on userId
+    public W2 updateW2FormByUserId(int userId, W2 formData){
+        Optional<W2> existingW2Optional = w2Repository.findW2FormByUserId(userId);
+        if (existingW2Optional.isPresent()) {
+            W2 existingW2Form = existingW2Optional.get();
+
+            existingW2Form.setIncome(formData.getIncome());
+            existingW2Form.setSocialSecurityWages(formData.getSocialSecurityWages());
+            existingW2Form.setMedicareWages(formData.getMedicareWages());
+            existingW2Form.setSocialSecurityTaxWithheld(formData.getSocialSecurityTaxWithheld());
+            existingW2Form.setMedicareTaxWithheld(formData.getMedicareTaxWithheld());
+            existingW2Form.setFederalIncomeWithheld(formData.getFederalIncomeWithheld());
+            existingW2Form.setStreetAddress1(formData.getStreetAddress1());
+            existingW2Form.setStreetAddress2(formData.getStreetAddress2());
+            existingW2Form.setCity(formData.getCity());
+            existingW2Form.setState(formData.getState());
+            existingW2Form.setZip(formData.getZip());
+
+            
+            return w2Repository.save(existingW2Form);
+        } 
+           return null;
+    }
+
     //delete the W2 form by id
     public void deleteW2Form(int id){
         
