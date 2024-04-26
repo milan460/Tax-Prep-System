@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.taxprepsystem.taxprepsystem.models.PersonalInfo;
 import com.example.taxprepsystem.taxprepsystem.services.PersonalInfoService;
 
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
@@ -64,6 +66,13 @@ public class PersonalInfoController {
         PersonalInfo updatedPersonalInfo = personalInfoService.updatePersonalInfoForm(PersonalInfo);
         
         return new ResponseEntity<PersonalInfo>(updatedPersonalInfo, HttpStatus.CREATED);
+    }
+
+    // Put request to update personal info based on userId
+    @PutMapping("/updatePersonalInfo/{userId}")
+    public ResponseEntity  <PersonalInfo> updatePersonalInfoByUserId(@PathVariable("userId") int userId, @RequestBody @Valid PersonalInfo personalInfo) {
+        PersonalInfo updatedPersonalInfo = personalInfoService.updatePersonalInfoByUserId(userId, personalInfo);
+        return new ResponseEntity<>(updatedPersonalInfo, HttpStatus.OK);  
     }
 
     //Delete request to delete an existing personal information form by id
