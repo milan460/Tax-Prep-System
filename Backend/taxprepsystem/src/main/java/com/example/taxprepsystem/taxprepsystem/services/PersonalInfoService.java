@@ -59,6 +59,29 @@ public class PersonalInfoService {
         return personalInfoRepository.save(personalInfo);
     }
 
+    // update Personal information form based on userId
+    public PersonalInfo updatePersonalInfoByUserId(int userId, PersonalInfo formData) {
+        Optional <PersonalInfo> existingPersonalInfoOptional = personalInfoRepository.findPersonalInfoFormByUserId(userId);
+        if (existingPersonalInfoOptional.isPresent()) {
+            PersonalInfo existingPersonalInfo = existingPersonalInfoOptional.get();
+
+            existingPersonalInfo.setFirstName(formData.getFirstName());
+            existingPersonalInfo.setLastName(formData.getLastName());
+            existingPersonalInfo.setEmail(formData.getEmail());
+            existingPersonalInfo.setStreetAddress1(formData.getStreetAddress1());
+            existingPersonalInfo.setStreetAddress2(formData.getStreetAddress2());
+            existingPersonalInfo.setCity(formData.getCity());
+            existingPersonalInfo.setState(formData.getState());
+            existingPersonalInfo.setZip(formData.getZip());
+            existingPersonalInfo.setDateOfBirth(formData.getDateOfBirth());
+            existingPersonalInfo.setSsn(formData.getSsn());
+            existingPersonalInfo.setFilingStatus(formData.getFilingStatus());
+
+            return personalInfoRepository.save(existingPersonalInfo);
+        }
+        return null;
+    }
+
 
     //deleting the Personal Information Form using the id
     public void deletePersonalInfoForm(int id){

@@ -40,10 +40,13 @@ public class PersonalInfo {
     @Column(name = "street_address_2")
     private String streetAddress2;
 
+    @Column
     private String city;
 
+    @Column
     private String state;
 
+    @Column
     private String zip;
 
     @Column(name = "date_of_birth")
