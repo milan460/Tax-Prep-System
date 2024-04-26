@@ -1,18 +1,15 @@
 import '@trussworks/react-uswds/lib/index.css';
 import '@trussworks/react-uswds/lib/uswds.css';
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+// import { useState } from 'react'
 import './App.css'
-// import {HashRouter as Router, Route, Routes} from "react-router-dom"
-import {Header} from "./components"
+import {BrowserRouter, Route, Routes} from "react-router-dom"
+import {Header, Footer} from "./components"
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
-    <Header />
+    {/* <Header/>
       <div>
         <a href="https://vitejs.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
@@ -33,6 +30,17 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+      <Footer/> */}
+      <BrowserRouter>
+            <div>
+                <Header />
+                    <Routes>
+                        {/* <Route path="/" element={<Home />}/> */}
+                        {/* <Route path="/pizza" element={<Pizza drinks={drinks} fetchUserCurrentCart={fetchUserCurrentCart} currentUser={currentUser} currentCart={currentCart} setCurrentCart={setCurrentCart}/>}/> */}
+                    </Routes>
+                <Footer />
+            </div>
+        </BrowserRouter>
     </>
   )
 }

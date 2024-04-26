@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-import './header.css';
+import './footer.css';
 import  buildingIcon  from '/building-icon.svg';
 import flagIcon from '/flag-icon.webp';
 import lockIcon from '/lock-icon.svg';
 import { Banner, BannerButton, BannerContent, BannerFlag, BannerGuidance, BannerHeader, BannerIcon, Button, Icon, MediaBlockBody } from '@trussworks/react-uswds';
 
-const Header: React.FC = () => {
+const Footer: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
     return (
         <>
-            <Banner aria-label="Official website of the state department of the IRS">
-                <BannerHeader isOpen={isOpen} flagImg={<BannerFlag src={flagIcon} aria-hidden alt="" />} headerText="This is an official website of the state department of the IRS" headerActionText="Here's how you know">
+            <Banner aria-label="Official website of the state department of something specific">
+                <BannerHeader isOpen={isOpen} flagImg={<BannerFlag src={flagIcon} aria-hidden alt="" />} headerText="This is an official website of the state department of something specific" headerActionText="Here's how you know">
                     <BannerButton isOpen={isOpen} aria-controls="custom-banner" onClick={(): void => {
                     setIsOpen(previousIsOpen => !previousIsOpen);
                     }}>
@@ -52,5 +52,5 @@ const Header: React.FC = () => {
     );
 }
 
-export default Header;
+export default Footer;
 
