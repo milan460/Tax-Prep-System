@@ -46,7 +46,7 @@ const Header: React.FC = () => {
                     </BannerGuidance>
                     </div>
                 </BannerContent>
-                <Button type='button'>Select Language</Button>
+                <Button type='button' base>Select Language</Button>
             </Banner> 
         </>
     );

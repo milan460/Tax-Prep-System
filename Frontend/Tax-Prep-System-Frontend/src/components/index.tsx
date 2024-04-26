@@ -1,2 +1,5 @@
 export { default as Header } from "./Header"
-export { default as Footer } from "./Footer"
+export { default as FooterReal } from "./FooterReal"
+export { default as PersonalInfoForm } from "./PersonalInfoForm"
+export { default as SignIn } from "./SignIn"
+export { default as Register } from "./Register"
