@@ -3,6 +3,7 @@ DROP TABLE IF EXISTS personal_info_form;
 DROP TABLE IF EXISTS w2_form;
 DROP TABLE IF EXISTS int_1099_form;
 DROP TABLE IF EXISTS Users;
+DROP TABLE IF EXISTS constants;
 
 -- Create Users table
 CREATE TABLE Users (
@@ -26,7 +27,8 @@ CREATE TABLE personal_info_form (
     zip VARCHAR(20),
     date_of_birth DATE,
     social_security_number VARCHAR(20),
-    filing_status VARCHAR(20)
+    filing_status VARCHAR(20),
+	dependents INT
 );
 
 -- Create Financial (W2) Form table
@@ -47,7 +49,7 @@ CREATE TABLE w2_form (
 );
 
 -- Create Financial (1099-NEC) Form table
---CREATE TABLE nec_1099_form (
+-- CREATE TABLE nec_1099_form (
 --    form_id SERIAL PRIMARY KEY,
 --    user_id INT REFERENCES Users(user_id) ON DELETE CASCADE,
 --    payer_name VARCHAR(100),
@@ -65,7 +67,7 @@ CREATE TABLE w2_form (
 --    recipient_zip VARCHAR(20),
 --    non_employee_compensation DECIMAL(12, 2),
 --    amount_withheld DECIMAL(12, 2)
---);
+-- );
 
 CREATE TABLE int_1099_form (
     form_id SERIAL PRIMARY KEY,
@@ -76,4 +78,18 @@ CREATE TABLE int_1099_form (
     savings_bonds_and_treasury_interest DECIMAL(12, 2),
     investment_expenses DECIMAL(12, 2),
     market_discount DECIMAL(12, 2)
+);
+
+CREATE TABLE constants (
+    id SERIAL PRIMARY KEY,
+    dependents_constant DECIMAL(10, 2),
+    single_status DECIMAL(10, 2),
+    married_status DECIMAL(10, 2),
+    tax_bracket_1 DECIMAL(4, 3),
+    tax_bracket_2 DECIMAL(4, 3),
+    tax_bracket_3 DECIMAL(4, 3),
+    tax_bracket_4 DECIMAL(4, 3),
+    tax_bracket_5 DECIMAL(4, 3),
+    tax_bracket_6 DECIMAL(4, 3),
+    tax_bracket_7 DECIMAL(4, 3)
 );

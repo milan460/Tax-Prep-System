@@ -76,6 +76,7 @@ public class PersonalInfoService {
             existingPersonalInfo.setDateOfBirth(formData.getDateOfBirth());
             existingPersonalInfo.setSsn(formData.getSsn());
             existingPersonalInfo.setFilingStatus(formData.getFilingStatus());
+            existingPersonalInfo.setDependents(formData.getDependents());
 
             return personalInfoRepository.save(existingPersonalInfo);
         }

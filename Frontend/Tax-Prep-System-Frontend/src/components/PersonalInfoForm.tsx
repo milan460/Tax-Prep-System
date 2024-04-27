@@ -14,6 +14,7 @@ interface PersonalInfoFormData {
     dateOfBirth: string; 
     ssn: string;
     filingStatus: string;
+    dependents: number;
 }
 
 interface User {
@@ -35,29 +36,33 @@ export default function PersonalInfoForm() {
         zip: "",
         dateOfBirth: "",
         ssn: "",
-        filingStatus: ""
+        filingStatus: "",
+        dependents: 0
     };
 
     const initialUser: User = {
-        userId: 4,
-        username: "aatrox",
-        password: "bxa(n`0Xqujjd~",
+        userId: 1,
+        username: "afradson0",
+        password: "bZ3%d(n`0Xqujjd~",
         role: "ROLE_USER"
     };
 
     const [formData, setFormData] = useState<PersonalInfoFormData>(initialFormData);
-    const [formSubmitted, setFormSubmitted] = useState<boolean>(false);
+
+    const fetchData = async () => {
+        try {
+            const response = await fetch(`http://localhost:8080/personalForms/user/${initialUser.userId}`);
+            if (response.ok) {
+                const data: PersonalInfoFormData = await response.json();
+                setFormData(data);
+            }
+        } catch (error) {
+            console.error('Error fetching personal form data:', error);
+        }
+    };
 
     useEffect(() => {
-        const savedFormData = localStorage.getItem('personalInfoFormData');
-        if (savedFormData) {
-            setFormData(JSON.parse(savedFormData));
-        }
-
-        const formSubmittedStatus = localStorage.getItem(`formSubmitted_personalInfo_${initialUser.userId}`);
-        if (formSubmittedStatus === 'true') {
-            setFormSubmitted(true);
-        }
+        fetchData();
     }, [initialUser.userId]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -88,10 +93,19 @@ export default function PersonalInfoForm() {
             zip: formData.zip,
             dateOfBirth: formData.dateOfBirth,
             ssn: formData.ssn,
-            filingStatus: formData.filingStatus
+            filingStatus: formData.filingStatus,
+            dependents: formData.dependents
         };
     
-        if (!formSubmitted) {
+        if (formData.id) {
+            requestOptions = {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formDataToSend)
+            };
+        } else {
             requestOptions = {
                 method: 'POST',
                 headers: {
@@ -99,22 +113,11 @@ export default function PersonalInfoForm() {
                 },
                 body: JSON.stringify(formDataToSend)
             };
-            setFormSubmitted(true);
-            localStorage.setItem(`formSubmitted_personalInfo_${userId}`, 'true');
-        } else {
-            const formDataToSendWithId = { ...formDataToSend, id: userId.toString() };
-            requestOptions = {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formDataToSendWithId)
-            };
         }
     
         try {
             let url = 'http://localhost:8080/personalForms/createPersonalForm';
-            if (formSubmitted) {
+            if (formData.id) {
                 url = `http://localhost:8080/personalForms/updatePersonalInfo/${userId}`;
             }
     
@@ -127,32 +130,37 @@ export default function PersonalInfoForm() {
                 if (formId) {
                     localStorage.setItem('formId', formId);
                 }
+
+                fetchData();
             }
         } catch (error) {
             console.error('There was a problem with the fetch operation:', error);
         }
-    
-        localStorage.setItem('personalInfoFormData', JSON.stringify(formData));
     };
+
     return (
         <>
             <GridContainer>
                 <Grid row>
                     <div className="usa-layout-docs__main desktop:grid-col-12 tablet:grid-col-8">
                         <Form onSubmit={handleSubmit}>
-                            {Object.entries(formData).map(([key, value]) => (
-                                <div key={key} className="usa-form-group">
-                                    <label htmlFor={key}>{key}:</label>
-                                    <input
-                                        id={key}
-                                        type="text"
-                                        name={key}
-                                        value={value}
-                                        onChange={handleChange}
-                                        className="usa-input"
-                                    />
-                                </div>
-                            ))}
+                            {Object.entries(formData).map(([key, value]) => {
+                                if (key === "firstName" || key === "lastName" || key === "email" || key === "streetAddress1" || key === "streetAddress2" || key === "city" || key === "state" || key === "zip" || key === "dateOfBirth" || key === "ssn" || key === "filingStatus" || key === "dependents") {
+                                    return (
+                                        <div key={key} className="usa-form-group">
+                                            <label htmlFor={key}>{key}:</label>
+                                            <input
+                                                id={key}
+                                                type="text"
+                                                name={key}
+                                                value={value}
+                                                onChange={handleChange}
+                                                className="usa-input"
+                                            />
+                                        </div>
+                                    );
+                                }
+                            })}
                             <button type="submit" className="usa-button">Submit</button>
                         </Form>
                     </div>
@@ -160,4 +168,5 @@ export default function PersonalInfoForm() {
             </GridContainer>
         </>
     );
+
 }

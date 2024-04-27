@@ -9,11 +9,11 @@ interface W2FormData {
     socialSecurityTaxWithheld: string;
     medicareTaxWithheld: string;
     federalIncomeWithheld: string;
-    w2StreetAddress1: string;
-    w2StreetAddress2: string;
-    w2City: string;
-    w2State: string;
-    w2Zip: string;
+    streetAddress1: string;
+    streetAddress2: string;
+    city: string;
+    state: string;
+    zip: string;
 }
 
 interface User {
@@ -23,7 +23,7 @@ interface User {
     role: string;
 }
 
-export default function W2Form() {
+export default function W2Form(): JSX.Element {
     const initialFormData: W2FormData = {
         income: "",
         socialSecurityWages: "",
@@ -31,33 +31,37 @@ export default function W2Form() {
         socialSecurityTaxWithheld: "",
         medicareTaxWithheld: "",
         federalIncomeWithheld: "",
-        w2StreetAddress1: "",
-        w2StreetAddress2: "",
-        w2City: "",
-        w2State: "",
-        w2Zip: "",
+        streetAddress1: "",
+        streetAddress2: "",
+        city: "",
+        state: "",
+        zip: "",
     };
 
     const initialUser: User = {
-        userId: 4,
-        username: "aatrox",
-        password: "bxa(n`0Xqujjd~",
+        userId: 1,
+        username: "afradson0",
+        password: "bZ3%d(n`0Xqujjd~",
         role: "ROLE_USER"
     };
 
     const [formData, setFormData] = useState<W2FormData>(initialFormData);
-    const [formSubmitted, setFormSubmitted] = useState<boolean>(false);
+
+    const fetchData = async () => {
+        try {
+            const response = await fetch(`http://localhost:8080/w2Forms/user/${initialUser.userId}`);
+            if (response.ok) {
+                const data: W2FormData = await response.json();
+                console.log("Fetched W2 Form Data:", data);
+                setFormData(data);
+            }
+        } catch (error) {
+            console.error('Error fetching w2 form data:', error);
+        }
+    };
 
     useEffect(() => {
-        const savedFormData = localStorage.getItem('w2FormData');
-        if (savedFormData) {
-            setFormData(JSON.parse(savedFormData));
-        }
-
-        const formSubmittedStatus = localStorage.getItem(`formSubmitted_${initialUser.userId}`);
-        if (formSubmittedStatus === 'true') {
-            setFormSubmitted(true);
-        }
+        fetchData();
     }, [initialUser.userId]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -84,14 +88,22 @@ export default function W2Form() {
             socialSecurityTaxWithheld: parseFloat(formData.socialSecurityTaxWithheld),
             medicareTaxWithheld: parseFloat(formData.medicareTaxWithheld),
             federalIncomeWithheld: parseFloat(formData.federalIncomeWithheld),
-            streetAddress1: formData.w2StreetAddress1,
-            streetAddress2: formData.w2StreetAddress2,
-            city: formData.w2City,
-            state: formData.w2State,
-            zip: formData.w2Zip
+            streetAddress1: formData.streetAddress1,
+            streetAddress2: formData.streetAddress2,
+            city: formData.city,
+            state: formData.state,
+            zip: formData.zip
         };
     
-        if (!formSubmitted) {
+        if (formData.id) {
+            requestOptions = {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formDataToSend)
+            };
+        } else {
             requestOptions = {
                 method: 'POST',
                 headers: {
@@ -99,22 +111,11 @@ export default function W2Form() {
                 },
                 body: JSON.stringify(formDataToSend)
             };
-            setFormSubmitted(true);
-            localStorage.setItem(`formSubmitted_${userId}`, 'true');
-        } else {
-            const formDataToSendWithId = { ...formDataToSend, id: userId.toString() };
-            requestOptions = {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formDataToSendWithId)
-            };
         }
     
         try {
             let url = 'http://localhost:8080/w2Forms/createW2Form';
-            if (formSubmitted) {
+            if (formData.id) {
                 url = `http://localhost:8080/w2Forms/updateW2Form/${userId}`;
             }
     
@@ -127,12 +128,12 @@ export default function W2Form() {
                 if (formId) {
                     localStorage.setItem('formId', formId);
                 }
+              
+                fetchData();
             }
         } catch (error) {
             console.error('There was a problem with the fetch operation:', error);
         }
-    
-        localStorage.setItem('w2FormData', JSON.stringify(formData));
     };
 
     return (
