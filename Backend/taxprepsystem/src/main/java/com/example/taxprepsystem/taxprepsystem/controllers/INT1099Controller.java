@@ -2,6 +2,7 @@ package com.example.taxprepsystem.taxprepsystem.controllers;
 
 import java.util.List;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ import com.example.taxprepsystem.taxprepsystem.services.INT1099Service;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/int")
+@RequestMapping("/1099")
 public class INT1099Controller {
 
     @Autowired
@@ -64,6 +65,14 @@ public class INT1099Controller {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    //update INT1099 form by userId
+    @PutMapping("/updateINTForm/user/{userId}")
+    public ResponseEntity<INT1099> updateINT1099FormByUserId(@PathVariable("userId") int userId, @RequestBody @Valid INT1099 form){
+        INT1099 updatedINTForm = int1099Service.updateINT1099FormByUserId(userId, form);
+
+        return new ResponseEntity<>(updatedINTForm, HttpStatus.OK);
     }
 
     // Delete INT1099 form
