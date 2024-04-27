@@ -58,6 +58,9 @@ public class PersonalInfo {
     @Column(name = "filing_status")
     private String filingStatus;
 
+    @Column
+    private int dependents;
+
     public PersonalInfo(){
 
     }
@@ -66,9 +69,27 @@ public class PersonalInfo {
         this.id = id;
     }
 
+    public PersonalInfo(User user, String firstName, String lastName, String email, String streetAddress1,
+            String streetAddress2, String city, String state, String zip, LocalDate dateOfBirth, String ssn,
+            String filingStatus, int dependents) {
+        this.user = user;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.streetAddress1 = streetAddress1;
+        this.streetAddress2 = streetAddress2;
+        this.city = city;
+        this.state = state;
+        this.zip = zip;
+        this.dateOfBirth = dateOfBirth;
+        this.ssn = ssn;
+        this.filingStatus = filingStatus;
+        this.dependents = dependents;
+    }
+
     public PersonalInfo(int id, User user, String firstName, String lastName, String email, String streetAddress1,
             String streetAddress2, String city, String state, String zip, LocalDate dateOfBirth, String ssn,
-            String filingStatus) {
+            String filingStatus, int dependents) {
         this.id = id;
         this.user = user;
         this.firstName = firstName;
@@ -82,6 +103,7 @@ public class PersonalInfo {
         this.dateOfBirth = dateOfBirth;
         this.ssn = ssn;
         this.filingStatus = filingStatus;
+        this.dependents = dependents;
     }
 
     public int getId() {
@@ -188,6 +210,29 @@ public class PersonalInfo {
         this.filingStatus = filingStatus;
     }
 
+    public int getDependents() {
+        return dependents;
+    }
+
+    public void setDependents(int dependents) {
+        this.dependents = dependents;
+    }
+
+    @Override
+    public String toString() {
+        return "PersonalInfo [id=" + id + ", user=" + user + ", firstName=" + firstName + ", lastName=" + lastName
+                + ", email=" + email + ", streetAddress1=" + streetAddress1 + ", streetAddress2=" + streetAddress2
+                + ", city=" + city + ", state=" + state + ", zip=" + zip + ", dateOfBirth=" + dateOfBirth + ", ssn="
+                + ssn + ", filingStatus=" + filingStatus + ", dependents=" + dependents + ", getClass()=" + getClass()
+                + ", getId()=" + getId() + ", getUser()=" + getUser() + ", hashCode()=" + hashCode()
+                + ", getFirstName()=" + getFirstName() + ", getLastName()=" + getLastName() + ", getEmail()="
+                + getEmail() + ", getStreetAddress1()=" + getStreetAddress1() + ", getStreetAddress2()="
+                + getStreetAddress2() + ", getCity()=" + getCity() + ", getState()=" + getState() + ", getZip()="
+                + getZip() + ", getDateOfBirth()=" + getDateOfBirth() + ", getSsn()=" + getSsn()
+                + ", getFilingStatus()=" + getFilingStatus() + ", getDependents()=" + getDependents() + ", toString()="
+                + super.toString() + "]";
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -205,6 +250,7 @@ public class PersonalInfo {
         result = prime * result + ((dateOfBirth == null) ? 0 : dateOfBirth.hashCode());
         result = prime * result + ((ssn == null) ? 0 : ssn.hashCode());
         result = prime * result + ((filingStatus == null) ? 0 : filingStatus.hashCode());
+        result = prime * result + dependents;
         return result;
     }
 
@@ -279,14 +325,12 @@ public class PersonalInfo {
                 return false;
         } else if (!filingStatus.equals(other.filingStatus))
             return false;
+        if (dependents != other.dependents)
+            return false;
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "PersonalInfo [id=" + id + ", user=" + user + ", firstName=" + firstName + ", lastName=" + lastName
-                + ", email=" + email + ", streetAddress1=" + streetAddress1 + ", streetAddress2=" + streetAddress2
-                + ", city=" + city + ", state=" + state + ", zip=" + zip + ", dateOfBirth=" + dateOfBirth + ", ssn="
-                + ssn + ", filingStatus=" + filingStatus + "]";
-    }
+    
+
+    
 }
