@@ -50,6 +50,26 @@ public class INT1099Service {
         return int1099Repository.updateINT1099Form(formId, payerName, interestIncome, federalIncomeTaxWithheld, savingsBondsAndTreasuryInterest, investmentExpenses, marketDiscount);
     }
 
+    //update INT1099 with userId
+    public INT1099 updateINT1099FormByUserId(int userId, INT1099 form){
+         Optional<INT1099> existingINT1099FormOptional = int1099Repository.findByUserId(userId);
+         if(existingINT1099FormOptional.isPresent()){
+             INT1099 existingINT1099Form = existingINT1099FormOptional.get();
+
+             existingINT1099Form.setPayerName(form.getPayerName());
+             existingINT1099Form.setInterestIncome(form.getInterestIncome());
+             existingINT1099Form.setFederalIncomeTaxWithheld(form.getFederalIncomeTaxWithheld());
+             existingINT1099Form.setSavingsBondsAndTreasuryInterest(form.getSavingsBondsAndTreasuryInterest());
+             existingINT1099Form.setInvestmentExpenses(form.getInvestmentExpenses());
+             existingINT1099Form.setMarketDiscount(form.getMarketDiscount());
+
+             return int1099Repository.save(existingINT1099Form);
+
+         }
+
+         return null;
+    }
+
     // Delete a INT1099
     public void deleteINT1099Form(int formId) {
         int1099Repository.deleteById(formId);
