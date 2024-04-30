@@ -4,6 +4,8 @@ import '@trussworks/react-uswds/lib/uswds.css';
 import './App.css'
 import {BrowserRouter, Route, Routes} from "react-router-dom"
 import {Header, FooterReal, PersonalInfoForm, SignIn, Register} from "./components"
+import './i18n'; // Importing the i18n configuration file from the src folder
+
 
 function App() {
 
