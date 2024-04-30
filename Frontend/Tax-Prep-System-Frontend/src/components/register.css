@@ -1,0 +1,14 @@
+.usa-media-block{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.usa-media-block__body p p{
+    text-align: left;
+}
+
+.usa-media-block__body p Strong{
+    display: flex;
+    align-items: flex-start;
+}
