@@ -1,3 +1,26 @@
 .usa-banner{
     width: 100%;
 }
+
+.usa-language-container{
+    width: fit-content;
+}
+
+#logoutButton{
+    margin-right: 30px;
+}
+#containerToCenterLanguageSelectorAndLogoutButtonContainer{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#languageSelectorAndLogoutButtonContainer{
+    /* width: 80%; */
+    width: 64rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
