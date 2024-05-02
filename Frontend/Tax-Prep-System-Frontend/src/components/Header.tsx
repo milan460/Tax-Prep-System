@@ -47,21 +47,26 @@ const Header: React.FC = () => {
                      </BannerGuidance>
                      </div>
                 </BannerContent>
-                <LanguageSelector
-                    langs={[
-                        {
-                            attr: 'es',
-                            label: 'Español',
-                            label_local: 'Spanish',
-                            on_click: () => handleLanguageChange('es')
-                        },
-                        {
-                            attr: 'en',
-                            label: 'English',
-                            on_click: () => handleLanguageChange('en')
-                        }
-                    ]}
-                />
+                <div id='containerToCenterLanguageSelectorAndLogoutButtonContainer'>
+                    <div id='languageSelectorAndLogoutButtonContainer'>
+                        <Button id='logoutButton' type={'button'} children={undefined}>Logout</Button>
+                        <LanguageSelector
+                            langs={[
+                                {
+                                    attr: 'es',
+                                    label: 'Español',
+                                    label_local: 'Spanish',
+                                    on_click: () => handleLanguageChange('es')
+                                },
+                                {
+                                    attr: 'en',
+                                    label: 'English',
+                                    on_click: () => handleLanguageChange('en')
+                                }
+                            ]}
+                        />
+                    </div>
+                </div>
             </Banner> 
         </>
     );
