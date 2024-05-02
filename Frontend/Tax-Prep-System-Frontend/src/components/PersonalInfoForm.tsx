@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Form, GridContainer, Grid, TextInput, Label, Button, Select, FormGroup, DateInputGroup, Fieldset, DatePicker, DateInput } from '@trussworks/react-uswds';
+import { Form, GridContainer, Grid, TextInput, Label, Button, Select, FormGroup, DateInputGroup, Fieldset, DatePicker, DateInput, Table, Alert } from '@trussworks/react-uswds';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -53,6 +53,8 @@ export default function PersonalInfoForm() {
     const [selectedMonth, setSelectedMonth] = useState<string>('');
     const [selectedDay, setSelectedDay] = useState<string>('');
     const [selectedYear, setSelectedYear] = useState<string>('');
+    const [showAlert, setShowAlert] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(false);
 
 
 
@@ -89,19 +91,18 @@ export default function PersonalInfoForm() {
     const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
 
-        const dateOfBirth = `${selectedYear}-${selectedMonth.padStart(2, '0')}-${selectedDay.padStart(2, '0')}`;
+        const isEmptyField = Object.values(formData).some(value => value === '');
+        if (isEmptyField) {
+            setShowAlert(true);
+            setIsSuccess(false);
+            return;
+        }
 
+        const dateOfBirth = `${selectedYear}-${selectedMonth.padStart(2, '0')}-${selectedDay.padStart(2, '0')}`;
         const isValidDate = isValidInputDate(selectedYear, selectedMonth, selectedDay);
         if (!isValidDate) {
-            toast.error('Please enter a valid date.', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
+            setShowAlert(true);
+            setIsSuccess(false);
             return;
         }
 
@@ -151,6 +152,8 @@ export default function PersonalInfoForm() {
             }
 
             const response = await fetch(url, requestOptions);
+            setIsSuccess(true);
+            setShowAlert(false);
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
@@ -161,6 +164,7 @@ export default function PersonalInfoForm() {
                 }
 
                 fetchData();
+
             }
         } catch (error) {
             console.error('There was a problem with the fetch operation:', error);
@@ -169,10 +173,22 @@ export default function PersonalInfoForm() {
 
     const handleFilingStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const { value } = e.target;
-        setFormData((prevData) => ({
-            ...prevData,
-            filingStatus: value
-        }));
+        if (value === "Married") {
+            setFormData((prevData) => ({
+                ...prevData,
+                filingStatus: value,
+            }));
+        } else if (value === "Married File Separate") {
+            setFormData((prevData) => ({
+                ...prevData,
+                filingStatus: "Married File Separate",
+            }));
+        } else {
+            setFormData((prevData) => ({
+                ...prevData,
+                filingStatus: value,
+            }));
+        }
     };
 
     const handleStateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -219,155 +235,166 @@ export default function PersonalInfoForm() {
 
     return (
         <>
-        <h1>Personal Information</h1>
-            <GridContainer>
-                <Grid row>
-                    <Grid col={3} className="usa-form-group">
-                        <Label htmlFor="firstName" className="text-bold text-underline text-info-darker">First Name</Label>
-                        <TextInput
-                            id="firstName"
-                            name="firstName"
-                            value={formData.firstName}
-                            onChange={handleChange}
-                            style={{ width: "calc(100% - 16px)" }}
-                            type="text"
-                        />
-                    </Grid>
+            <div>
+                {showAlert && (
+                    <Alert type="error" heading="Error status" headingLevel="h4" style={{ maxWidth: '400px', margin: '0 auto' }}>
+                        Form is missing content
+                    </Alert>
+                )}
+                {isSuccess && (
+                    <Alert type="success" heading="Success status" headingLevel="h4" style={{ maxWidth: '400px', margin: '0 auto' }}>
+                        Form is successfully filled out.
+                    </Alert>
+                )}
+                <h1>Personal Information</h1>
+                <GridContainer>
+                    <Grid row>
+                        <Grid col={3} className="usa-form-group">
+                            <Label htmlFor="firstName" className="text-bold text-underline text-info-darker">First Name</Label>
+                            <TextInput
+                                id="firstName"
+                                name="firstName"
+                                value={formData.firstName}
+                                onChange={handleChange}
+                                style={{ width: "calc(100% - 16px)" }}
+                                type="text"
+                            />
+                        </Grid>
 
-                    <Grid col={3} className="usa-form-group">
-                        <Label htmlFor="lastName" className="text-bold text-underline text-info-darker">Last Name</Label>
-                        <TextInput
-                            id="lastName"
-                            name="lastName"
-                            value={formData.lastName}
-                            onChange={handleChange}
-                            style={{ width: "calc(100% - 16px)" }}
-                            type="text"
-                        />
-                    </Grid>
+                        <Grid col={3} className="usa-form-group">
+                            <Label htmlFor="lastName" className="text-bold text-underline text-info-darker">Last Name</Label>
+                            <TextInput
+                                id="lastName"
+                                name="lastName"
+                                value={formData.lastName}
+                                onChange={handleChange}
+                                style={{ width: "calc(100% - 16px)" }}
+                                type="text"
+                            />
+                        </Grid>
 
-                    <Grid col={3} className="usa-form-group">
-                        <Label htmlFor="email" className="text-bold text-underline text-info-darker">Email</Label>
-                        <TextInput
-                            id="email"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            style={{ width: "calc(100% - 16px)" }}
-                            type="email"
-                        />
-                    </Grid>
+                        <Grid col={3} className="usa-form-group">
+                            <Label htmlFor="email" className="text-bold text-underline text-info-darker">Email</Label>
+                            <TextInput
+                                id="email"
+                                name="email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                style={{ width: "calc(100% - 16px)" }}
+                                type="email"
+                            />
+                        </Grid>
 
-                    <Grid col={3} className="usa-form-group">
-                        <Label htmlFor="ssn" className="text-bold text-underline text-info-darker">Social Security Number</Label>
-                        <TextInput
-                            id="ssn"
-                            name="ssn"
-                            value={formData.ssn}
-                            onChange={handleChange}
-                            style={{ width: "calc(100% - 16px)" }}
-                            type="text"
-                        />
-                    </Grid>
+                        <Grid col={3} className="usa-form-group">
+                            <Label htmlFor="ssn" className="text-bold text-underline text-info-darker">Social Security Number</Label>
+                            <TextInput
+                                id="ssn"
+                                name="ssn"
+                                value={formData.ssn}
+                                onChange={handleChange}
+                                style={{ width: "calc(100% - 16px)" }}
+                                type="text"
+                            />
+                        </Grid>
 
-                    <Grid col={3} className="usa-form-group">
-                        <Label htmlFor="streetAddress1" className="text-bold text-underline text-info-darker">Street Address 1</Label>
-                        <TextInput
-                            id="streetAddress1"
-                            name="streetAddress1"
-                            value={formData.streetAddress1}
-                            onChange={handleChange}
-                            style={{ width: "calc(100% - 16px)" }}
-                            type="text"
-                        />
-                    </Grid>
+                        <Grid col={3} className="usa-form-group">
+                            <Label htmlFor="streetAddress1" className="text-bold text-underline text-info-darker">Street Address 1</Label>
+                            <TextInput
+                                id="streetAddress1"
+                                name="streetAddress1"
+                                value={formData.streetAddress1}
+                                onChange={handleChange}
+                                style={{ width: "calc(100% - 16px)" }}
+                                type="text"
+                            />
+                        </Grid>
 
-                    <Grid col={3} className="usa-form-group">
-                        <Label htmlFor="streetAddress2" className="text-bold text-underline text-info-darker">Street Address 2</Label>
-                        <TextInput
-                            id="streetAddress2"
-                            name="streetAddress2"
-                            value={formData.streetAddress2}
-                            onChange={handleChange}
-                            style={{ width: "calc(100% - 16px)" }}
-                            type="text"
-                        />
-                    </Grid>
+                        <Grid col={3} className="usa-form-group">
+                            <Label htmlFor="streetAddress2" className="text-bold text-underline text-info-darker">Street Address 2</Label>
+                            <TextInput
+                                id="streetAddress2"
+                                name="streetAddress2"
+                                value={formData.streetAddress2}
+                                onChange={handleChange}
+                                style={{ width: "calc(100% - 16px)" }}
+                                type="text"
+                            />
+                        </Grid>
 
-                    <Grid col={3} className="usa-form-group">
-                        <Label htmlFor="city" className="text-bold text-underline text-info-darker">City</Label>
-                        <TextInput
-                            id="city"
-                            name="city"
-                            value={formData.city}
-                            onChange={handleChange}
-                            style={{ width: "calc(100% - 16px)" }}
-                            type="text"
-                        />
-                    </Grid>
+                        <Grid col={3} className="usa-form-group">
+                            <Label htmlFor="city" className="text-bold text-underline text-info-darker">City</Label>
+                            <TextInput
+                                id="city"
+                                name="city"
+                                value={formData.city}
+                                onChange={handleChange}
+                                style={{ width: "calc(100% - 16px)" }}
+                                type="text"
+                            />
+                        </Grid>
 
-                    <Grid col={3} className="usa-form-group">
-                        <Label htmlFor="state" className="text-bold text-underline text-info-darker">State</Label>
-                        <Select
-                            id="state"
-                            name="state"
-                            value={formData.state}
-                            onChange={handleStateChange}
-                            style={{ width: "calc(100% - 16px)" }}
-                        >
-                            <option value="">- Select -</option>
-                            <option value="Alabama">Alabama</option>
-                            <option value="Alaska">Alaska</option>
-                            <option value="Arizona">Arizona</option>
-                            <option value="Arkansas">Arkansas</option>
-                            <option value="California">California</option>
-                            <option value="Colorado">Colorado</option>
-                            <option value="Connecticut">Connecticut</option>
-                            <option value="Delaware">Delaware</option>
-                            <option value="District Of Columbia">District Of Columbia</option>
-                            <option value="Florida">Florida</option>
-                            <option value="Georgia">Georgia</option>
-                            <option value="Hawaii">Hawaii</option>
-                            <option value="Idaho">Idaho</option>
-                            <option value="Illinois">Illinois</option>
-                            <option value="Indiana">Indiana</option>
-                            <option value="Iowa">Iowa</option>
-                            <option value="Kansas">Kansas</option>
-                            <option value="Kentucky">Kentucky</option>
-                            <option value="Louisiana">Louisiana</option>
-                            <option value="Maine">Maine</option>
-                            <option value="Maryland">Maryland</option>
-                            <option value="Massachusetts">Massachusetts</option>
-                            <option value="Michigan">Michigan</option>
-                            <option value="Minnesota">Minnesota</option>
-                            <option value="Mississippi">Mississippi</option>
-                            <option value="Missouri">Missouri</option>
-                            <option value="Montana">Montana</option>
-                            <option value="Nebraska">Nebraska</option>
-                            <option value="Nevada">Nevada</option>
-                            <option value="New Hampshire">New Hampshire</option>
-                            <option value="New Jersey">New Jersey</option>
-                            <option value="New Mexico">New Mexico</option>
-                            <option value="New York">New York</option>
-                            <option value="North Carolina">North Carolina</option>
-                            <option value="North Dakota">North Dakota</option>
-                            <option value="Ohio">Ohio</option>
-                            <option value="OklahomaK">Oklahoma</option>
-                            <option value="Oregon">Oregon</option>
-                            <option value="Pennsylvania">Pennsylvania</option>
-                            <option value="Rhode Island">Rhode Island</option>
-                            <option value="South Carolina">South Carolina</option>
-                            <option value="South Dakota">South Dakota</option>
-                            <option value="Tennessee">Tennessee</option>
-                            <option value="Texas">Texas</option>
-                            <option value="Utah">Utah</option>
-                            <option value="Vermont">Vermont</option>
-                            <option value="Virginia">Virginia</option>
-                            <option value="Washington">Washington</option>
-                            <option value="West Virginia">West Virginia</option>
-                            <option value="Wisconsin">Wisconsin</option>
-                            <option value="Wyoming">Wyoming</option>
-                        </Select>
+                        <Grid col={3} className="usa-form-group">
+                            <Label htmlFor="state" className="text-bold text-underline text-info-darker">State</Label>
+                            <Select
+                                id="state"
+                                name="state"
+                                value={formData.state}
+                                onChange={handleStateChange}
+                                style={{ width: "calc(100% - 16px)" }}
+                            >
+                                <option value="">- Select -</option>
+                                <option value="Alabama">Alabama</option>
+                                <option value="Alaska">Alaska</option>
+                                <option value="Arizona">Arizona</option>
+                                <option value="Arkansas">Arkansas</option>
+                                <option value="California">California</option>
+                                <option value="Colorado">Colorado</option>
+                                <option value="Connecticut">Connecticut</option>
+                                <option value="Delaware">Delaware</option>
+                                <option value="District Of Columbia">District Of Columbia</option>
+                                <option value="Florida">Florida</option>
+                                <option value="Georgia">Georgia</option>
+                                <option value="Hawaii">Hawaii</option>
+                                <option value="Idaho">Idaho</option>
+                                <option value="Illinois">Illinois</option>
+                                <option value="Indiana">Indiana</option>
+                                <option value="Iowa">Iowa</option>
+                                <option value="Kansas">Kansas</option>
+                                <option value="Kentucky">Kentucky</option>
+                                <option value="Louisiana">Louisiana</option>
+                                <option value="Maine">Maine</option>
+                                <option value="Maryland">Maryland</option>
+                                <option value="Massachusetts">Massachusetts</option>
+                                <option value="Michigan">Michigan</option>
+                                <option value="Minnesota">Minnesota</option>
+                                <option value="Mississippi">Mississippi</option>
+                                <option value="Missouri">Missouri</option>
+                                <option value="Montana">Montana</option>
+                                <option value="Nebraska">Nebraska</option>
+                                <option value="Nevada">Nevada</option>
+                                <option value="New Hampshire">New Hampshire</option>
+                                <option value="New Jersey">New Jersey</option>
+                                <option value="New Mexico">New Mexico</option>
+                                <option value="New York">New York</option>
+                                <option value="North Carolina">North Carolina</option>
+                                <option value="North Dakota">North Dakota</option>
+                                <option value="Ohio">Ohio</option>
+                                <option value="OklahomaK">Oklahoma</option>
+                                <option value="Oregon">Oregon</option>
+                                <option value="Pennsylvania">Pennsylvania</option>
+                                <option value="Rhode Island">Rhode Island</option>
+                                <option value="South Carolina">South Carolina</option>
+                                <option value="South Dakota">South Dakota</option>
+                                <option value="Tennessee">Tennessee</option>
+                                <option value="Texas">Texas</option>
+                                <option value="Utah">Utah</option>
+                                <option value="Vermont">Vermont</option>
+                                <option value="Virginia">Virginia</option>
+                                <option value="Washington">Washington</option>
+                                <option value="West Virginia">West Virginia</option>
+                                <option value="Wisconsin">Wisconsin</option>
+                                <option value="Wyoming">Wyoming</option>
+                            </Select>
                         </Grid>
 
                         <Grid col={3} className="usa-form-group">
@@ -393,6 +420,7 @@ export default function PersonalInfoForm() {
                                 <option value="">- Select -</option>
                                 <option value="Single">Single</option>
                                 <option value="Married">Married</option>
+                                <option value="Married File Separate">Married File Separate</option>
                             </Select>
                         </Grid>
 
@@ -440,7 +468,8 @@ export default function PersonalInfoForm() {
                             </Grid>
                         </Grid>
                     </div>
-            </GridContainer>
+                </GridContainer>
+            </div>
         </>
     );
 

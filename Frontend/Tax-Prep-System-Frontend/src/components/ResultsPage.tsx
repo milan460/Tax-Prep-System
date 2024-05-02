@@ -126,7 +126,7 @@ const ResultsPage: React.FC = () => {
                         const bracket5Threshold = 209425;
                         const bracket6Threshold = 523600;
 
-                        const standardDeduction = filingStatus === 'Single' ? singleStatus : marriedStatus;
+                        const standardDeduction = filingStatus === 'Single' || filingStatus === 'Married File Separate' ? singleStatus : marriedStatus;
                         const dependentsDeduction = dependentsConstant * (dependents || 0);
 
                         const totalDeductions = standardDeduction + dependentsDeduction;
