@@ -27,7 +27,7 @@ CREATE TABLE personal_info_form (
     zip VARCHAR(20),
     date_of_birth DATE,
     social_security_number VARCHAR(20),
-    filing_status VARCHAR(20),
+    filing_status VARCHAR(50),
 	dependents INT
 );
 

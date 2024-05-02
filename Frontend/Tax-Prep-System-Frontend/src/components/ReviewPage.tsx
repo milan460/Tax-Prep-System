@@ -106,7 +106,7 @@ const ReviewPage: React.FC = () => {
 
     const fetchINT1099Info = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/int/user/${initialUser.userId}`);
+        const response = await fetch(`http://localhost:8080/1099/user/${initialUser.userId}`);
         if (response.ok) {
           const data: INT1099Info = await response.json();
           setInt1099Info(data);
