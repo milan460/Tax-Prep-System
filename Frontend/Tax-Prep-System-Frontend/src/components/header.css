@@ -43,3 +43,8 @@
     display: flex;
     align-items: center;
 }
+
+.usa-step-indicator__segments{
+    display: flex;
+    justify-content: center;
+}
