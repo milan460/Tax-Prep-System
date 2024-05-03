@@ -3,12 +3,13 @@ import './header.css';
 import buildingIcon from '/building-icon.svg';
 import flagIcon from '/flag-icon.webp';
 import lockIcon from '/lock-icon.svg';
-import { Banner, BannerButton, BannerContent, BannerFlag, BannerGuidance, BannerHeader, BannerIcon, Button, Icon, LanguageSelector, MediaBlockBody} from '@trussworks/react-uswds';
+import { Banner, BannerButton, BannerContent, BannerFlag, BannerGuidance, BannerHeader, BannerIcon, Button, GridContainer, Icon, LanguageSelector, MediaBlockBody} from '@trussworks/react-uswds';
 import { useTranslation } from 'react-i18next';
 
 const Header: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
     const { t, i18n } = useTranslation();
+    const [currentPage, setcurrentPage] = useState(1);
 
     const handleLanguageChange = (language: string) => {
         i18n.changeLanguage(language);
@@ -47,21 +48,99 @@ const Header: React.FC = () => {
                      </BannerGuidance>
                      </div>
                 </BannerContent>
-                <LanguageSelector
-                    langs={[
-                        {
-                            attr: 'es',
-                            label: 'Español',
-                            label_local: 'Spanish',
-                            on_click: () => handleLanguageChange('es')
-                        },
-                        {
-                            attr: 'en',
-                            label: 'English',
-                            on_click: () => handleLanguageChange('en')
-                        }
-                    ]}
-                />
+                <div id='containerToCenterLanguageSelectorAndLogoutButtonContainer'>
+                    <div id='languageSelectorAndLogoutButtonContainer'>
+                        <Button id='logoutButton' type={'button'} children={undefined}>Logout</Button>
+                        <LanguageSelector
+                            langs={[
+                                {
+                                    attr: 'es',
+                                    label: 'Español',
+                                    label_local: 'Spanish',
+                                    on_click: () => handleLanguageChange('es')
+                                },
+                                {
+                                    attr: 'en',
+                                    label: 'English',
+                                    on_click: () => handleLanguageChange('en')
+                                }
+                            ]}
+                        />
+                    </div>
+                </div>
+                
+                <h3 class="site-preview-heading">Small counters</h3>
+                <div
+                class="usa-step-indicator usa-step-indicator--counters-sm"
+                aria-label="progress"
+                >
+                <ol class="usa-step-indicator__segments">
+                    {/* Personal Information */}
+            <li className={
+                currentPage === 1
+                ? "usa-step-indicator__segment usa-step-indicator__segment--current"
+                : currentPage < 1
+                ? "usa-step-indicator__segment"
+                : "usa-step-indicator__segment usa-step-indicator__segment--complete"
+            }>
+                <span className="usa-step-indicator__segment-label">
+                    Personal information {currentPage > 1 && <span className="usa-sr-only">completed</span>}
+                </span>
+            </li>
+
+            {/* Household Status */}
+            <li className={
+                currentPage === 2
+                ? "usa-step-indicator__segment usa-step-indicator__segment--current"
+                : currentPage < 2
+                ? "usa-step-indicator__segment"
+                : "usa-step-indicator__segment usa-step-indicator__segment--complete"
+            }>
+                <span className="usa-step-indicator__segment-label">
+                    Household status {currentPage > 2 && <span className="usa-sr-only">completed</span>}
+                </span>
+            </li>
+
+            {/* Supporting Documents */}
+            <li className={
+                currentPage === 3
+                ? "usa-step-indicator__segment usa-step-indicator__segment--current"
+                : currentPage < 3
+                ? "usa-step-indicator__segment"
+                : "usa-step-indicator__segment usa-step-indicator__segment--complete"
+            } aria-current={currentPage === 3 ? "true" : undefined}>
+                <span className="usa-step-indicator__segment-label">
+                    Supporting documents {currentPage > 3 && <span className="usa-sr-only">completed</span>}
+                </span>
+            </li>
+
+            {/* Signature */}
+            <li className={
+                currentPage === 4
+                ? "usa-step-indicator__segment usa-step-indicator__segment--current"
+                : currentPage < 4
+                ? "usa-step-indicator__segment"
+                : "usa-step-indicator__segment usa-step-indicator__segment--complete"
+            }>
+                <span className="usa-step-indicator__segment-label">
+                    Signature {currentPage > 4 ? <span className="usa-sr-only">completed</span> : <span className="usa-sr-only">not completed</span>}
+                </span>
+            </li>
+
+            {/* Review and Submit */}
+            <li className={
+                currentPage === 5
+                ? "usa-step-indicator__segment usa-step-indicator__segment--current"
+                : currentPage < 5
+                ? "usa-step-indicator__segment"
+                : "usa-step-indicator__segment usa-step-indicator__segment--complete"
+            }>
+                <span className="usa-step-indicator__segment-label">
+                    Review and submit {currentPage > 5 ? <span className="usa-sr-only">completed</span> : <span className="usa-sr-only">not completed</span>}
+                </span>
+            </li>
+                </ol>
+                </div>
             </Banner> 
         </>
     );

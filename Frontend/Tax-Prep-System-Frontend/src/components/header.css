@@ -1,9 +1,50 @@
-/* .usa-accordion{
-    display: flex;
-    justify-content: space-between;
+.usa-banner{
+    width: 100%;
 }
 
-.usa-button{
-    height: 50px;
-    width: 100px;
-} */
+.usa-language-container{
+    width: fit-content;
+}
+
+#logoutButton{
+    margin-right: 30px;
+}
+#containerToCenterLanguageSelectorAndLogoutButtonContainer{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#languageSelectorAndLogoutButtonContainer{
+    width: 64rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+#containerToCenterHeaderGrid{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+}
+
+#headerGrid{
+    width: 64rem;
+    display: flex;
+}
+
+.headerGridElement{
+    color: white;
+    background-color: #005ea2;
+    border-radius: .25rem;
+    display: flex;
+    align-items: center;
+}
+
+.usa-step-indicator__segments{
+    display: flex;
+    justify-content: center;
+}
