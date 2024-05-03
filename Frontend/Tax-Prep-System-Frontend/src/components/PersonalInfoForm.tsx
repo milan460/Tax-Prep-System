@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Form, GridContainer, Grid, TextInput, Label, Button, Select, FormGroup, DateInputGroup, Fieldset, DatePicker, DateInput, Table, Alert } from '@trussworks/react-uswds';
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 
 interface PersonalInfoFormData {
     id?: string;
@@ -49,6 +49,7 @@ export default function PersonalInfoForm() {
         role: "ROLE_USER"
     };
 
+
     const [formData, setFormData] = useState<PersonalInfoFormData>(initialFormData);
     const [selectedMonth, setSelectedMonth] = useState<string>('');
     const [selectedDay, setSelectedDay] = useState<string>('');
@@ -56,7 +57,7 @@ export default function PersonalInfoForm() {
     const [showAlert, setShowAlert] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
 
-
+    const navigate = useNavigate();
 
     const fetchData = async () => {
         try {
@@ -91,7 +92,9 @@ export default function PersonalInfoForm() {
     const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
 
-        const isEmptyField = Object.values(formData).some(value => value === '');
+        const isEmptyField = Object.values(formData)
+            .filter((_, index) => index !== Object.keys(formData).indexOf('streetAddress2'))
+            .some(value => value === '');
         if (isEmptyField) {
             setShowAlert(true);
             setIsSuccess(false);
@@ -154,6 +157,7 @@ export default function PersonalInfoForm() {
             const response = await fetch(url, requestOptions);
             setIsSuccess(true);
             setShowAlert(false);
+            navigate('/w2-form');
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
@@ -164,7 +168,6 @@ export default function PersonalInfoForm() {
                 }
 
                 fetchData();
-
             }
         } catch (error) {
             console.error('There was a problem with the fetch operation:', error);
@@ -247,6 +250,7 @@ export default function PersonalInfoForm() {
                     </Alert>
                 )}
                 <h1>Personal Information</h1>
+                <p>*Please complete all required fields below and click "Continue" to save your information and proceed to the next step. Optional fields can be left blank*</p>
                 <GridContainer>
                     <Grid row>
                         <Grid col={3} className="usa-form-group">
@@ -258,6 +262,7 @@ export default function PersonalInfoForm() {
                                 onChange={handleChange}
                                 style={{ width: "calc(100% - 16px)" }}
                                 type="text"
+                                placeholder="Example: John"
                             />
                         </Grid>
 
@@ -270,6 +275,7 @@ export default function PersonalInfoForm() {
                                 onChange={handleChange}
                                 style={{ width: "calc(100% - 16px)" }}
                                 type="text"
+                                placeholder="Example: Doe"
                             />
                         </Grid>
 
@@ -282,6 +288,7 @@ export default function PersonalInfoForm() {
                                 onChange={handleChange}
                                 style={{ width: "calc(100% - 16px)" }}
                                 type="email"
+                                placeholder="Example: johndoe@example.com"
                             />
                         </Grid>
 
@@ -294,6 +301,7 @@ export default function PersonalInfoForm() {
                                 onChange={handleChange}
                                 style={{ width: "calc(100% - 16px)" }}
                                 type="text"
+                                placeholder="Example: 123-45-6789"
                             />
                         </Grid>
 
@@ -306,11 +314,12 @@ export default function PersonalInfoForm() {
                                 onChange={handleChange}
                                 style={{ width: "calc(100% - 16px)" }}
                                 type="text"
+                                placeholder="Example: 123 Main St"
                             />
                         </Grid>
 
                         <Grid col={3} className="usa-form-group">
-                            <Label htmlFor="streetAddress2" className="text-bold text-underline text-info-darker">Street Address 2</Label>
+                            <Label htmlFor="streetAddress2" className="text-bold text-underline text-info-darker">Street Address 2 <span className="text-italic">- optional</span></Label>
                             <TextInput
                                 id="streetAddress2"
                                 name="streetAddress2"
@@ -318,6 +327,7 @@ export default function PersonalInfoForm() {
                                 onChange={handleChange}
                                 style={{ width: "calc(100% - 16px)" }}
                                 type="text"
+                                placeholder="Example: Apt 101"
                             />
                         </Grid>
 
@@ -330,6 +340,7 @@ export default function PersonalInfoForm() {
                                 onChange={handleChange}
                                 style={{ width: "calc(100% - 16px)" }}
                                 type="text"
+                                placeholder="Example: Anytown"
                             />
                         </Grid>
 
@@ -342,7 +353,7 @@ export default function PersonalInfoForm() {
                                 onChange={handleStateChange}
                                 style={{ width: "calc(100% - 16px)" }}
                             >
-                                <option value="">- Select -</option>
+                                <option value="">- Select your state-</option>
                                 <option value="Alabama">Alabama</option>
                                 <option value="Alaska">Alaska</option>
                                 <option value="Arizona">Arizona</option>
@@ -406,6 +417,7 @@ export default function PersonalInfoForm() {
                                 onChange={handleChange}
                                 style={{ width: "calc(100% - 16px)" }}
                                 type="text"
+                                placeholder="Example: 12345"
                             />
                         </Grid>
                         <Grid col={3} className="usa-form-group">
@@ -417,7 +429,7 @@ export default function PersonalInfoForm() {
                                 onChange={handleFilingStatusChange}
                                 style={{ width: "calc(100% - 16px)" }}
                             >
-                                <option value="">- Select -</option>
+                                <option value="">- Select your filing status-</option>
                                 <option value="Single">Single</option>
                                 <option value="Married">Married</option>
                                 <option value="Married File Separate">Married File Separate</option>
@@ -433,6 +445,7 @@ export default function PersonalInfoForm() {
                                 onChange={handleChange}
                                 style={{ width: "calc(100% - 16px)" }}
                                 type="number"
+                                placeholder="Example: 0"
                             />
                         </Grid>
                     </Grid>
@@ -442,7 +455,7 @@ export default function PersonalInfoForm() {
                         <FormGroup className="usa-form-group--month usa-form-group--select">
                             <Label htmlFor="month">Month</Label>
                             <Select id="month" name="month" value={selectedMonth} onChange={handleMonthChange}>
-                                <option value="">- Select -</option>
+                                <option value="">- Select month-</option>
                                 <option value="01">01 - January</option>
                                 <option value="02">02 - February</option>
                                 <option value="03">03 - March</option>
@@ -457,10 +470,10 @@ export default function PersonalInfoForm() {
                                 <option value="12">12 - December</option>
                             </Select>
                         </FormGroup>
-                        <DateInput id="day" name="day" label="Day" unit="day" maxLength={2} minLength={2} value={selectedDay} onChange={handleDayChange} style={{ marginRight: '8px' }} />
-                        <DateInput id="year" name="year" label="Year" unit="year" maxLength={4} minLength={4} value={selectedYear} onChange={handleYearChange} />
+                        <DateInput id="day" name="day" label="Day" unit="day" maxLength={2} minLength={2} value={selectedDay} onChange={handleDayChange} style={{ marginRight: '8px' }} placeholder="Ex:7" />
+                        <DateInput id="year" name="year" label="Year" unit="year" maxLength={4} minLength={4} value={selectedYear} onChange={handleYearChange} placeholder="Ex:2000" />
                     </DateInputGroup>
-                    <div style={{ marginTop: '20px' }}>
+                    <div style={{ marginTop: '20px', marginBottom: '20px' }}>
                         <Grid row>
                             <Grid col={12}>
                                 <Button type="button" base>Back</Button>

@@ -1,5 +1,6 @@
-import { Grid, GridContainer, Label, TextInput } from "@trussworks/react-uswds";
+import { Button, Grid, GridContainer, Label, TextInput } from "@trussworks/react-uswds";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
 interface Constants {
     id: number;
@@ -88,6 +89,8 @@ const ResultsPage: React.FC = () => {
     const [taxBracket, setTaxBracket] = useState<string>('');
     const [totalIncome, setTotalIncome] = useState<number>(0);
     const [totalIncomeAfterTaxes, setTotalIncomeAfterTaxes] = useState<number>(0);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -180,20 +183,13 @@ const ResultsPage: React.FC = () => {
         fetchData();
     }, []);
 
-    const styles = {
-        container: {
-            border: '1px solid #ccc',
-            padding: '20px',
-            margin: '20px',
-        },
-        content: {
-            textAlign: 'left',
-        },
-    };
+    const handleBack = (e: React.MouseEvent<HTMLButtonElement>) => {
+        navigate('/review-page');
+    }
 
     return (
         <>
-            <div style={styles.container}>
+            <div style={{ maxWidth: '600px', margin: '0 auto', marginTop: '50px', border: '1px solid #ccc', padding: '20px' }}>
                 <GridContainer>
                     <Grid col={12}>
                         <h1>Tax Breakdown</h1>
@@ -232,6 +228,15 @@ const ResultsPage: React.FC = () => {
                     </Grid>
                 </GridContainer>
             </div>
+
+            <div style={{ marginTop: '20px' }}>
+                        <Grid row>
+                            <Grid col={12}>
+                                <Button type="button" base onClick={handleBack}>Back</Button>
+                                <Button type="button">Continue</Button>
+                            </Grid>
+                        </Grid>
+                    </div>
         </>
     );
 };
