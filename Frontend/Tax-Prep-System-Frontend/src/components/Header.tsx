@@ -9,18 +9,11 @@ import { useTranslation } from 'react-i18next';
 const Header: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
     const { t, i18n } = useTranslation();
+    const [currentPage, setcurrentPage] = useState(1);
 
     const handleLanguageChange = (language: string) => {
         i18n.changeLanguage(language);
     };
-
-    const isCurrentPage = (path: string) => {
-        return location.pathname === path;
-      };
-
-    const getBackgroundColor = (paths: string[]): string => {
-        return paths.includes(location.pathname) ? '#c05600' : '#005ea2';
-    };    
 
     return (
         <>
@@ -75,15 +68,78 @@ const Header: React.FC = () => {
                         />
                     </div>
                 </div>
-                <div id='containerToCenterHeaderGrid'>
-                    <div id='headerGrid'>
-                        <GridContainer className='headerGridElement' containerSize="card" style={{ backgroundColor: getBackgroundColor(["/","/register"]) }}>LOGIN/REGISTER</GridContainer>
-                        <GridContainer className='headerGridElement' containerSize="card" style={{ backgroundColor: getBackgroundColor(["/personal-info-form"]) }}>PERSONAL INFO FORM</GridContainer>
-                        <GridContainer className='headerGridElement' containerSize="card" style={{ backgroundColor: getBackgroundColor(["/w2-form"]) }}>W2 FORM</GridContainer>
-                        <GridContainer className='headerGridElement' containerSize="card" style={{ backgroundColor: getBackgroundColor(["/int-1099-form"]) }}>1099 FORM</GridContainer>
-                        <GridContainer className='headerGridElement' containerSize="card" style={{ backgroundColor: getBackgroundColor(["/review-page"]) }}>REVIEW</GridContainer>
-                        <GridContainer className='headerGridElement' containerSize="card" style={{ backgroundColor: getBackgroundColor(["/results-page"]) }}>RESULTS</GridContainer>
-                    </div>
+                
+                <h3 class="site-preview-heading">Small counters</h3>
+                <div
+                class="usa-step-indicator usa-step-indicator--counters-sm"
+                aria-label="progress"
+                >
+                <ol class="usa-step-indicator__segments">
+                    {/* Personal Information */}
+            <li className={
+                currentPage === 1
+                ? "usa-step-indicator__segment usa-step-indicator__segment--current"
+                : currentPage < 1
+                ? "usa-step-indicator__segment"
+                : "usa-step-indicator__segment usa-step-indicator__segment--complete"
+            }>
+                <span className="usa-step-indicator__segment-label">
+                    Personal information {currentPage > 1 && <span className="usa-sr-only">completed</span>}
+                </span>
+            </li>
+
+            {/* Household Status */}
+            <li className={
+                currentPage === 2
+                ? "usa-step-indicator__segment usa-step-indicator__segment--current"
+                : currentPage < 2
+                ? "usa-step-indicator__segment"
+                : "usa-step-indicator__segment usa-step-indicator__segment--complete"
+            }>
+                <span className="usa-step-indicator__segment-label">
+                    Household status {currentPage > 2 && <span className="usa-sr-only">completed</span>}
+                </span>
+            </li>
+
+            {/* Supporting Documents */}
+            <li className={
+                currentPage === 3
+                ? "usa-step-indicator__segment usa-step-indicator__segment--current"
+                : currentPage < 3
+                ? "usa-step-indicator__segment"
+                : "usa-step-indicator__segment usa-step-indicator__segment--complete"
+            } aria-current={currentPage === 3 ? "true" : undefined}>
+                <span className="usa-step-indicator__segment-label">
+                    Supporting documents {currentPage > 3 && <span className="usa-sr-only">completed</span>}
+                </span>
+            </li>
+
+            {/* Signature */}
+            <li className={
+                currentPage === 4
+                ? "usa-step-indicator__segment usa-step-indicator__segment--current"
+                : currentPage < 4
+                ? "usa-step-indicator__segment"
+                : "usa-step-indicator__segment usa-step-indicator__segment--complete"
+            }>
+                <span className="usa-step-indicator__segment-label">
+                    Signature {currentPage > 4 ? <span className="usa-sr-only">completed</span> : <span className="usa-sr-only">not completed</span>}
+                </span>
+            </li>
+
+            {/* Review and Submit */}
+            <li className={
+                currentPage === 5
+                ? "usa-step-indicator__segment usa-step-indicator__segment--current"
+                : currentPage < 5
+                ? "usa-step-indicator__segment"
+                : "usa-step-indicator__segment usa-step-indicator__segment--complete"
+            }>
+                <span className="usa-step-indicator__segment-label">
+                    Review and submit {currentPage > 5 ? <span className="usa-sr-only">completed</span> : <span className="usa-sr-only">not completed</span>}
+                </span>
+            </li>
+                </ol>
                 </div>
             </Banner> 
         </>
