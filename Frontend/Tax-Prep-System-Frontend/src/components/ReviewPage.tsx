@@ -151,11 +151,11 @@ const ReviewPage: React.FC = () => {
 
     return (
         <>
+        <div>
             <GridContainer>
                 <Grid row>
                     <Grid col={12}>
                         <h1>Review Page</h1>
-                        <p>*Please take a moment to review all the information provided below to ensure its accuracy before submitting*</p>
                         {showSubmitAlert && (
                             <Alert type="info" heading="Informative status" headingLevel="h4">
                                 Are you sure you want to submit?
@@ -419,15 +419,12 @@ const ReviewPage: React.FC = () => {
                         />
                     </Grid>
                 </Grid>
-                <div style={{ marginTop: '20px', marginBottom: '20px' }}>
-                    <Grid row>
-                        <Grid col={12}>
-                            <Button type="button" base onClick={handleBack}>Back</Button>
-                            <Button type="button" onClick={handleSubmit}>Submit</Button>
-                        </Grid>
-                    </Grid>
-                </div>
             </GridContainer>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px', marginBottom: '20px' }}>
+                    <Button type="button" base onClick={handleBack}>Back</Button>
+                    <Button type="button" onClick={handleSubmit} style={{ marginRight: '33.5rem' }}>Submit</Button>
+                </div>
+            </div>
         </>
     );
 };
