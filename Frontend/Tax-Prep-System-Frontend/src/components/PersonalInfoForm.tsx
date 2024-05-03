@@ -1,7 +1,9 @@
+
 import React, { useState, useEffect } from "react";
 import { Form, GridContainer, Grid, TextInput, Label, Button, Select, FormGroup, DateInputGroup, Fieldset, DatePicker, DateInput, Table, Alert } from '@trussworks/react-uswds';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
+
 
 interface PersonalInfoFormData {
     id?: string;
@@ -22,11 +24,13 @@ interface PersonalInfoFormData {
 interface User {
     userId: number;
     username: string;
-    password: string;
-    role: string;
+    password?: string;
+    role?: string;
 }
 
 export default function PersonalInfoForm() {
+
+    // const accessToken = JSON.parse(localStorage.getItem('accessToken') || '{}');
     const initialFormData: PersonalInfoFormData = {
         firstName: "",
         lastName: "",
@@ -42,11 +46,11 @@ export default function PersonalInfoForm() {
         dependents: 0
     };
 
-    const initialUser: User = {
-        userId: 1,
-        username: "afradson0",
-        password: "bZ3%d(n`0Xqujjd~",
-        role: "ROLE_USER"
+    const User: User = {
+        userId: 0,
+        username: "",
+        password: "",
+        role: ""
     };
 
 
@@ -59,9 +63,31 @@ export default function PersonalInfoForm() {
 
     const navigate = useNavigate();
 
-    const fetchData = async () => {
+    const [initialUser, setInitialUser] = useState<User>(User);
+
+    const fetchCurrentUser = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/personalForms/user/${initialUser.userId}`);
+            const response = await fetch('http://localhost:8080/currentUser', {
+                credentials: 'include',
+                method: 'GET'
+            });
+            if (response.ok) {
+                const data: User = await response.json();
+                setInitialUser(data);
+                console.log(data);
+            }
+        } catch (error) {
+                console.error('Error fetching current user:', error);
+            }
+        };
+
+    const fetchData = useCallback( async () => {
+
+        try {
+            const response = await fetch(`http://localhost:8080/personalForms/user/${initialUser.userId}`, {
+                credentials: 'include',
+                method: 'GET'
+            });
             if (response.ok) {
                 const data: PersonalInfoFormData = await response.json();
                 setFormData(data);
@@ -74,11 +100,12 @@ export default function PersonalInfoForm() {
         } catch (error) {
             console.error('Error fetching personal form data:', error);
         }
-    };
+    }, [initialUser.userId]);
 
     useEffect(() => {
+        fetchCurrentUser();
         fetchData();
-    }, [initialUser.userId]);
+    }, [fetchData, initialUser.userId]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -132,6 +159,7 @@ export default function PersonalInfoForm() {
 
         if (formData.id) {
             requestOptions = {
+                credentials: 'include',
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -140,6 +168,7 @@ export default function PersonalInfoForm() {
             };
         } else {
             requestOptions = {
+                credentials: 'include',
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

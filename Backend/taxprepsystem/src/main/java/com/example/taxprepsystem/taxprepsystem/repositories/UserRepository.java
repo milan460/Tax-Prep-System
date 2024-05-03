@@ -10,6 +10,8 @@ import com.example.taxprepsystem.taxprepsystem.models.User;
 
 import jakarta.transaction.Transactional;
 
+import java.util.Optional;
+
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer>{
 
@@ -17,4 +19,8 @@ public interface UserRepository extends JpaRepository<User, Integer>{
     @Modifying
     @Query("UPDATE User u SET u.username = :newUsername, u.password = :newPassword, u.role = :newRole WHERE u.userId = :userId")
     int updateUser(@Param("userId") int userId,@Param("newUsername") String newUsername,@Param("newPassword") String newPassword,@Param("newRole") String newRole);
+
+    Optional<User> findByUsername(String username);
+
+
 }
