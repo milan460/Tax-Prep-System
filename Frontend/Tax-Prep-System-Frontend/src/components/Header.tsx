@@ -3,7 +3,7 @@ import './header.css';
 import buildingIcon from '/building-icon.svg';
 import flagIcon from '/flag-icon.webp';
 import lockIcon from '/lock-icon.svg';
-import { Banner, BannerButton, BannerContent, BannerFlag, BannerGuidance, BannerHeader, BannerIcon, Button, Icon, LanguageSelector, MediaBlockBody} from '@trussworks/react-uswds';
+import { Banner, BannerButton, BannerContent, BannerFlag, BannerGuidance, BannerHeader, BannerIcon, Button, GridContainer, Icon, LanguageSelector, MediaBlockBody} from '@trussworks/react-uswds';
 import { useTranslation } from 'react-i18next';
 
 const Header: React.FC = () => {
@@ -13,6 +13,14 @@ const Header: React.FC = () => {
     const handleLanguageChange = (language: string) => {
         i18n.changeLanguage(language);
     };
+
+    const isCurrentPage = (path: string) => {
+        return location.pathname === path;
+      };
+
+    const getBackgroundColor = (paths: string[]): string => {
+        return paths.includes(location.pathname) ? '#c05600' : '#005ea2';
+    };    
 
     return (
         <>
@@ -65,6 +73,16 @@ const Header: React.FC = () => {
                                 }
                             ]}
                         />
+                    </div>
+                </div>
+                <div id='containerToCenterHeaderGrid'>
+                    <div id='headerGrid'>
+                        <GridContainer className='headerGridElement' containerSize="card" style={{ backgroundColor: getBackgroundColor(["/","/register"]) }}>LOGIN/REGISTER</GridContainer>
+                        <GridContainer className='headerGridElement' containerSize="card" style={{ backgroundColor: getBackgroundColor(["/personal-info-form"]) }}>PERSONAL INFO FORM</GridContainer>
+                        <GridContainer className='headerGridElement' containerSize="card" style={{ backgroundColor: getBackgroundColor(["/w2-form"]) }}>W2 FORM</GridContainer>
+                        <GridContainer className='headerGridElement' containerSize="card" style={{ backgroundColor: getBackgroundColor(["/int-1099-form"]) }}>1099 FORM</GridContainer>
+                        <GridContainer className='headerGridElement' containerSize="card" style={{ backgroundColor: getBackgroundColor(["/review-page"]) }}>REVIEW</GridContainer>
+                        <GridContainer className='headerGridElement' containerSize="card" style={{ backgroundColor: getBackgroundColor(["/results-page"]) }}>RESULTS</GridContainer>
                     </div>
                 </div>
             </Banner> 

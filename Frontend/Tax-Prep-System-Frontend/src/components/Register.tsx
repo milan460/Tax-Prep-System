@@ -14,9 +14,9 @@ const Register: React.FC = () => {
       <Header extended>
         <div className="usa-navbar">
           <Title id="extended-logo">
-            <a href="/" title="Home" aria-label="Home">
+            <h3 title="Home" aria-label="Home">
                 {t('federalTaxCalculator')}
-            </a>
+            </h3>
           </Title>
         </div>
       </Header>

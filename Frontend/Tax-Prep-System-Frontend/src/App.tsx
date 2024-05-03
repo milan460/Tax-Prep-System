@@ -12,7 +12,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
-            <div>
+            <div id='mainRootDiv'>
                 <Header />
                     <Routes>
                         <Route path="/" element={<SignIn />}/>
