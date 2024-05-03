@@ -134,7 +134,6 @@ export default function INT1099() {
                     </Alert>
                 )}
                 <h1>1099 Form</h1>
-                <p>*Please complete all required fields below and click "Continue" to save your information and proceed to the next step. Optional fields can be left blank.*</p>
                 <GridContainer>
                     <Grid row>
                         <Grid col={3} />
@@ -149,18 +148,6 @@ export default function INT1099() {
                                 type="text"
                                 placeholder="Example: John Doe"
                             />
-                            <Label htmlFor="interestIncome" className="text-bold text-underline text-info-darker">Interest Income</Label>
-                            <TextInput
-                                id="interestIncome"
-                                name="interestIncome"
-                                value={formData.interestIncome.toString()}
-                                onChange={handleChange}
-                                style={{ width: "calc(100% - 16px)" }}
-                                type="number"
-                                placeholder="Example: 10000"
-                            />
-                        </Grid>
-                        <Grid col={3}>
                             <Label htmlFor="federalIncomeTaxWithheld" className="text-bold text-underline text-info-darker">Federal Income Tax Withheld</Label>
                             <TextInput
                                 id="federalIncomeTaxWithheld"
@@ -170,6 +157,18 @@ export default function INT1099() {
                                 style={{ width: "calc(100% - 16px)" }}
                                 type="number"
                                 placeholder="Example: 5000"
+                            />
+                        </Grid>
+                        <Grid col={3}>
+                        <Label htmlFor="interestIncome" className="text-bold text-underline text-info-darker">Interest Income</Label>
+                            <TextInput
+                                id="interestIncome"
+                                name="interestIncome"
+                                value={formData.interestIncome.toString()}
+                                onChange={handleChange}
+                                style={{ width: "calc(100% - 16px)" }}
+                                type="number"
+                                placeholder="Example: 10000"
                             />
                             <Label htmlFor="investmentExpenses" className="text-bold text-underline text-info-darker">Investment Expenses</Label>
                             <TextInput
@@ -186,7 +185,7 @@ export default function INT1099() {
                     <Grid row>
                         <Grid col={3} />
                         <Grid col={6}>
-                            <Label htmlFor="savingsBondsAndTreasuryInterest" className="text-bold text-underline text-info-darker">Savings Bonds And Treasury Interest <span className="text-italic">- optional</span></Label>
+                            <Label htmlFor="savingsBondsAndTreasuryInterest" className="text-bold text-underline text-info-darker">Savings Bonds And Treasury Interest</Label>
                             <TextInput
                                 id="savingsBondsAndTreasuryInterest"
                                 name="savingsBondsAndTreasuryInterest"
@@ -201,7 +200,7 @@ export default function INT1099() {
                     <Grid row>
                         <Grid col={3} />
                         <Grid col={6}>
-                            <Label htmlFor="marketDiscount" className="text-bold text-underline text-info-darker">Market Discount <span className="text-italic">- optional</span></Label>
+                            <Label htmlFor="marketDiscount" className="text-bold text-underline text-info-darker">Market Discount</Label>
                             <TextInput
                                 id="marketDiscount"
                                 name="marketDiscount"
@@ -213,15 +212,16 @@ export default function INT1099() {
                             />
                         </Grid>
                     </Grid>
-                    <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+                    
+                </GridContainer>
+                <GridContainer style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '2rem' }}>
                         <Grid row>
                             <Grid col={12}>
-                                <Button type="button" base onClick={handleBack}>Back</Button>
-                                <Button type="button" onClick={handleSubmit}>Continue</Button>
+                                <Button type="button" base onClick={handleBack} style={{ marginRight: '1rem' }}>Back</Button>
+                                <Button type="button" onClick={handleSubmit}style={{ marginRight: '16rem' }}>Continue</Button>
                             </Grid>
                         </Grid>
-                    </div>
-                </GridContainer>
+                    </GridContainer>
             </div>
         </>
 

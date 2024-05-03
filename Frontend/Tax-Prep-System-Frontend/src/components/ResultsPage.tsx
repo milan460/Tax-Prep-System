@@ -189,54 +189,52 @@ const ResultsPage: React.FC = () => {
 
     return (
         <>
-            <div style={{ maxWidth: '600px', margin: '0 auto', marginTop: '50px', border: '1px solid #ccc', padding: '20px' }}>
-                <GridContainer>
-                    <Grid col={12}>
-                        <h1>Tax Breakdown</h1>
-                    </Grid>
-                    <Grid row>
-                        <Grid col={12} style={{ display: 'flex', justifyContent: 'center' }}>
-                            <div style={{ width: '50%' }}>
-                                <h2 className="text-info-darker" style={{ fontWeight: 'bold', textDecoration: 'underline' }}>Total Income</h2>
-                                <h3 className="text-bold">${totalIncome.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</h3>
-                            </div>
+            <div>
+                <div style={{ maxWidth: '600px', margin: '0 auto', marginTop: '50px', border: '1px solid #ccc', padding: '20px' }}>
+                    <GridContainer>
+                        <Grid col={12}>
+                            <h1>Tax Breakdown</h1>
                         </Grid>
-                    </Grid>
-                    <Grid row>
-                        <Grid col={12} style={{ display: 'flex', justifyContent: 'center' }}>
-                            <div style={{ width: '50%' }}>
-                                <h2 className="text-info-darker" style={{ fontWeight: 'bold', textDecoration: 'underline' }}>Total Taxes Owed</h2>
-                                <h3 className="text-bold">${taxesOwed.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</h3>
-                            </div>
-                        </Grid>
-                    </Grid>
-                    <Grid row>
-                        <Grid col={12} style={{ display: 'flex', justifyContent: 'center' }}>
-                            <div>
-                                <h2 className="text-info-darker" style={{ fontWeight: 'bold', textDecoration: 'underline' }}>Total Income After Taxes</h2>
-                                <h3 className="text-bold">${totalIncomeAfterTaxes.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</h3>
-                            </div>
-                        </Grid>
-                    </Grid>
-                    <Grid row>
-                        <Grid col={12} style={{ display: 'flex', justifyContent: 'center' }}>
-                            <div style={{ width: '50%' }}>
-                                <h2 className="text-info-darker" style={{ fontWeight: 'bold', textDecoration: 'underline' }}>Highest Tax Bracket</h2>
-                                <h3 className="text-bold">{taxBracket.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</h3>
-                            </div>
-                        </Grid>
-                    </Grid>
-                </GridContainer>
-            </div>
-
-            <div style={{ marginTop: '20px' }}>
                         <Grid row>
-                            <Grid col={12}>
-                                <Button type="button" base onClick={handleBack}>Back</Button>
-                                <Button type="button">Continue</Button>
+                            <Grid col={12} style={{ display: 'flex', justifyContent: 'center' }}>
+                                <div style={{ width: '50%' }}>
+                                    <h2 className="text-info-darker" style={{ fontWeight: 'bold', textDecoration: 'underline' }}>Total Income</h2>
+                                    <h3 className="text-bold">${totalIncome.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</h3>
+                                </div>
                             </Grid>
                         </Grid>
-                    </div>
+                        <Grid row>
+                            <Grid col={12} style={{ display: 'flex', justifyContent: 'center' }}>
+                                <div style={{ width: '50%' }}>
+                                    <h2 className="text-info-darker" style={{ fontWeight: 'bold', textDecoration: 'underline' }}>Total Taxes Owed</h2>
+                                    <h3 className="text-bold">${taxesOwed.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</h3>
+                                </div>
+                            </Grid>
+                        </Grid>
+                        <Grid row>
+                            <Grid col={12} style={{ display: 'flex', justifyContent: 'center' }}>
+                                <div>
+                                    <h2 className="text-info-darker" style={{ fontWeight: 'bold', textDecoration: 'underline' }}>Total Income After Taxes</h2>
+                                    <h3 className="text-bold">${totalIncomeAfterTaxes.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</h3>
+                                </div>
+                            </Grid>
+                        </Grid>
+                        <Grid row>
+                            <Grid col={12} style={{ display: 'flex', justifyContent: 'center' }}>
+                                <div style={{ width: '50%' }}>
+                                    <h2 className="text-info-darker" style={{ fontWeight: 'bold', textDecoration: 'underline' }}>Highest Tax Bracket</h2>
+                                    <h3 className="text-bold">{taxBracket.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</h3>
+                                </div>
+                            </Grid>
+                        </Grid>
+                    </GridContainer>
+                </div>
+
+                <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px', marginBottom: '20px' }}>
+                    <Button type="button" base onClick={handleBack}>Back</Button>
+                    <Button type="button" style={{ marginRight: '44.8Rem' }}>Continue</Button>
+                </div>
+            </div>
         </>
     );
 };
