@@ -16,11 +16,30 @@
 }
 
 #languageSelectorAndLogoutButtonContainer{
-    /* width: 80%; */
     width: 64rem;
     padding-left: 2rem;
     padding-right: 2rem;
     display: flex;
     align-items: center;
     justify-content: flex-end;
+}
+
+#containerToCenterHeaderGrid{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+}
+
+#headerGrid{
+    width: 64rem;
+    display: flex;
+}
+
+.headerGridElement{
+    color: white;
+    background-color: #005ea2;
+    border-radius: .25rem;
+    display: flex;
+    align-items: center;
 }
