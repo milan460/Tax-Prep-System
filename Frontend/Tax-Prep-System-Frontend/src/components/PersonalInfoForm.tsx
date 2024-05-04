@@ -1,7 +1,9 @@
+
 import React, { useState, useEffect } from "react";
 import { Form, GridContainer, Grid, TextInput, Label, Button, Select, FormGroup, DateInputGroup, Fieldset, DatePicker, DateInput, Table, Alert } from '@trussworks/react-uswds';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
+
 
 interface PersonalInfoFormData {
     id?: string;
@@ -22,11 +24,13 @@ interface PersonalInfoFormData {
 interface User {
     userId: number;
     username: string;
-    password: string;
-    role: string;
+    password?: string;
+    role?: string;
 }
 
 export default function PersonalInfoForm() {
+
+    // const accessToken = JSON.parse(localStorage.getItem('accessToken') || '{}');
     const initialFormData: PersonalInfoFormData = {
         firstName: "",
         lastName: "",
@@ -42,11 +46,11 @@ export default function PersonalInfoForm() {
         dependents: 0
     };
 
-    const initialUser: User = {
-        userId: 1,
-        username: "afradson0",
-        password: "bZ3%d(n`0Xqujjd~",
-        role: "ROLE_USER"
+    const User: User = {
+        userId: 0,
+        username: "",
+        password: "",
+        role: ""
     };
 
 
@@ -59,9 +63,31 @@ export default function PersonalInfoForm() {
 
     const navigate = useNavigate();
 
-    const fetchData = async () => {
+    const [initialUser, setInitialUser] = useState<User>(User);
+
+    const fetchCurrentUser = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/personalForms/user/${initialUser.userId}`);
+            const response = await fetch('http://localhost:8080/currentUser', {
+                credentials: 'include',
+                method: 'GET'
+            });
+            if (response.ok) {
+                const data: User = await response.json();
+                setInitialUser(data);
+                console.log(data);
+            }
+        } catch (error) {
+                console.error('Error fetching current user:', error);
+            }
+        };
+
+    const fetchData = useCallback( async () => {
+
+        try {
+            const response = await fetch(`http://localhost:8080/personalForms/user/${initialUser.userId}`, {
+                credentials: 'include',
+                method: 'GET'
+            });
             if (response.ok) {
                 const data: PersonalInfoFormData = await response.json();
                 setFormData(data);
@@ -74,11 +100,12 @@ export default function PersonalInfoForm() {
         } catch (error) {
             console.error('Error fetching personal form data:', error);
         }
-    };
+    }, [initialUser.userId]);
 
     useEffect(() => {
+        fetchCurrentUser();
         fetchData();
-    }, [initialUser.userId]);
+    }, [fetchData, initialUser.userId]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -90,7 +117,7 @@ export default function PersonalInfoForm() {
 
 
     const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
+       e.preventDefault();
 
         const isEmptyField = Object.values(formData)
             .filter((_, index) => index !== Object.keys(formData).indexOf('streetAddress2'))
@@ -132,6 +159,7 @@ export default function PersonalInfoForm() {
 
         if (formData.id) {
             requestOptions = {
+                credentials: 'include',
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -140,6 +168,7 @@ export default function PersonalInfoForm() {
             };
         } else {
             requestOptions = {
+                credentials: 'include',
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -250,10 +279,10 @@ export default function PersonalInfoForm() {
                     </Alert>
                 )}
                 <h1>Personal Information</h1>
-                <p>*Please complete all required fields below and click "Continue" to save your information and proceed to the next step. Optional fields can be left blank*</p>
                 <GridContainer>
                     <Grid row>
-                        <Grid col={3} className="usa-form-group">
+                  
+                        <Grid col={4} className="usa-form-group">
                             <Label htmlFor="firstName" className="text-bold text-underline text-info-darker">First Name</Label>
                             <TextInput
                                 id="firstName"
@@ -262,11 +291,10 @@ export default function PersonalInfoForm() {
                                 onChange={handleChange}
                                 style={{ width: "calc(100% - 16px)" }}
                                 type="text"
-                                placeholder="Example: John"
+                                placeholder="Ex: John"
                             />
                         </Grid>
-
-                        <Grid col={3} className="usa-form-group">
+                        <Grid col={4} className="usa-form-group">
                             <Label htmlFor="lastName" className="text-bold text-underline text-info-darker">Last Name</Label>
                             <TextInput
                                 id="lastName"
@@ -275,11 +303,10 @@ export default function PersonalInfoForm() {
                                 onChange={handleChange}
                                 style={{ width: "calc(100% - 16px)" }}
                                 type="text"
-                                placeholder="Example: Doe"
+                                placeholder="Ex: Doe"
                             />
                         </Grid>
-
-                        <Grid col={3} className="usa-form-group">
+                        <Grid col={4} className="usa-form-group">
                             <Label htmlFor="email" className="text-bold text-underline text-info-darker">Email</Label>
                             <TextInput
                                 id="email"
@@ -288,24 +315,12 @@ export default function PersonalInfoForm() {
                                 onChange={handleChange}
                                 style={{ width: "calc(100% - 16px)" }}
                                 type="email"
-                                placeholder="Example: johndoe@example.com"
+                                placeholder="Ex: johndoe@example.com"
                             />
                         </Grid>
+                       
 
-                        <Grid col={3} className="usa-form-group">
-                            <Label htmlFor="ssn" className="text-bold text-underline text-info-darker">Social Security Number</Label>
-                            <TextInput
-                                id="ssn"
-                                name="ssn"
-                                value={formData.ssn}
-                                onChange={handleChange}
-                                style={{ width: "calc(100% - 16px)" }}
-                                type="text"
-                                placeholder="Example: 123-45-6789"
-                            />
-                        </Grid>
-
-                        <Grid col={3} className="usa-form-group">
+                        <Grid col={6} className="usa-form-group">
                             <Label htmlFor="streetAddress1" className="text-bold text-underline text-info-darker">Street Address 1</Label>
                             <TextInput
                                 id="streetAddress1"
@@ -314,11 +329,12 @@ export default function PersonalInfoForm() {
                                 onChange={handleChange}
                                 style={{ width: "calc(100% - 16px)" }}
                                 type="text"
-                                placeholder="Example: 123 Main St"
+                                placeholder="Ex: 123 Main St"
                             />
                         </Grid>
-
-                        <Grid col={3} className="usa-form-group">
+                        
+                        
+                        <Grid col={6} className="usa-form-group">
                             <Label htmlFor="streetAddress2" className="text-bold text-underline text-info-darker">Street Address 2 <span className="text-italic">- optional</span></Label>
                             <TextInput
                                 id="streetAddress2"
@@ -327,11 +343,10 @@ export default function PersonalInfoForm() {
                                 onChange={handleChange}
                                 style={{ width: "calc(100% - 16px)" }}
                                 type="text"
-                                placeholder="Example: Apt 101"
+                                placeholder="Ex: Apt 101"
                             />
                         </Grid>
-
-                        <Grid col={3} className="usa-form-group">
+                        <Grid col={4} className="usa-form-group">
                             <Label htmlFor="city" className="text-bold text-underline text-info-darker">City</Label>
                             <TextInput
                                 id="city"
@@ -340,11 +355,10 @@ export default function PersonalInfoForm() {
                                 onChange={handleChange}
                                 style={{ width: "calc(100% - 16px)" }}
                                 type="text"
-                                placeholder="Example: Anytown"
+                                placeholder="Ex: Anytown"
                             />
                         </Grid>
-
-                        <Grid col={3} className="usa-form-group">
+                        <Grid col={4} className="usa-form-group">
                             <Label htmlFor="state" className="text-bold text-underline text-info-darker">State</Label>
                             <Select
                                 id="state"
@@ -407,8 +421,7 @@ export default function PersonalInfoForm() {
                                 <option value="Wyoming">Wyoming</option>
                             </Select>
                         </Grid>
-
-                        <Grid col={3} className="usa-form-group">
+                        <Grid col={4} className="usa-form-group">
                             <Label htmlFor="zip" className="text-bold text-underline text-info-darker">ZIP Code</Label>
                             <TextInput
                                 id="zip"
@@ -417,10 +430,25 @@ export default function PersonalInfoForm() {
                                 onChange={handleChange}
                                 style={{ width: "calc(100% - 16px)" }}
                                 type="text"
-                                placeholder="Example: 12345"
+                                placeholder="Ex: 12345"
                             />
                         </Grid>
-                        <Grid col={3} className="usa-form-group">
+                        <Grid col={4} className="usa-form-group">
+                            <Label htmlFor="ssn" className="text-bold text-underline text-info-darker">Social Security Number</Label>
+                            <TextInput
+                                id="ssn"
+                                name="ssn"
+                                value={formData.ssn}
+                                onChange={handleChange}
+                                style={{ width: "calc(100% - 16px)" }}
+                                type="text"
+                                placeholder="123-45-6789"
+                                pattern="\d{3}-\d{2}-\d{4}"
+                                maxLength={11}
+                            />
+                        </Grid>
+
+                        <Grid col={4} className="usa-form-group">
                             <Label htmlFor="filingStatus" className="text-bold text-underline text-info-darker">Filing Status</Label>
                             <Select
                                 id="filingStatus"
@@ -435,8 +463,7 @@ export default function PersonalInfoForm() {
                                 <option value="Married File Separate">Married File Separate</option>
                             </Select>
                         </Grid>
-
-                        <Grid col={3} className="usa-form-group">
+                        <Grid col={4} className="usa-form-group">
                             <Label htmlFor="dependents" className="text-bold text-underline text-info-darker">Dependents</Label>
                             <TextInput
                                 id="dependents"
@@ -448,8 +475,8 @@ export default function PersonalInfoForm() {
                                 placeholder="Example: 0"
                             />
                         </Grid>
-                    </Grid>
-
+ 
+                        <Grid col={6} className="usa-form-group">
                     <Label htmlFor="dateOfBirth" className="text-bold text-underline text-info-darker">Date of Birth</Label>
                     <DateInputGroup>
                         <FormGroup className="usa-form-group--month usa-form-group--select">
@@ -473,14 +500,17 @@ export default function PersonalInfoForm() {
                         <DateInput id="day" name="day" label="Day" unit="day" maxLength={2} minLength={2} value={selectedDay} onChange={handleDayChange} style={{ marginRight: '8px' }} placeholder="Ex:7" />
                         <DateInput id="year" name="year" label="Year" unit="year" maxLength={4} minLength={4} value={selectedYear} onChange={handleYearChange} placeholder="Ex:2000" />
                     </DateInputGroup>
-                    <div style={{ marginTop: '20px', marginBottom: '20px' }}>
-                        <Grid row>
-                            <Grid col={12}>
-                                <Button type="button" base>Back</Button>
-                                <Button type="button" onClick={handleSubmit}>Continue</Button>
-                            </Grid>
+                    </Grid>
+                    </Grid>
+                    
+                </GridContainer>
+                <GridContainer style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '1rem' }}>
+                    <Grid row>
+                        <Grid col={12} className="usa-form-group">
+                            <Button type="button" base>Back</Button>
+                            <Button type="button" onClick={handleSubmit}>Continue</Button>
                         </Grid>
-                    </div>
+                    </Grid>
                 </GridContainer>
             </div>
         </>

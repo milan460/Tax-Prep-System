@@ -182,10 +182,10 @@ export default function W2Form() {
                     </Alert>
                 )}
                 <h1>W2 Form</h1>
-                <p>*Please complete all required fields below and click "Continue" to save your information and proceed to the next step. Optional fields can be left blank.*</p>
                 <GridContainer>
                     <Grid row>
-                        <Grid col={3}>
+                    <Grid col={2}/>
+                        <Grid col={4}>
                             <Label htmlFor="income" className="text-bold text-underline text-info-darker">Income</Label>
                             <TextInput
                                 id="income"
@@ -197,8 +197,75 @@ export default function W2Form() {
                                 placeholder="Example: 20000"
                             />
                         </Grid>
-                        <Grid col={3}>
-                            <Label htmlFor="streetAddress1" className="text-bold text-underline text-info-darker">Street Address 1</Label>
+                        <Grid col={4}>
+                            <Label htmlFor="federalIncomeWithheld" className="text-bold text-underline text-info-darker">Federal Income Withheld</Label>
+                            <TextInput
+                                id="federalIncomeWithheld"
+                                name="federalIncomeWithheld"
+                                value={formData.federalIncomeWithheld}
+                                onChange={handleChange}
+                                style={{ width: "calc(100% - 16px)" }}
+                                type="number"
+                                placeholder="Example: 2000"
+                            />
+                        </Grid>
+                        <Grid col={2}/>
+                        <Grid col={2}/>
+                        <Grid col={4}>
+                            <Label htmlFor="medicareWages" className="text-bold text-underline text-info-darker">Medicare Wages</Label>
+                            <TextInput
+                                id="medicareWages"
+                                name="medicareWages"
+                                value={formData.medicareWages}
+                                onChange={handleChange}
+                                style={{ width: "calc(100% - 16px)" }}
+                                type="number"
+                                placeholder="Example: 20000"
+                            />
+                        </Grid>
+                        
+                        <Grid col={4}>
+                            <Label htmlFor="medicareTaxWithheld" className="text-bold text-underline text-info-darker">Medicare Tax Withheld</Label>
+                            <TextInput
+                                id="medicareTaxWithheld"
+                                name="medicareTaxWithheld"
+                                value={formData.medicareTaxWithheld}
+                                onChange={handleChange}
+                                style={{ width: "calc(100% - 16px)" }}
+                                type="number"
+                                placeholder="Example: 1000"
+                            />
+                        </Grid>
+                        <Grid col={2}/>
+                        <Grid col={2}/>
+                        <Grid col={4}>
+                            <Label htmlFor="socialSecurityWages" className="text-bold text-underline text-info-darker">Social Security Wages</Label>
+                            <TextInput
+                                id="socialSecurityWages"
+                                name="socialSecurityWages"
+                                value={formData.socialSecurityWages}
+                                onChange={handleChange}
+                                style={{ width: "calc(100% - 16px)" }}
+                                type="number"
+                                placeholder="Example: 20000"
+                            />
+                        </Grid>
+                        <Grid col={4}>
+                            <Label htmlFor="socialSecurityTaxWithheld" className="text-bold text-underline text-info-darker">Social Security Tax Withheld</Label>
+                            <TextInput
+                                id="socialSecurityTaxWithheld"
+                                name="socialSecurityTaxWithheld"
+                                value={formData.socialSecurityTaxWithheld}
+                                onChange={handleChange}
+                                style={{ width: "calc(100% - 16px)" }}
+                                type="number"
+                                placeholder="Example: 5000"
+                            />
+                        </Grid>
+                        <Grid col={2}/>
+                        <Grid col={2}/>
+                        <Grid col={4}>
+                            <Label htmlFor="streetAddress1" className="text-bold text-underline text-info-darker">Employer Street Address 1</Label>
                             <TextInput
                                 id="streetAddress1"
                                 name="streetAddress1"
@@ -209,8 +276,9 @@ export default function W2Form() {
                                 placeholder="Example: 123 Main St"
                             />
                         </Grid>
-                        <Grid col={3}>
-                            <Label htmlFor="streetAddress2" className="text-bold text-underline text-info-darker">Street Address 2 <span className="text-italic">- optional</span></Label>
+
+                        <Grid col={4}>
+                            <Label htmlFor="streetAddress2" className="text-bold text-underline text-info-darker">Employer Street Address 2 <span className="text-italic">- optional</span></Label>
                             <TextInput
                                 id="streetAddress2"
                                 name="streetAddress2"
@@ -221,8 +289,11 @@ export default function W2Form() {
                                 placeholder="Example: Apt 101"
                             />
                         </Grid>
+                        <Grid col={2}/>
+                        <Grid col={2}/>
+
                         <Grid col={3}>
-                            <Label htmlFor="city" className="text-bold text-underline text-info-darker">City</Label>
+                            <Label htmlFor="city" className="text-bold text-underline text-info-darker">Employer City</Label>
                             <TextInput
                                 id="city"
                                 name="city"
@@ -234,7 +305,7 @@ export default function W2Form() {
                             />
                         </Grid>
                         <Grid col={3} className="usa-form-group">
-                            <Label htmlFor="state" className="text-bold text-underline text-info-darker">State</Label>
+                            <Label htmlFor="state" className="text-bold text-underline text-info-darker">Employer State</Label>
                             <Select
                                 id="state"
                                 name="state"
@@ -296,8 +367,8 @@ export default function W2Form() {
                                 <option value="Wyoming">Wyoming</option>
                             </Select>
                         </Grid>
-                        <Grid col={3}>
-                            <Label htmlFor="zip" className="text-bold text-underline text-info-darker">ZIP Code</Label>
+                        <Grid col={2}>
+                            <Label htmlFor="zip" className="text-bold text-underline text-info-darker">Employer ZIP Code</Label>
                             <TextInput
                                 id="zip" name="zip"
                                 value={formData.zip}
@@ -307,77 +378,17 @@ export default function W2Form() {
                                 placeholder="Example: 12345"
                             />
                         </Grid>
-                        <Grid col={3}>
-                            <Label htmlFor="socialSecurityWages" className="text-bold text-underline text-info-darker">Social Security Wages <span className="text-italic">- optional</span></Label>
-                            <TextInput
-                                id="socialSecurityWages"
-                                name="socialSecurityWages"
-                                value={formData.socialSecurityWages}
-                                onChange={handleChange}
-                                style={{ width: "calc(100% - 16px)" }}
-                                type="number"
-                                placeholder="Example: 20000"
-                            />
-                        </Grid>
-                        <Grid col={3}>
-                            <Label htmlFor="medicareWages" className="text-bold text-underline text-info-darker">Medicare Wages <span className="text-italic">- optional</span></Label>
-                            <TextInput
-                                id="medicareWages"
-                                name="medicareWages"
-                                value={formData.medicareWages}
-                                onChange={handleChange}
-                                style={{ width: "calc(100% - 16px)" }}
-                                type="number"
-                                placeholder="Example: 20000"
-                            />
-                        </Grid>
-                        <Grid col={4}>
-                            <Label htmlFor="socialSecurityTaxWithheld" className="text-bold text-underline text-info-darker">Social Security Tax Withheld <span className="text-italic">- optional</span></Label>
-                            <TextInput
-                                id="socialSecurityTaxWithheld"
-                                name="socialSecurityTaxWithheld"
-                                value={formData.socialSecurityTaxWithheld}
-                                onChange={handleChange}
-                                style={{ width: "calc(100% - 16px)" }}
-                                type="number"
-                                placeholder="Example: 5000"
-                            />
-                        </Grid>
-                        <Grid col={4}>
-                            <Label htmlFor="medicareTaxWithheld" className="text-bold text-underline text-info-darker">Medicare Tax Withheld <span className="text-italic">- optional</span></Label>
-                            <TextInput
-                                id="medicareTaxWithheld"
-                                name="medicareTaxWithheld"
-                                value={formData.medicareTaxWithheld}
-                                onChange={handleChange}
-                                style={{ width: "calc(100% - 16px)" }}
-                                type="number"
-                                placeholder="Example: 1000"
-                            />
-                        </Grid>
-                        <Grid col={4}>
-                            <Label htmlFor="federalIncomeWithheld" className="text-bold text-underline text-info-darker">Federal Income Withheld <span className="text-italic">- optional</span></Label>
-                            <TextInput
-                                id="federalIncomeWithheld"
-                                name="federalIncomeWithheld"
-                                value={formData.federalIncomeWithheld}
-                                onChange={handleChange}
-                                style={{ width: "calc(100% - 16px)" }}
-                                type="number"
-                                placeholder="Example: 2000"
-                            />
-                        </Grid>
 
                     </Grid>
-                    <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+                </GridContainer>
+                <GridContainer style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '2rem' }}>
                         <Grid row>
                             <Grid col={12}>
-                                <Button type="button" base onClick={handleBack}>Back</Button>
-                                <Button type="button" onClick={handleSubmit}>Continue</Button>
+                                <Button type="button" base onClick={handleBack} style={{ marginRight: '1rem' }}>Back</Button>
+                                <Button type="button" onClick={handleSubmit}style={{ marginRight: '11rem' }}>Continue</Button>
                             </Grid>
                         </Grid>
-                    </div>
-                </GridContainer>
+                    </GridContainer>
             </div>
         </>
     );

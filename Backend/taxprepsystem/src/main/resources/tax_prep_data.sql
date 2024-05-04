@@ -18,7 +18,7 @@ values (1, 97878.57, 97878.57, 97878.57, 6068.47, 1419.24, 2153.33, '37949 Randy
 
 
 insert into personal_info_form (user_id, first_name, last_name, email, street_address_1, street_address_2, city, state, zip, date_of_birth, social_security_number, filing_status) 
-values (1, 'Adolphus', 'Fradson', 'afradson0@ted.com', '37949 Randy Place', 'Suite 88', 'Portland', 'Oregon', '97206', '01/28/2004', '252-28-6268', 'Single');
+values (1, 'Adolphus', 'Fradson', 'afradson0@ted.com', '37949 Randy Place', 'Suite 88', 'Portland', 'Oregon', '97206', '01/28/2004', '252-28-6268', 'Single', 1);
 
 insert into int_1099_form (user_id, payer_name, interest_income, federal_income_tax_withheld, savings_bonds_and_treasury_interest, investment_expenses, market_discount) 
 values (1, 'Adolphus Fradson', 8976.71, 0, 0, 0, 0);
