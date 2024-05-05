@@ -8,51 +8,72 @@ interface INT1099Form {
         userId?: number
     }
     payerName: string;
-    interestIncome: number;
-    federalIncomeTaxWithheld: number;
-    savingsBondsAndTreasuryInterest: number;
-    investmentExpenses: number;
-    marketDiscount: number;
+    interestIncome: string;
+    federalIncomeTaxWithheld: string;
+    savingsBondsAndTreasuryInterest: string;
+    investmentExpenses: string;
+    marketDiscount: string;
 }
 
 interface User {
     userId: number;
     username: string;
-    password: string;
-    role: string;
+    password?: string;
+    role?: string;
 }
 
 export default function INT1099() {
 
-
-    const initialUser: User = {
-        userId: 1,
-        username: "afradson0",
-        password: "bZ3%d(n`0Xqujjd~",
-        role: "ROLE_USER"
+   
+    const User: User = {
+        userId: 0,
+        username: "",
+        password: "",
+        role: ""
     }
 
     const initial1099Form: INT1099Form = {
-        user: {
-            userId: initialUser.userId
-        },
+        // user: {
+        //     userId: User.userId
+        // },
         payerName: "",
-        interestIncome: 0,
-        federalIncomeTaxWithheld: 0,
-        savingsBondsAndTreasuryInterest: 0,
-        investmentExpenses: 0,
-        marketDiscount: 0
+        interestIncome: "",
+        federalIncomeTaxWithheld: "",
+        savingsBondsAndTreasuryInterest: "",
+        investmentExpenses: "",
+        marketDiscount: ""
     }
 
     const [formData, setFormData] = useState<INT1099Form>(initial1099Form);
     const [showAlert, setShowAlert] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
+    const [initialUser, setInitialUser] = useState<User>(User);
+
 
     const navigate = useNavigate();
 
+    const fetchCurrentUser = async () => {
+        try {
+            const response = await fetch('http://localhost:8080/currentUser', {
+                credentials: 'include',
+                method: 'GET'
+            });
+            if (response.ok) {
+                const data: User = await response.json();
+                setInitialUser(data);
+                console.log(data);
+            }
+        } catch (error) {
+                console.error('Error fetching current user:', error);
+            }
+        };
+
     const fetchData = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/1099/user/${initialUser.userId}`);
+            const response = await fetch(`http://localhost:8080/1099/user/${initialUser.userId}`, {
+                credentials: 'include',
+                method: 'GET'
+            });
             if (response.ok) {
                 const data: INT1099Form = await response.json();
                 setFormData(data);
@@ -64,6 +85,7 @@ export default function INT1099() {
     };
 
     useEffect(() => {
+        fetchCurrentUser();
         fetchData();
     }, [initialUser.userId]);
 
@@ -81,16 +103,29 @@ export default function INT1099() {
             return;
         }
 
+        const formDataToSend = {
+            user: {
+                userId: initialUser.userId
+            },
+            payerName: formData.payerName,
+            interestIncome: parseFloat(formData.interestIncome),
+            federalIncomeTaxWithheld: parseFloat(formData.federalIncomeTaxWithheld),
+            savingsBondsAndTreasuryInterest: parseFloat(formData.savingsBondsAndTreasuryInterest),
+            investmentExpenses: parseFloat(formData.investmentExpenses),
+            marketDiscount: parseFloat(formData.marketDiscount)
+        }
+
         const method = formData.formId ? 'PUT' : 'POST';
         const URL = formData.formId ? `http://localhost:8080/1099/updateINTForm/user/${initialUser.userId}` : 'http://localhost:8080/1099/createINTForm';
 
         console.log(method)
         fetch(URL, {
+            credentials: 'include',
             method: method,
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(formData),
+            body: JSON.stringify(formDataToSend),
         })
             .then(response => response.json())
             .then(data => {
@@ -133,7 +168,7 @@ export default function INT1099() {
                         Form is successfully filled out.
                     </Alert>
                 )}
-                <h1>1099 Form</h1>
+                <h1>1099-INT Form</h1>
                 <GridContainer>
                     <Grid row>
                         <Grid col={3} />
