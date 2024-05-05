@@ -20,8 +20,8 @@ interface W2FormData {
 interface User {
     userId: number;
     username: string;
-    password: string;
-    role: string;
+    password?: string;
+    role?: string;
 }
 
 export default function W2Form() {
@@ -39,22 +39,42 @@ export default function W2Form() {
         zip: "",
     };
 
-    const initialUser: User = {
-        userId: 1,
-        username: "afradson0",
-        password: "bZ3%d(n`0Xqujjd~",
-        role: "ROLE_USER"
+    const User: User = {
+        userId: 0,
+        username: "",
+        password: "",
+        role: ""
     };
 
     const [formData, setFormData] = useState<W2FormData>(initialFormData);
     const [showAlert, setShowAlert] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
+    const [initialUser, setInitialUser] = useState<User>(User);
 
     const navigate = useNavigate();
 
+    const fetchCurrentUser = async () => {
+        try {
+            const response = await fetch('http://localhost:8080/currentUser', {
+                credentials: 'include',
+                method: 'GET'
+            });
+            if (response.ok) {
+                const data: User = await response.json();
+                setInitialUser(data);
+                console.log(data);
+            }
+        } catch (error) {
+                console.error('Error fetching current user:', error);
+            }
+        };
+
     const fetchData = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/w2Forms/user/${initialUser.userId}`);
+            const response = await fetch(`http://localhost:8080/w2Forms/user/${initialUser.userId}`, {
+                credentials: 'include',
+                method: 'GET'
+            });
             if (response.ok) {
                 const data: W2FormData = await response.json();
                 console.log("Fetched W2 Form Data:", data);
@@ -66,6 +86,7 @@ export default function W2Form() {
     };
 
     useEffect(() => {
+        fetchCurrentUser();
         fetchData();
     }, [initialUser.userId]);
 
@@ -125,6 +146,7 @@ export default function W2Form() {
 
         if (formData.id) {
             requestOptions = {
+                credentials: 'include',
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -133,6 +155,7 @@ export default function W2Form() {
             };
         } else {
             requestOptions = {
+                credentials: 'include',
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
