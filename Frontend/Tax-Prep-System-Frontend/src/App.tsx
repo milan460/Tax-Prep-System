@@ -3,7 +3,7 @@ import '@trussworks/react-uswds/lib/uswds.css';
 // import { useState } from 'react'
 import './App.css'
 import {BrowserRouter, Route, Routes} from "react-router-dom"
-import {Header, FooterReal, PersonalInfoForm, SignIn, Register, W2Form, ReviewPage, ResultsPage, INT1099Form, AdminPage  } from "./components"
+import {Header, FooterReal, PersonalInfoForm, SignIn, Register, W2Form, ReviewPage, ResultsPage, INT1099Form, AdminPage, Home  } from "./components"
 import './i18n'; // Importing the i18n configuration file from the src folder
 
 
@@ -23,6 +23,8 @@ function App() {
                         <Route path="/review-page" element={<ReviewPage/>}/>
                         <Route path="/results-page" element={<ResultsPage/>}/>
                         <Route path="/admin-page" element={<AdminPage/>}/>
+                        <Route path="/home" element={<Home/>}/>
+
                     </Routes>
                 <FooterReal />
             </div>
