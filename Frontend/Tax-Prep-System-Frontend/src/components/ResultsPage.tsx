@@ -78,9 +78,12 @@ interface User {
 }
 
 const ResultsPage: React.FC = () => {
-    const initialUser: User = {
-        userId: 1,
+
+    
+    const User: User = {
+        userId: 0,
     };
+    
     const [constants, setConstants] = useState<Constants | null>(null);
     const [personalInfo, setPersonalInfo] = useState<PersonalInfo | null>(null);
     const [w2Info, setW2Info] = useState<W2Info | null>(null);
@@ -89,16 +92,49 @@ const ResultsPage: React.FC = () => {
     const [taxBracket, setTaxBracket] = useState<string>('');
     const [totalIncome, setTotalIncome] = useState<number>(0);
     const [totalIncomeAfterTaxes, setTotalIncomeAfterTaxes] = useState<number>(0);
+    const [initialUser, setInitialUser] = useState<User>(User);
 
     const navigate = useNavigate();
 
     useEffect(() => {
+
+        const fetchCurrentUser = async () => {
+            try {
+                const response = await fetch('http://localhost:8080/currentUser', {
+                    credentials: 'include',
+                    method: 'GET'
+                });
+                if (response.ok) {
+                    const data: User = await response.json();
+                    setInitialUser(data);
+                    console.log(data);
+                }
+            } catch (error) {
+                    console.error('Error fetching current user:', error);
+                }
+            };
+
         const fetchData = async () => {
             try {
-                const constantsResponse = await fetch(`http://localhost:8080/constants`);
-                const personalInfoResponse = await fetch(`http://localhost:8080/personalForms/user/${initialUser.userId}`);
-                const w2InfoResponse = await fetch(`http://localhost:8080/w2Forms/user/${initialUser.userId}`);
-                const int1099InfoResponse = await fetch(`http://localhost:8080/1099/user/${initialUser.userId}`);
+                const constantsResponse = await fetch(`http://localhost:8080/constants`, {
+                    credentials: 'include',
+                    method: 'GET'
+                });
+                
+                const personalInfoResponse = await fetch(`http://localhost:8080/personalForms/user/${initialUser.userId}`, {
+                    credentials: 'include',
+                    method: 'GET'
+                });
+                
+                const w2InfoResponse = await fetch(`http://localhost:8080/w2Forms/user/${initialUser.userId}`, {
+                    credentials: 'include',
+                    method: 'GET'
+                });
+                
+                const int1099InfoResponse = await fetch(`http://localhost:8080/1099/user/${initialUser.userId}`, {
+                    credentials: 'include',
+                    method: 'GET'
+                });
 
                 if (
                     constantsResponse.ok &&
@@ -179,9 +215,9 @@ const ResultsPage: React.FC = () => {
                 console.error('Error fetching data:', error);
             }
         };
-
+        fetchCurrentUser();
         fetchData();
-    }, []);
+    }, [initialUser.userId]);
 
     const handleBack = (e: React.MouseEvent<HTMLButtonElement>) => {
         navigate('/review-page');

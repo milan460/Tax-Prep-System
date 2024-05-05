@@ -64,41 +64,74 @@ interface INT1099Info {
 interface User {
     userId: number;
     username: string;
-    password: string;
-    role: string;
+    password?: string;
+    role?: string;
 }
 
 const ReviewPage: React.FC = () => {
+
+    const User: User = {
+        userId: 0,
+        username: "",
+        password: "",
+        role: ""
+    };
+
     const [personalInfo, setPersonalInfo] = useState<PersonalInfo | null>(null);
     const [w2Info, setW2Info] = useState<W2Info | null>(null);
     const [int1099Info, setInt1099Info] = useState<INT1099Info | null>(null);
     const [showSubmitAlert, setShowSubmitAlert] = useState(false);
+    const [initialUser, setInitialUser] = useState<User>(User);
 
     const navigate = useNavigate();
 
-
-    const initialUser: User = {
-        userId: 1,
-        username: "afradson0",
-        password: "bZ3%d(n`0Xqujjd~",
-        role: "ROLE_USER"
-    };
+    
 
     useEffect(() => {
+
+        const fetchCurrentUser = async () => {
+            try {
+                const response = await fetch('http://localhost:8080/currentUser', {
+                    credentials: 'include',
+                    method: 'GET'
+                });
+                if (response.ok) {
+                    const data: User = await response.json();
+                    setInitialUser(data);
+                    console.log(data);
+                }
+            } catch (error) {
+                    console.error('Error fetching current user:', error);
+                }
+            };
+
         const fetchPersonalInfo = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/personalForms/user/${initialUser.userId}`);
-                if (response.ok) {
-                    const data: PersonalInfo = await response.json();
+                const response = await fetch(`http://localhost:8080/personalForms/user/${initialUser.userId}`, {
+                    credentials: 'include',
+                    method: 'GET'
+                });
+                const text = await response.text();  // Read the response as text first
+                try {
+                    const data = JSON.parse(text);  // Try parsing it as JSON
                     setPersonalInfo(data);
+                } catch (jsonError) {
+                    console.error('Failed to parse JSON:', jsonError, 'Response received:', text);
                 }
+                // if (response.ok) {
+                //     const data: PersonalInfo = await response.json();
+                //     setPersonalInfo(data);
+                // }
             } catch (error) {
                 console.error('Error fetching personal information:', error);
             }
         };
         const fetchW2Info = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/w2Forms/user/${initialUser.userId}`);
+                const response = await fetch(`http://localhost:8080/w2Forms/user/${initialUser.userId}`, {
+                    credentials: 'include',
+                    method: 'GET'
+                });
                 if (response.ok) {
                     const data: W2Info = await response.json();
                     setW2Info(data);
@@ -110,7 +143,10 @@ const ReviewPage: React.FC = () => {
 
         const fetchINT1099Info = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/1099/user/${initialUser.userId}`);
+                const response = await fetch(`http://localhost:8080/1099/user/${initialUser.userId}`, {
+                    credentials: 'include',
+                    method: 'GET'
+                });
                 if (response.ok) {
                     const data: INT1099Info = await response.json();
                     setInt1099Info(data);
@@ -119,11 +155,11 @@ const ReviewPage: React.FC = () => {
                 console.error('Error fetching 1099-INT information:', error);
             }
         };
-
+        fetchCurrentUser();
         fetchINT1099Info();
         fetchW2Info();
         fetchPersonalInfo();
-    }, []);
+    }, [initialUser.userId]);
 
     const handleInputChange = (
         field: keyof PersonalInfo | keyof W2Info | keyof INT1099Info,
