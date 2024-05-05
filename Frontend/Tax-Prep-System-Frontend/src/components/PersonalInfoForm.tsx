@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Form, GridContainer, Grid, TextInput, Label, Button, Select, FormGroup, DateInputGroup, Fieldset, DatePicker, DateInput, Table, Alert } from '@trussworks/react-uswds';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
@@ -30,7 +30,7 @@ interface User {
 
 export default function PersonalInfoForm() {
 
-    // const accessToken = JSON.parse(localStorage.getItem('accessToken') || '{}');
+   
     const initialFormData: PersonalInfoFormData = {
         firstName: "",
         lastName: "",
@@ -60,10 +60,11 @@ export default function PersonalInfoForm() {
     const [selectedYear, setSelectedYear] = useState<string>('');
     const [showAlert, setShowAlert] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
+    const [initialUser, setInitialUser] = useState<User>(User);
 
     const navigate = useNavigate();
 
-    const [initialUser, setInitialUser] = useState<User>(User);
+    
 
     const fetchCurrentUser = async () => {
         try {
