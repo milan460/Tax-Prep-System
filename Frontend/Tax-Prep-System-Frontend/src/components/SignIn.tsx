@@ -68,6 +68,8 @@ const SignIn: React.FC = () => {
     const handleSingleSignOn = () => {
         window.location.replace("http://localhost:8080/signin");
 
+        
+
         // //fetch the access token and store it as a cookie
         // fetch('http://localhost:8080/accessToken', {
         //     credentials: 'include', 
