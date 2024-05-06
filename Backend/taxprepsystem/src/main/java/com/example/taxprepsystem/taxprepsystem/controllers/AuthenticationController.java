@@ -5,10 +5,13 @@ import com.example.taxprepsystem.taxprepsystem.services.UserService;
 
 import jakarta.servlet.http.Cookie;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
@@ -45,23 +48,6 @@ public class AuthenticationController { //Authentication Controller to handle us
     }
 
 
-//    @GetMapping("/signin")
-//    public RedirectView signIn(@AuthenticationPrincipal OAuth2User user) {
-//        User existingUser;
-//        User authUser = new User();
-//        authUser.setUsername(user.getAttribute("name")); //change to email
-//        try{
-//           existingUser = userService.saveUser(authUser);
-//        }
-//        catch (RuntimeException e){
-//            existingUser = userService.getUserByUsername(authUser.getUsername());
-//            return new RedirectView("http://localhost:5173");
-//        }
-//        return new RedirectView("http://localhost:5173");
-//    }
-
-
-
     @GetMapping("/signin")
     public RedirectView signIn(@AuthenticationPrincipal OAuth2User oAuth2User, Authentication auth, HttpServletResponse response) {
 
@@ -75,15 +61,8 @@ public class AuthenticationController { //Authentication Controller to handle us
 
         if(auth instanceof OAuth2AuthenticationToken) {
 
-            //casting the Authentication object to be a OAuth2AuthenticationToken object
-            OAuth2AuthenticationToken authToken = (OAuth2AuthenticationToken)auth;
-
-            // retrieving the authorized client with *this specific* Authentication Principal (each user is unique)
-            OAuth2AuthorizedClient client = clientService.loadAuthorizedClient(authToken.getAuthorizedClientRegistrationId(), authToken.getName());
-
-            //setting up the cookie and adding to the response
-            Cookie cookie = new Cookie("accessToken", client.getAccessToken().getTokenValue());
-            cookie.setHttpOnly(true);
+            //authorizing the client and returning the cookie with the access token
+            Cookie cookie = authorizeClient(auth);
             response.addCookie(cookie);
 
 
@@ -94,7 +73,36 @@ public class AuthenticationController { //Authentication Controller to handle us
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return new RedirectView("http://localhost:5173");
         }
-        return new RedirectView("http://localhost:5173/personal-info-form");
+
+        //Redirecting the admin to the admin page
+        if(user.getRole().equals("ROLE_ADMIN")) {
+
+            //creating a cookie with the role of the admin
+            Cookie adminCookie = new Cookie("role", "admin");
+            response.addCookie(adminCookie);
+            return new RedirectView("http://localhost:5173/admin-page");
+
+            //redirecting the user to the home page
+        } else if (user.getRole().equals("ROLE_USER")) {
+            return new RedirectView("http://localhost:5173/home");
+        }
+        //if the user is not found, redirect to the home page
+        else{
+            return new RedirectView("http://localhost:5173");
+        }
+    }
+
+    //authorizes the client and returns cookie with access token
+    private Cookie authorizeClient(Authentication auth){
+        //casting the Authentication object to be a OAuth2AuthenticationToken object
+        OAuth2AuthenticationToken authToken = (OAuth2AuthenticationToken)auth;
+
+        // retrieving the authorized client with *this specific* Authentication Principal (each user is unique)
+        OAuth2AuthorizedClient client = clientService.loadAuthorizedClient(authToken.getAuthorizedClientRegistrationId(), authToken.getName());
+
+        Cookie cookie = new Cookie("accessToken", client.getAccessToken().getTokenValue());
+        cookie.setHttpOnly(false);
+        return cookie;
     }
 
 
