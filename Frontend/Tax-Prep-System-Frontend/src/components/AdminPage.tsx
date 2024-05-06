@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import './signIn.css';
+import './adminPage.css';
 import { Alert, Button, Grid, GridContainer, Label, TextInput } from '@trussworks/react-uswds';
-// import { useTranslation } from 'react-i18next';
 
 interface AdminFormData {
+    id: number;
     dependentsConstant: number;
     singleStatus: number; 
     marriedStatus: number;
@@ -14,11 +14,12 @@ interface AdminFormData {
     taxBracket5: number;
     taxBracket6: number;
     taxBracket7: number;
+    [key: string]: number;
 }
 
-
-export default function W2Form() {
+export default function AdminPage() {
     const initialFormData: AdminFormData = {
+        id: 1,
         dependentsConstant: 0,
         singleStatus: 0,
         marriedStatus: 0,
@@ -28,7 +29,7 @@ export default function W2Form() {
         taxBracket4: 0,
         taxBracket5: 0,
         taxBracket6: 0,
-        taxBracket7: 0,
+        taxBracket7: 0
     };
     
 
@@ -38,11 +39,15 @@ export default function W2Form() {
 
     const fetchData = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/constants`);
+            const response = await fetch(`http://localhost:8080/constants`, {
+            credentials: "include",
+            method: 'GET'
+        });
             if (response.ok) {
                 const data = await response.json();
-                console.log("Fetched Constants Data:", data);
-                setFormData(data); 
+                const dataObject = data[0]
+                console.log("Fetched Constants Data:", dataObject);
+                setFormData({ ...initialFormData, ...dataObject });
             }
         } catch (error) {
             console.error('Error fetching constants data:', error);
@@ -62,17 +67,10 @@ export default function W2Form() {
         }));
     };
 
-    const handleStateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const selectedState = e.target.value;
-        setFormData(prevData => ({
-            ...prevData,
-            state: selectedState
-        }));
-    };
-
     const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         const formDataToSend = {
+            id: formData.id,
             dependentsConstant: formData.dependentsConstant,
             singleStatus: formData.singleStatus,
             marriedStatus: formData.marriedStatus,
@@ -84,21 +82,18 @@ export default function W2Form() {
             taxBracket6: formData.taxBracket6,
             taxBracket7: formData.taxBracket7
         };
+        console.log(formDataToSend);
         try {
             const response = await fetch('http://localhost:8080/constants/updateConstants', {
+                credentials: "include",
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(formDataToSend)
             });
-    
-            const result = await response.json();
-            if (result.success) {
-                console.log("successfully made put request:",result) 
-            } else {
-                console.log("put request was not successful")
-            }
+            setIsSuccess(true);
+            console.log(response)
         } catch (error) {
             console.error('Error updating constants:', error);
             setShowAlert(true);
@@ -119,119 +114,41 @@ export default function W2Form() {
                     </Alert>
                 )}
                 <h1>Update Tax Constants</h1>
-                <p>*Please update any fields .*</p>
+                <p>*Please update any fields that have changed*</p>
                 <GridContainer>
                     <Grid row gap>
-                        {Object.keys(initialFormData).map((key, index) => (
-                            <Grid col={4} key={index}>
-                                <Label htmlFor={key} className="text-bold text-underline text-info-darker">
-                                {key.replace(/([A-Z])/g, ' $1') // Adds space before capital letters
-                                    .replace(/(\d+)/g, ' $1') // Adds space before numbers
-                                    .replace(/^./, str => str.toUpperCase()) // Capitalizes the first letter
-                                    .trim()
-                                }
-                                </Label>
-                                <TextInput
-                                    id={key}
-                                    name={key}
-                                    value={formData[key]}
-                                    onChange={handleChange}
-                                    style={{ width: "calc(100% - 16px)" }}
-                                    type="number"
-                                    placeholder={`Enter ${key.replace(/([A-Z])/g, ' $1').trim()}`}
-                                />
-                            </Grid>
-                        ))}
+                        {Object.keys(initialFormData).map((key, index) => {
+                            if (key !== "id") { // Exclude the 'id' key from rendering
+                                return (
+                                    <Grid col={4} key={index}>
+                                        <Label htmlFor={key} className="text-bold text-underline text-info-darker">
+                                            {key.replace(/([A-Z])/g, ' $1') // Adds space before capital letters
+                                                .replace(/(\d+)/g, ' $1') // Adds space before numbers
+                                                .replace(/^./, str => str.toUpperCase()) // Capitalizes the first letter
+                                                .trim()
+                                            }
+                                        </Label>
+                                        <TextInput
+                                            id={key}
+                                            name={key}
+                                            value={formData[key]}
+                                            onChange={handleChange}
+                                            style={{ width: "calc(100% - 16px)" }}
+                                            type="number"
+                                            placeholder={`Enter ${key.replace(/([A-Z])/g, ' $1').trim()}`}
+                                        />
+                                    </Grid>
+                                );
+                            }
+                            return null; // Do not render anything for the 'id' key
+                        })}
                     </Grid>
                     <div style={{ marginTop: '20px', textAlign: 'center' }}>
-                        <Button type="button" onClick={handleSubmit}>Continue</Button>
+                        <Button type="button" id='adminSubmitChangesButton' onClick={handleSubmit}>Submit Changes</Button>
                     </div>
                 </GridContainer>
+
             </div>
         </>
     );
 }
-
-
-    // const handleBack = (e: React.MouseEvent<HTMLButtonElement>) => {
-    //     navigate('/personal-info-form');
-    // }
-
-    // const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    //     e.preventDefault();
-
-    //     const requiredFields = ["income", "streetAddress1", "city", "state", "zip"];
-    //     const isEmptyField = Object.entries(formData)
-    //         .filter(([key]) => requiredFields.includes(key))
-    //         .some(([, value]) => value === '');
-
-    //     if (isEmptyField) {
-    //         setShowAlert(true);
-    //         setIsSuccess(false);
-    //         return;
-    //     }
-
-    //     const userId: number = initialUser.userId;
-
-    //     let requestOptions: any;
-    //     const formDataToSend = {
-    //         user: {
-    //             userId: initialUser.userId
-    //         },
-    //         income: parseFloat(formData.income),
-    //         socialSecurityWages: parseFloat(formData.socialSecurityWages),
-    //         medicareWages: parseFloat(formData.medicareWages),
-    //         socialSecurityTaxWithheld: parseFloat(formData.socialSecurityTaxWithheld),
-    //         medicareTaxWithheld: parseFloat(formData.medicareTaxWithheld),
-    //         federalIncomeWithheld: parseFloat(formData.federalIncomeWithheld),
-    //         streetAddress1: formData.streetAddress1,
-    //         streetAddress2: formData.streetAddress2,
-    //         city: formData.city,
-    //         state: formData.state,
-    //         zip: formData.zip
-    //     };
-
-    //     if (formData.id) {
-    //         requestOptions = {
-    //             method: 'PUT',
-    //             headers: {
-    //                 'Content-Type': 'application/json'
-    //             },
-    //             body: JSON.stringify(formDataToSend)
-    //         };
-    //     } else {
-    //         requestOptions = {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Content-Type': 'application/json'
-    //             },
-    //             body: JSON.stringify(formDataToSend)
-    //         };
-    //     }
-
-    //     try {
-    //         let url = 'http://localhost:8080/w2Forms/createW2Form';
-    //         if (formData.id) {
-    //             url = `http://localhost:8080/w2Forms/updateW2Form/${userId}`;
-    //         }
-
-    //         const response = await fetch(url, requestOptions);
-
-    //         setIsSuccess(true);
-    //         setShowAlert(false);
-    //         navigate('/int-1099-form');
-    //         if (!response.ok) {
-    //             throw new Error('Network response was not ok');
-    //         }
-    //         if (response.status === 201) {
-    //             const formId = response.headers.get('Location');
-    //             if (formId) {
-    //                 localStorage.setItem('formId', formId);
-    //             }
-
-    //             fetchData();
-    //         }
-    //     } catch (error) {
-    //         console.error('There was a problem with the fetch operation:', error);
-    //     }
-    // };

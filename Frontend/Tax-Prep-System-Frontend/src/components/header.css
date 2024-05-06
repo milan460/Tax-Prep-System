@@ -44,6 +44,13 @@
     align-items: center;
 }
 
+.usa-step-indicator{
+    display: flex;
+    justify-content: center;
+    background-color: #f0f0f0;
+    padding-top: 20px;
+}
+
 .usa-step-indicator__segments{
     display: flex;
     justify-content: center;
