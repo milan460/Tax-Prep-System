@@ -44,6 +44,7 @@ public class SecurityConfiguration {
                 //setting the logout configuration to delete cookies with the session token and redirect to the logout_success page
                 .logout(logout -> logout
                         .deleteCookies("accessToken").invalidateHttpSession(true)
+                        .deleteCookies("role").invalidateHttpSession(true)
                         .logoutUrl("/logout").logoutSuccessUrl("http://localhost:5173").permitAll()
 
                 )
