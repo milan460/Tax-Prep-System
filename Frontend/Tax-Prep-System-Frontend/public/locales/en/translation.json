@@ -32,6 +32,10 @@
     "valueProposition2": "Save you money:",
     "valueProposition2Explanation": "No need to spend money on expensive tax services, our free calculator works just as well as the leading brands.",
     "valueProposition3": "Save you from errors:",
-    "valueProposition3Explanation": "Doing taxes yourself can be error-prone, so have peace of mind knowing that the hard work is done for you."
-
+    "valueProposition3Explanation": "Doing taxes yourself can be error-prone, so have peace of mind knowing that the hard work is done for you.",
+    "logout": "Logout",
+    "loginRegister": "Login/Register",
+    "personalInfo": "Personal Info",
+    "review": "Review",
+    "results": "Results"
 }

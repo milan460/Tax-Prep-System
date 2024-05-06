@@ -32,5 +32,10 @@
     "valueProposition2": "Ahorrar dinero:",
     "valueProposition2Explanation": "No necesitas gastar dinero en servicios de impuestos costosos, nuestro calculador gratuito funciona tan bien como las marcas líderes.",
     "valueProposition3": "Evitarte errores:",
-    "valueProposition3Explanation": "Hacer los impuestos por tu cuenta puede ser propenso a errores, así que ten la tranquilidad de saber que el trabajo duro está hecho por ti."    
+    "valueProposition3Explanation": "Hacer los impuestos por tu cuenta puede ser propenso a errores, así que ten la tranquilidad de saber que el trabajo duro está hecho por ti.",
+    "logout": "Cerrar sesión",
+    "loginRegister": "Iniciar sesión/Registrarse",
+    "personalInfo": "Información personal",
+    "review": "Revisar",
+    "results": "Resultados"    
 }
