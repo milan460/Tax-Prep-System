@@ -24,11 +24,9 @@ const Header: React.FC<ComponentProps> = ({ currentPage }) => {
 
     const handleLogout = (event: { preventDefault: () => void; }) => {
         event.preventDefault();
-        console.log(document.cookie);
-        document.cookie = 'accessToken' + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-        document.cookie = 'JSESSIONID' + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-        navigate('/');
+        window.location.replace("http://localhost:8080/logout");
     }
+    
 
     return (
         <>
