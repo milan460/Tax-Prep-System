@@ -5,6 +5,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
+// TypeScript interface for the props
+interface ComponentProps{
+    setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+}
 
 interface PersonalInfoFormData {
     id?: string;
@@ -29,8 +33,9 @@ interface User {
     role?: string;
 }
 
-export default function PersonalInfoForm() {
+const PersonalInfoForm: React.FC<ComponentProps> = ({ setCurrentPage }) => {
 
+    setCurrentPage(2);
 
     const initialFormData: PersonalInfoFormData = {
         firstName: "",
@@ -524,3 +529,5 @@ export default function PersonalInfoForm() {
     );
 
 }
+
+export default PersonalInfoForm;

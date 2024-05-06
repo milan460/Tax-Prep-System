@@ -3,6 +3,11 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
+// TypeScript interface for the props
+interface ComponentProps{
+    setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+}
+
 interface Constants {
     id: number;
     dependentsConstant: number;
@@ -78,8 +83,9 @@ interface User {
     userId: number;
 }
 
-const ResultsPage: React.FC = () => {
+const ResultsPage: React.FC<ComponentProps> = ({ setCurrentPage }) => {
 
+    setCurrentPage(6);
 
     const User: User = {
         userId: 0,

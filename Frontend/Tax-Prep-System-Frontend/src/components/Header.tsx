@@ -5,15 +5,30 @@ import flagIcon from '/flag-icon.webp';
 import lockIcon from '/lock-icon.svg';
 import { Banner, BannerButton, BannerContent, BannerFlag, BannerGuidance, BannerHeader, BannerIcon, Button, GridContainer, Icon, LanguageSelector, MediaBlockBody} from '@trussworks/react-uswds';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from "react-router-dom";
 
-const Header: React.FC = () => {
+// TypeScript interface for the props
+interface ComponentProps {
+    currentPage: number;
+}
+
+const Header: React.FC<ComponentProps> = ({ currentPage }) => {
+
     const [isOpen, setIsOpen] = useState(false);
     const { t, i18n } = useTranslation();
-    const [currentPage, setcurrentPage] = useState(1);
+    const navigate = useNavigate();
 
     const handleLanguageChange = (language: string) => {
         i18n.changeLanguage(language);
     };
+
+    const handleLogout = (event: { preventDefault: () => void; }) => {
+        event.preventDefault();
+        console.log(document.cookie);
+        document.cookie = 'accessToken' + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        document.cookie = 'JSESSIONID' + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        navigate('/');
+    }
 
     return (
         <>
@@ -50,7 +65,7 @@ const Header: React.FC = () => {
                 </BannerContent>
                 <div id='containerToCenterLanguageSelectorAndLogoutButtonContainer'>
                     <div id='languageSelectorAndLogoutButtonContainer'>
-                        <Button id='logoutButton' type={'button'} children={undefined}>{t('logout')}</Button>
+                        <Button id='logoutButton' type={'button'} onClick={handleLogout}>{t('logout')}</Button>
                         <LanguageSelector
                             langs={[
                                 {
@@ -69,12 +84,12 @@ const Header: React.FC = () => {
                     </div>
                 </div>
                 <div
-                class="usa-step-indicator usa-step-indicator--counters-sm"
+                className="usa-step-indicator usa-step-indicator--counters-sm"
                 aria-label="progress"
                 >
-                <ol class="usa-step-indicator__segments">
+                <ol className="usa-step-indicator__segments">
                     
-                    {/* Login/Register */}
+                    {/* Home */}
                     <li className={
                         currentPage === 1
                         ? "usa-step-indicator__segment usa-step-indicator__segment--current"
@@ -83,7 +98,7 @@ const Header: React.FC = () => {
                         : "usa-step-indicator__segment usa-step-indicator__segment--complete"
                     }>
                         <span className="usa-step-indicator__segment-label">
-                            {t('loginRegister')} {currentPage > 1 && <span className="usa-sr-only">completed</span>}
+                            {t('home')} {currentPage > 1 && <span className="usa-sr-only">completed</span>}
                         </span>
                     </li>
 

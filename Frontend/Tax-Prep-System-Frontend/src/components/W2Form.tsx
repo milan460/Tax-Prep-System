@@ -3,6 +3,11 @@ import { Form, GridContainer, Grid, TextInput, Label, Button, Select, FormGroup,
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
+// TypeScript interface for the props
+interface ComponentProps{
+    setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+}
+
 interface W2FormData {
     id?: string;
     income: string;
@@ -25,7 +30,10 @@ interface User {
     role?: string;
 }
 
-export default function W2Form() {
+const W2Form: React.FC<ComponentProps> = ({ setCurrentPage }) => {
+
+    setCurrentPage(3);
+    
     const initialFormData: W2FormData = {
         income: "",
         socialSecurityWages: "",
@@ -416,3 +424,5 @@ export default function W2Form() {
         </>
     );
 }
+
+export default W2Form;
