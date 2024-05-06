@@ -3,6 +3,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Form, GridContainer, Grid, TextInput, Label, Button, Select, FormGroup, DateInputGroup, Fieldset, DatePicker, DateInput, Table, Alert } from '@trussworks/react-uswds';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 
 interface PersonalInfoFormData {
@@ -30,7 +31,7 @@ interface User {
 
 export default function PersonalInfoForm() {
 
-   
+
     const initialFormData: PersonalInfoFormData = {
         firstName: "",
         lastName: "",
@@ -63,8 +64,9 @@ export default function PersonalInfoForm() {
     const [initialUser, setInitialUser] = useState<User>(User);
 
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
-    
+
 
     const fetchCurrentUser = async () => {
         try {
@@ -78,11 +80,11 @@ export default function PersonalInfoForm() {
                 console.log(data);
             }
         } catch (error) {
-                console.error('Error fetching current user:', error);
-            }
-        };
+            console.error('Error fetching current user:', error);
+        }
+    };
 
-    const fetchData = useCallback( async () => {
+    const fetchData = useCallback(async () => {
 
         try {
             const response = await fetch(`http://localhost:8080/personalForms/user/${initialUser.userId}`, {
@@ -118,7 +120,7 @@ export default function PersonalInfoForm() {
 
 
     const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
-       e.preventDefault();
+        e.preventDefault();
 
         const isEmptyField = Object.values(formData)
             .filter((_, index) => index !== Object.keys(formData).indexOf('streetAddress2'))
@@ -224,6 +226,10 @@ export default function PersonalInfoForm() {
         }
     };
 
+    const handleHome = (e: React.MouseEvent<HTMLButtonElement>) => {
+        navigate('/home')
+    };
+
     const handleStateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedState = e.target.value;
         setFormData(prevData => ({
@@ -271,20 +277,20 @@ export default function PersonalInfoForm() {
             <div>
                 {showAlert && (
                     <Alert type="error" heading="Error status" headingLevel="h4" style={{ maxWidth: '400px', margin: '0 auto' }}>
-                        Form is missing content
+                        {t('formMissingContent')}
                     </Alert>
                 )}
                 {isSuccess && (
                     <Alert type="success" heading="Success status" headingLevel="h4" style={{ maxWidth: '400px', margin: '0 auto' }}>
-                        Form is successfully filled out.
+                        {t('formSuccessfullyFilled')}
                     </Alert>
                 )}
-                <h1>Personal Information</h1>
+                <h1>{t('personalInformation')}</h1>
                 <GridContainer>
                     <Grid row>
-                  
+
                         <Grid col={4} className="usa-form-group">
-                            <Label htmlFor="firstName" className="text-bold text-underline text-info-darker">First Name</Label>
+                            <Label htmlFor="firstName" className="text-bold text-underline text-info-darker">{t('firstNameLabel')}</Label>
                             <TextInput
                                 id="firstName"
                                 name="firstName"
@@ -292,11 +298,11 @@ export default function PersonalInfoForm() {
                                 onChange={handleChange}
                                 style={{ width: "calc(100% - 16px)" }}
                                 type="text"
-                                placeholder="Ex: John"
+                                placeholder={t('firstNamePlaceholder')}
                             />
                         </Grid>
                         <Grid col={4} className="usa-form-group">
-                            <Label htmlFor="lastName" className="text-bold text-underline text-info-darker">Last Name</Label>
+                            <Label htmlFor="lastName" className="text-bold text-underline text-info-darker">{t('lastNameLabel')}</Label>
                             <TextInput
                                 id="lastName"
                                 name="lastName"
@@ -304,11 +310,11 @@ export default function PersonalInfoForm() {
                                 onChange={handleChange}
                                 style={{ width: "calc(100% - 16px)" }}
                                 type="text"
-                                placeholder="Ex: Doe"
+                                placeholder={t('lastNamePlaceholder')}
                             />
                         </Grid>
                         <Grid col={4} className="usa-form-group">
-                            <Label htmlFor="email" className="text-bold text-underline text-info-darker">Email</Label>
+                            <Label htmlFor="email" className="text-bold text-underline text-info-darker">{t('emailLabel')}</Label>
                             <TextInput
                                 id="email"
                                 name="email"
@@ -316,13 +322,13 @@ export default function PersonalInfoForm() {
                                 onChange={handleChange}
                                 style={{ width: "calc(100% - 16px)" }}
                                 type="email"
-                                placeholder="Ex: johndoe@example.com"
+                                placeholder={t('emailPlaceholder')}
                             />
                         </Grid>
-                       
+
 
                         <Grid col={6} className="usa-form-group">
-                            <Label htmlFor="streetAddress1" className="text-bold text-underline text-info-darker">Street Address 1</Label>
+                            <Label htmlFor="streetAddress1" className="text-bold text-underline text-info-darker">{t('streetAddress1Label')}</Label>
                             <TextInput
                                 id="streetAddress1"
                                 name="streetAddress1"
@@ -330,13 +336,13 @@ export default function PersonalInfoForm() {
                                 onChange={handleChange}
                                 style={{ width: "calc(100% - 16px)" }}
                                 type="text"
-                                placeholder="Ex: 123 Main St"
+                                placeholder={t('streetAddress1Placeholder')}
                             />
                         </Grid>
-                        
-                        
+
+
                         <Grid col={6} className="usa-form-group">
-                            <Label htmlFor="streetAddress2" className="text-bold text-underline text-info-darker">Street Address 2 <span className="text-italic">- optional</span></Label>
+                            <Label htmlFor="streetAddress2" className="text-bold text-underline text-info-darker">{t('streetAddress2Label')} <span className="text-italic">- {t('optional')}</span></Label>
                             <TextInput
                                 id="streetAddress2"
                                 name="streetAddress2"
@@ -344,11 +350,11 @@ export default function PersonalInfoForm() {
                                 onChange={handleChange}
                                 style={{ width: "calc(100% - 16px)" }}
                                 type="text"
-                                placeholder="Ex: Apt 101"
+                                placeholder={t('streetAddress2Placeholder')}
                             />
                         </Grid>
                         <Grid col={4} className="usa-form-group">
-                            <Label htmlFor="city" className="text-bold text-underline text-info-darker">City</Label>
+                            <Label htmlFor="city" className="text-bold text-underline text-info-darker">{t('cityLabel')}</Label>
                             <TextInput
                                 id="city"
                                 name="city"
@@ -356,11 +362,11 @@ export default function PersonalInfoForm() {
                                 onChange={handleChange}
                                 style={{ width: "calc(100% - 16px)" }}
                                 type="text"
-                                placeholder="Ex: Anytown"
+                                placeholder={t('cityPlaceholder')}
                             />
                         </Grid>
                         <Grid col={4} className="usa-form-group">
-                            <Label htmlFor="state" className="text-bold text-underline text-info-darker">State</Label>
+                            <Label htmlFor="state" className="text-bold text-underline text-info-darker">{t('stateLabel')}</Label>
                             <Select
                                 id="state"
                                 name="state"
@@ -368,62 +374,62 @@ export default function PersonalInfoForm() {
                                 onChange={handleStateChange}
                                 style={{ width: "calc(100% - 16px)" }}
                             >
-                                <option value="">- Select your state-</option>
-                                <option value="Alabama">Alabama</option>
-                                <option value="Alaska">Alaska</option>
-                                <option value="Arizona">Arizona</option>
-                                <option value="Arkansas">Arkansas</option>
-                                <option value="California">California</option>
-                                <option value="Colorado">Colorado</option>
-                                <option value="Connecticut">Connecticut</option>
-                                <option value="Delaware">Delaware</option>
-                                <option value="District Of Columbia">District Of Columbia</option>
-                                <option value="Florida">Florida</option>
-                                <option value="Georgia">Georgia</option>
-                                <option value="Hawaii">Hawaii</option>
-                                <option value="Idaho">Idaho</option>
-                                <option value="Illinois">Illinois</option>
-                                <option value="Indiana">Indiana</option>
-                                <option value="Iowa">Iowa</option>
-                                <option value="Kansas">Kansas</option>
-                                <option value="Kentucky">Kentucky</option>
-                                <option value="Louisiana">Louisiana</option>
-                                <option value="Maine">Maine</option>
-                                <option value="Maryland">Maryland</option>
-                                <option value="Massachusetts">Massachusetts</option>
-                                <option value="Michigan">Michigan</option>
-                                <option value="Minnesota">Minnesota</option>
-                                <option value="Mississippi">Mississippi</option>
-                                <option value="Missouri">Missouri</option>
-                                <option value="Montana">Montana</option>
-                                <option value="Nebraska">Nebraska</option>
-                                <option value="Nevada">Nevada</option>
-                                <option value="New Hampshire">New Hampshire</option>
-                                <option value="New Jersey">New Jersey</option>
-                                <option value="New Mexico">New Mexico</option>
-                                <option value="New York">New York</option>
-                                <option value="North Carolina">North Carolina</option>
-                                <option value="North Dakota">North Dakota</option>
-                                <option value="Ohio">Ohio</option>
-                                <option value="OklahomaK">Oklahoma</option>
-                                <option value="Oregon">Oregon</option>
-                                <option value="Pennsylvania">Pennsylvania</option>
-                                <option value="Rhode Island">Rhode Island</option>
-                                <option value="South Carolina">South Carolina</option>
-                                <option value="South Dakota">South Dakota</option>
-                                <option value="Tennessee">Tennessee</option>
-                                <option value="Texas">Texas</option>
-                                <option value="Utah">Utah</option>
-                                <option value="Vermont">Vermont</option>
-                                <option value="Virginia">Virginia</option>
-                                <option value="Washington">Washington</option>
-                                <option value="West Virginia">West Virginia</option>
-                                <option value="Wisconsin">Wisconsin</option>
-                                <option value="Wyoming">Wyoming</option>
+                                <option value="">{t('statePlaceholder')}</option>
+                                <option value="Alabama">{t('alabama')}</option>
+                                <option value="Alaska">{t('alaska')}</option>
+                                <option value="Arizona">{t('arizona')}</option>
+                                <option value="Arkansas">{t('arkansas')}</option>
+                                <option value="California">{t('california')}</option>
+                                <option value="Colorado">{t('colorado')}</option>
+                                <option value="Connecticut">{t('connecticut')}</option>
+                                <option value="Delaware">{t('delaware')}</option>
+                                <option value="District Of Columbia">{t('districtOfColumbia')}</option>
+                                <option value="Florida">{t('florida')}</option>
+                                <option value="Georgia">{t('georgia')}</option>
+                                <option value="Hawaii">{t('hawaii')}</option>
+                                <option value="Idaho">{t('idaho')}</option>
+                                <option value="Illinois">{t('illinois')}</option>
+                                <option value="Indiana">{t('indiana')}</option>
+                                <option value="Iowa">{t('iowa')}</option>
+                                <option value="Kansas">{t('kansas')}</option>
+                                <option value="Kentucky">{t('kentucky')}</option>
+                                <option value="Louisiana">{t('louisiana')}</option>
+                                <option value="Maine">{t('maine')}</option>
+                                <option value="Maryland">{t('maryland')}</option>
+                                <option value="Massachusetts">{t('massachusetts')}</option>
+                                <option value="Michigan">{t('michigan')}</option>
+                                <option value="Minnesota">{t('minnesota')}</option>
+                                <option value="Mississippi">{t('mississippi')}</option>
+                                <option value="Missouri">{t('missouri')}</option>
+                                <option value="Montana">{t('montana')}</option>
+                                <option value="Nebraska">{t('nebraska')}</option>
+                                <option value="Nevada">{t('nevada')}</option>
+                                <option value="New Hampshire">{t('newHampshire')}</option>
+                                <option value="New Jersey">{t('newJersey')}</option>
+                                <option value="New Mexico">{t('newMexico')}</option>
+                                <option value="New York">{t('newYork')}</option>
+                                <option value="North Carolina">{t('northCarolina')}</option>
+                                <option value="North Dakota">{t('northDakota')}</option>
+                                <option value="Ohio">{t('ohio')}</option>
+                                <option value="Oklahoma">{t('oklahoma')}</option>
+                                <option value="Oregon">{t('oregon')}</option>
+                                <option value="Pennsylvania">{t('pennsylvania')}</option>
+                                <option value="Rhode Island">{t('rhodeIsland')}</option>
+                                <option value="South Carolina">{t('southCarolina')}</option>
+                                <option value="South Dakota">{t('southDakota')}</option>
+                                <option value="Tennessee">{t('tennessee')}</option>
+                                <option value="Texas">{t('texas')}</option>
+                                <option value="Utah">{t('utah')}</option>
+                                <option value="Vermont">{t('vermont')}</option>
+                                <option value="Virginia">{t('virginia')}</option>
+                                <option value="Washington">{t('washington')}</option>
+                                <option value="West Virginia">{t('westVirginia')}</option>
+                                <option value="Wisconsin">{t('wisconsin')}</option>
+                                <option value="Wyoming">{t('wyoming')}</option>
                             </Select>
                         </Grid>
                         <Grid col={4} className="usa-form-group">
-                            <Label htmlFor="zip" className="text-bold text-underline text-info-darker">ZIP Code</Label>
+                            <Label htmlFor="zip" className="text-bold text-underline text-info-darker">{t('zipLabel')}</Label>
                             <TextInput
                                 id="zip"
                                 name="zip"
@@ -435,7 +441,7 @@ export default function PersonalInfoForm() {
                             />
                         </Grid>
                         <Grid col={4} className="usa-form-group">
-                            <Label htmlFor="ssn" className="text-bold text-underline text-info-darker">Social Security Number</Label>
+                            <Label htmlFor="ssn" className="text-bold text-underline text-info-darker">{t('ssnLabel')}</Label>
                             <TextInput
                                 id="ssn"
                                 name="ssn"
@@ -450,7 +456,7 @@ export default function PersonalInfoForm() {
                         </Grid>
 
                         <Grid col={4} className="usa-form-group">
-                            <Label htmlFor="filingStatus" className="text-bold text-underline text-info-darker">Filing Status</Label>
+                            <Label htmlFor="filingStatus" className="text-bold text-underline text-info-darker">{t('filingStatusLabel')}</Label>
                             <Select
                                 id="filingStatus"
                                 name="filingStatus"
@@ -458,14 +464,14 @@ export default function PersonalInfoForm() {
                                 onChange={handleFilingStatusChange}
                                 style={{ width: "calc(100% - 16px)" }}
                             >
-                                <option value="">- Select your filing status-</option>
-                                <option value="Single">Single</option>
-                                <option value="Married">Married</option>
-                                <option value="Married File Separate">Married File Separate</option>
+                                <option value="">{t('filingStatusPlaceholder')}</option>
+                                <option value="Single">{t('single')}</option>
+                                <option value="Married">{t('married')}</option>
+                                <option value="Married File Separate">{t('marriedFileSeparate')}</option>
                             </Select>
                         </Grid>
                         <Grid col={4} className="usa-form-group">
-                            <Label htmlFor="dependents" className="text-bold text-underline text-info-darker">Dependents</Label>
+                            <Label htmlFor="dependents" className="text-bold text-underline text-info-darker">{t('dependentsLabel')}</Label>
                             <TextInput
                                 id="dependents"
                                 name="dependents"
@@ -473,43 +479,43 @@ export default function PersonalInfoForm() {
                                 onChange={handleChange}
                                 style={{ width: "calc(100% - 16px)" }}
                                 type="number"
-                                placeholder="Example: 0"
+                                placeholder="Ex: 0"
                             />
                         </Grid>
- 
+
                         <Grid col={6} className="usa-form-group">
-                    <Label htmlFor="dateOfBirth" className="text-bold text-underline text-info-darker">Date of Birth</Label>
-                    <DateInputGroup>
-                        <FormGroup className="usa-form-group--month usa-form-group--select">
-                            <Label htmlFor="month">Month</Label>
-                            <Select id="month" name="month" value={selectedMonth} onChange={handleMonthChange}>
-                                <option value="">- Select month-</option>
-                                <option value="01">01 - January</option>
-                                <option value="02">02 - February</option>
-                                <option value="03">03 - March</option>
-                                <option value="04">04 - April</option>
-                                <option value="05">05 - May</option>
-                                <option value="06">06 - June</option>
-                                <option value="07">07 - July</option>
-                                <option value="08">08 - August</option>
-                                <option value="09">09 - September</option>
-                                <option value="10">10 - October</option>
-                                <option value="11">11 - November</option>
-                                <option value="12">12 - December</option>
-                            </Select>
-                        </FormGroup>
-                        <DateInput id="day" name="day" label="Day" unit="day" maxLength={2} minLength={2} value={selectedDay} onChange={handleDayChange} style={{ marginRight: '8px' }} placeholder="Ex:7" />
-                        <DateInput id="year" name="year" label="Year" unit="year" maxLength={4} minLength={4} value={selectedYear} onChange={handleYearChange} placeholder="Ex:2000" />
-                    </DateInputGroup>
+                            <Label htmlFor="dateOfBirth" className="text-bold text-underline text-info-darker">{t('dateOfBirthLabel')}</Label>
+                            <DateInputGroup>
+                                <FormGroup className="usa-form-group--month usa-form-group--select">
+                                    <Label htmlFor="month">{t('monthLabel')}</Label>
+                                    <Select id="month" name="month" value={selectedMonth} onChange={handleMonthChange}>
+                                        <option value="">{t('selectMonth')}</option>
+                                        <option value="01">{t('january')}</option>
+                                        <option value="02">{t('february')}</option>
+                                        <option value="03">{t('march')}</option>
+                                        <option value="04">{t('april')}</option>
+                                        <option value="05">{t('may')}</option>
+                                        <option value="06">{t('june')}</option>
+                                        <option value="07">{t('july')}</option>
+                                        <option value="08">{t('august')}</option>
+                                        <option value="09">{t('september')}</option>
+                                        <option value="10">{t('october')}</option>
+                                        <option value="11">{t('november')}</option>
+                                        <option value="12">{t('december')}</option>
+                                    </Select>
+                                </FormGroup>
+                                <DateInput id="day" name="day" label="Day" unit="day" maxLength={2} minLength={2} value={selectedDay} onChange={handleDayChange} style={{ marginRight: '8px' }} placeholder="Ex:7" />
+                                <DateInput id="year" name="year" label="Year" unit="year" maxLength={4} minLength={4} value={selectedYear} onChange={handleYearChange} placeholder="Ex:2000" />
+                            </DateInputGroup>
+                        </Grid>
                     </Grid>
-                    </Grid>
-                    
+
                 </GridContainer>
-                <GridContainer style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '1rem' }}>
+                <GridContainer>
                     <Grid row>
                         <Grid col={12} className="usa-form-group">
-                            <Button type="button" base>Back</Button>
-                            <Button type="button" onClick={handleSubmit}>Continue</Button>
+                            <Button type="button" base style={{ marginBottom: '20px' }} onClick={handleHome}>{t('homeButton')}</Button>
+                            <Button type="button" onClick={handleSubmit}>{t('continueButton')}</Button>
                         </Grid>
                     </Grid>
                 </GridContainer>

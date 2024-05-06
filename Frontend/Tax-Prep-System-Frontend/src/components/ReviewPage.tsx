@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Form, GridContainer, Grid, TextInput, Label, Button, Select, FormGroup, DateInputGroup, Fieldset, DatePicker, DateInput, Table, Alert } from '@trussworks/react-uswds';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+
 
 interface PersonalInfo {
     user: {
@@ -84,8 +86,9 @@ const ReviewPage: React.FC = () => {
     const [initialUser, setInitialUser] = useState<User>(User);
 
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
-    
+
 
     useEffect(() => {
 
@@ -101,9 +104,9 @@ const ReviewPage: React.FC = () => {
                     console.log(data);
                 }
             } catch (error) {
-                    console.error('Error fetching current user:', error);
-                }
-            };
+                console.error('Error fetching current user:', error);
+            }
+        };
 
         const fetchPersonalInfo = async () => {
             try {
@@ -187,278 +190,277 @@ const ReviewPage: React.FC = () => {
 
     return (
         <>
-        <div>
-            <GridContainer>
-                <Grid row>
-                    <Grid col={12}>
-                        <h1>Review Page</h1>
-                        {showSubmitAlert && (
-                            <Alert type="info" heading="Informative status" headingLevel="h4">
-                                Are you sure you want to submit?
-                                <div style={{ marginTop: '20px', marginBottom: '20px' }}>
-                                    <Button type="button" onClick={() => navigate('/results-page')}>Submit</Button>
-                                </div>
-                            </Alert>
-                        )}
-                        <a href="/personal-info-form" onClick={(e) => { e.preventDefault(); navigate('/personal-info-form'); }}>
-                            <h3>Personal Information</h3>
-                        </a>
+            <div>
+                <GridContainer>
+                    <Grid row>
+                        <Grid col={12}>
+                            <h1>{t('reviewPageTitle')}</h1>
+                            {showSubmitAlert && (
+                                <Alert type="info" heading={t('informativeStatus')} headingLevel="h4">
+                                    {t('areYouSureSubmit')}
+                                    <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+                                        <Button type="button" onClick={() => navigate('/results-page')}>{t('submitButton')}</Button>
+                                    </div>
+                                </Alert>
+                            )}
+                            <a href="/personal-info-form" onClick={(e) => { e.preventDefault(); navigate('/personal-info-form'); }}>
+                                <h3>{t('personalInformation')}</h3>
+                            </a>
+                        </Grid>
                     </Grid>
-                </Grid>
-                <Grid row>
-                    <Grid col={3}>
-                        <Label htmlFor="firstName">First Name</Label>
-                        <TextInput
-                            id="firstName"
-                            name="firstName"
-                            type="text"
-                            value={personalInfo?.firstName || ''}
-                            onChange={(e) => handleInputChange('firstName', e.target.value)}
-                            readOnly
-                        />
+                    <Grid row>
+                        <Grid col={3}>
+                            <Label htmlFor="firstName">{t('firstNameLabel')}</Label>
+                            <TextInput
+                                id="firstName"
+                                name="firstName"
+                                type="text"
+                                value={personalInfo?.firstName || ''}
+                                onChange={(e) => handleInputChange('firstName', e.target.value)}
+                                readOnly
+                            />
+                        </Grid>
+                        <Grid col={3}>
+                            <Label htmlFor="lastName">{t('lastNameLabel')}</Label>
+                            <TextInput
+                                id="lastName"
+                                name="lastName"
+                                type="text"
+                                value={personalInfo?.lastName || ''}
+                                onChange={(e) => handleInputChange('lastName', e.target.value)}
+                                readOnly
+                            />
+                        </Grid>
+                        <Grid col={3}>
+                            <Label htmlFor="email">{t('emailLabel')}</Label>
+                            <TextInput
+                                id="email"
+                                name="email"
+                                type="email"
+                                value={personalInfo?.email || ''}
+                                onChange={(e) => handleInputChange('email', e.target.value)}
+                                readOnly
+                            />
+                        </Grid>
+                        <Grid col={3}>
+                            <Label htmlFor="streetAddress1">{t('streetAddress1Label')}</Label>
+                            <TextInput
+                                id="streetAddress1"
+                                name="streetAddress1"
+                                type="text"
+                                value={personalInfo?.streetAddress1 || ''}
+                                onChange={(e) => handleInputChange('streetAddress1', e.target.value)}
+                                readOnly
+                            />
+                        </Grid>
                     </Grid>
-                    <Grid col={3}>
-                        <Label htmlFor="lastName">Last Name</Label>
-                        <TextInput
-                            id="lastName"
-                            name="lastName"
-                            type="text"
-                            value={personalInfo?.lastName || ''}
-                            onChange={(e) => handleInputChange('lastName', e.target.value)}
-                            readOnly
-                        />
+                    <Grid row>
+                        <Grid col={3}>
+                            <Label htmlFor="streetAddress2">{t('streetAddress2Label')}</Label>
+                            <TextInput
+                                id="streetAddress2"
+                                name="streetAddress2"
+                                type="text"
+                                value={personalInfo?.streetAddress2 || ''}
+                                onChange={(e) => handleInputChange('streetAddress2', e.target.value)}
+                                readOnly
+                            />
+                        </Grid>
+                        <Grid col={3}>
+                            <Label htmlFor="city">{t('cityLabel')}</Label>
+                            <TextInput
+                                id="city"
+                                name="city"
+                                type="text"
+                                value={personalInfo?.city || ''}
+                                onChange={(e) => handleInputChange('city', e.target.value)}
+                                readOnly
+                            />
+                        </Grid>
+                        <Grid col={3}>
+                            <Label htmlFor="state">{t('stateLabel')}</Label>
+                            <TextInput
+                                id="state"
+                                name="state"
+                                type="text"
+                                value={personalInfo?.state || ''}
+                                onChange={(e) => handleInputChange('state', e.target.value)}
+                                readOnly
+                            />
+                        </Grid>
+                        <Grid col={3}>
+                            <Label htmlFor="zip">{t('zipCodeLabel')}</Label>
+                            <TextInput
+                                id="zip"
+                                name="zip"
+                                type="text"
+                                value={personalInfo?.zip || ''}
+                                onChange={(e) => handleInputChange('zip', e.target.value)}
+                                readOnly
+                            />
+                        </Grid>
                     </Grid>
-                    <Grid col={3}>
-                        <Label htmlFor="email">Email</Label>
-                        <TextInput
-                            id="email"
-                            name="email"
-                            type="email"
-                            value={personalInfo?.email || ''}
-                            onChange={(e) => handleInputChange('email', e.target.value)}
-                            readOnly
-                        />
+                    <Grid row>
+                        <Grid col={3}>
+                            <Label htmlFor="dateOfBirth">{t('dateOfBirthLabel')}</Label>
+                            <TextInput
+                                id="dateOfBirth"
+                                name="dateOfBirth"
+                                type="text"
+                                value={personalInfo?.dateOfBirth || ''}
+                                onChange={(e) => handleInputChange('dateOfBirth', e.target.value)}
+                                readOnly
+                            />
+                        </Grid>
+                        <Grid col={3}>
+                            <Label htmlFor="ssn">{t('ssnLabel')}</Label>
+                            <TextInput
+                                id="ssn"
+                                name="ssn"
+                                type="text"
+                                value={personalInfo?.ssn || ''}
+                                onChange={(e) => handleInputChange('ssn', e.target.value)}
+                                readOnly
+                            />
+                        </Grid>
+                        <Grid col={3}>
+                            <Label htmlFor="filingStatus">{t('filingStatusLabel')}</Label>
+                            <TextInput
+                                id="filingStatus"
+                                name="filingStatus"
+                                type="text"
+                                value={personalInfo?.filingStatus || ''}
+                                onChange={(e) => handleInputChange('filingStatus', e.target.value)}
+                                readOnly
+                            />
+                        </Grid>
+                        <Grid col={3}>
+                            <Label htmlFor="dependents">{t('dependentsLabel')}</Label>
+                            <TextInput
+                                id="dependents"
+                                name="dependents"
+                                type="number"
+                                value={personalInfo?.dependents ? personalInfo.dependents.toString() : ''}
+                                onChange={(e) => handleInputChange('dependents', e.target.value)}
+                                readOnly
+                            />
+                        </Grid>
                     </Grid>
-                    <Grid col={3}>
-                        <Label htmlFor="streetAddress1">Street Address 1</Label>
-                        <TextInput
-                            id="streetAddress1"
-                            name="streetAddress1"
-                            type="text"
-                            value={personalInfo?.streetAddress1 || ''}
-                            onChange={(e) => handleInputChange('streetAddress1', e.target.value)}
-                            readOnly
-                        />
-                    </Grid>
-                </Grid>
-                <Grid row>
-                    <Grid col={3}>
-                        <Label htmlFor="streetAddress2">Street Address 2</Label>
-                        <TextInput
-                            id="streetAddress2"
-                            name="streetAddress2"
-                            type="text"
-                            value={personalInfo?.streetAddress2 || ''}
-                            onChange={(e) => handleInputChange('streetAddress2', e.target.value)}
-                            readOnly
-                        />
-                    </Grid>
-                    <Grid col={3}>
-                        <Label htmlFor="city">City</Label>
-                        <TextInput
-                            id="city"
-                            name="city"
-                            type="text"
-                            value={personalInfo?.city || ''}
-                            onChange={(e) => handleInputChange('city', e.target.value)}
-                            readOnly
-                        />
-                    </Grid>
-                    <Grid col={3}>
-                        <Label htmlFor="state">State</Label>
-                        <TextInput
-                            id="state"
-                            name="state"
-                            type="text"
-                            value={personalInfo?.state || ''}
-                            onChange={(e) => handleInputChange('state', e.target.value)}
-                            readOnly
-                        />
-                    </Grid>
-                    <Grid col={3}>
-                        <Label htmlFor="zip">ZIP Code</Label>
-                        <TextInput
-                            id="zip"
-                            name="zip"
-                            type="text"
-                            value={personalInfo?.zip || ''}
-                            onChange={(e) => handleInputChange('zip', e.target.value)}
-                            readOnly
-                        />
-                    </Grid>
-                </Grid>
-                <Grid row>
-                    <Grid col={3}>
-                        <Label htmlFor="dateOfBirth">Date of Birth</Label>
-                        <TextInput
-                            id="dateOfBirth"
-                            name="dateOfBirth"
-                            type="text"
-                            value={personalInfo?.dateOfBirth || ''}
-                            onChange={(e) => handleInputChange('dateOfBirth', e.target.value)}
-                            readOnly
-                        />
-                    </Grid>
-                    <Grid col={3}>
-                        <Label htmlFor="ssn">Social Security Number</Label>
-                        <TextInput
-                            id="ssn"
-                            name="ssn"
-                            type="text"
-                            value={personalInfo?.ssn || ''}
-                            onChange={(e) => handleInputChange('ssn', e.target.value)}
-                            readOnly
-                        />
-                    </Grid>
-                    <Grid col={3}>
-                        <Label htmlFor="filingStatus">Filing Status</Label>
-                        <TextInput
-                            id="filingStatus"
-                            name="filingStatus"
-                            type="text"
-                            value={personalInfo?.filingStatus || ''}
-                            onChange={(e) => handleInputChange('filingStatus', e.target.value)}
-                            readOnly
-                        />
-                    </Grid>
-                    <Grid col={3}>
-                        <Label htmlFor="dependents">Dependents</Label>
-                        <TextInput
-                            id="dependents"
-                            name="dependents"
-                            type="number"
-                            value={personalInfo?.dependents ? personalInfo.dependents.toString() : ''}
-                            onChange={(e) => handleInputChange('dependents', e.target.value)}
-                            readOnly
-                        />
-                    </Grid>
-                </Grid>
-            </GridContainer>
+                </GridContainer>
 
-            <GridContainer>
-                <Grid row>
-                    <Grid col={12}>
-                        <a href="/w2-form" onClick={(e) => { e.preventDefault(); navigate('/w2-form'); }}>
-                            <h3>W2 Form</h3>
-                        </a>
+                <GridContainer>
+                    <Grid row>
+                        <Grid col={12}>
+                            <a href="/w2-form" onClick={(e) => { e.preventDefault(); navigate('/w2-form'); }}>
+                                <h3>{t('w2Form')}</h3>
+                            </a>
+                        </Grid>
                     </Grid>
-                </Grid>
-                <Grid row>
-                    <Grid col={3}>
-                        <Label htmlFor="income">Income</Label>
-                        <TextInput
-                            id="income"
-                            name="income"
-                            type="text"
-                            value={w2Info?.income ? `$${w2Info.income}` : ''}
-                            onChange={(e) => handleInputChange('income', e.target.value)}
-                            readOnly
-                        />
+                    <Grid row>
+                        <Grid col={3}>
+                            <Label htmlFor="income">{t('incomeLabel')}</Label>
+                            <TextInput
+                                id="income"
+                                name="income"
+                                type="text"
+                                value={w2Info?.income ? `$${w2Info.income}` : ''}
+                                onChange={(e) => handleInputChange('income', e.target.value)}
+                                readOnly
+                            />
+                        </Grid>
+                        <Grid col={3}>
+                            <Label htmlFor="socialSecurityWages">{t('socialSecurityWagesLabel')}</Label>
+                            <TextInput
+                                id="socialSecurityWages"
+                                name="socialSecurityWages"
+                                type="text"
+                                value={w2Info?.socialSecurityWages ? `$${w2Info.socialSecurityWages}` : ''}
+                                onChange={(e) => handleInputChange('socialSecurityWages', e.target.value)}
+                                readOnly
+                            />
+                        </Grid>
+                        <Grid col={3}>
+                            <Label htmlFor="socialSecurityTaxWithheld">{t('socialSecurityTaxWithheldLabel')}</Label>
+                            <TextInput
+                                id="socialSecurityTaxWithheld"
+                                name="socialSecurityTaxWithheld"
+                                type="text"
+                                value={w2Info?.socialSecurityTaxWithheld ? `$${w2Info.socialSecurityTaxWithheld}` : ''}
+                                onChange={(e) => handleInputChange('socialSecurityTaxWithheld', e.target.value)}
+                                readOnly
+                            />
+                        </Grid>
+                        <Grid col={3}>
+                            <Label htmlFor="federalIncomeWithheld">{t('federalIncomeWithheldLabel')}</Label>
+                            <TextInput
+                                id="federalIncomeWithheld"
+                                name="federalIncomeWithheld"
+                                type="text"
+                                value={w2Info?.federalIncomeWithheld ? `$${w2Info.federalIncomeWithheld}` : ''}
+                                onChange={(e) => handleInputChange('federalIncomeWithheld', e.target.value)}
+                                readOnly
+                            />
+                        </Grid>
                     </Grid>
-                    <Grid col={3}>
-                        <Label htmlFor="socialSecurityWages">Social Security Wages</Label>
-                        <TextInput
-                            id="socialSecurityWages"
-                            name="socialSecurityWages"
-                            type="text"
-                            value={w2Info?.socialSecurityWages ? `$${w2Info.socialSecurityWages}` : ''}
-                            onChange={(e) => handleInputChange('socialSecurityWages', e.target.value)}
-                            readOnly
-                        />
+                </GridContainer>
+                <GridContainer>
+                    <Grid row>
+                        <Grid col={12}>
+                            <a href="/int-1099-form" onClick={(e) => { e.preventDefault(); navigate('/int-1099-form'); }}>
+                                <h3>{t('int1099Form')}</h3>
+                            </a>
+                        </Grid>
                     </Grid>
-                    <Grid col={3}>
-                        <Label htmlFor="socialSecurityTaxWithheld">Social Security Tax Withheld</Label>
-                        <TextInput
-                            id="socialSecurityTaxWithheld"
-                            name="socialSecurityTaxWithheld"
-                            type="text"
-                            value={w2Info?.socialSecurityTaxWithheld ? `$${w2Info.socialSecurityTaxWithheld}` : ''}
-                            onChange={(e) => handleInputChange('socialSecurityTaxWithheld', e.target.value)}
-                            readOnly
-                        />
+                    <Grid row>
+                        <Grid col={3}>
+                            <Label htmlFor="payerName">{t('payerNameLabel')}</Label>
+                            <TextInput
+                                id="payerName"
+                                name="payerName"
+                                type="text"
+                                value={int1099Info?.payerName || ''}
+                                onChange={(e) => handleInputChange('payerName', e.target.value)}
+                                readOnly
+                            />
+                        </Grid>
+                        <Grid col={3}>
+                            <Label htmlFor="interestIncome">{t('interestIncomeLabel')}</Label>
+                            <TextInput
+                                id="interestIncome"
+                                name="interestIncome"
+                                type="text"
+                                value={int1099Info?.interestIncome ? `$${int1099Info.interestIncome}` : ''}
+                                onChange={(e) => handleInputChange('interestIncome', e.target.value)}
+                                readOnly
+                            />
+                        </Grid>
+                        <Grid col={3}>
+                            <Label htmlFor="federalIncomeTaxWithheld">{t('federalIncomeTaxWithheldLabel')}</Label>
+                            <TextInput
+                                id="federalIncomeTaxWithheld"
+                                name="federalIncomeTaxWithheld"
+                                type="text"
+                                value={int1099Info?.federalIncomeTaxWithheld ? `$${int1099Info.federalIncomeTaxWithheld}` : ''}
+                                onChange={(e) => handleInputChange('federalIncomeTaxWithheld', e.target.value)}
+                                readOnly
+                            />
+                        </Grid>
+                        <Grid col={3}>
+                            <Label htmlFor="investmentExpenses">{t('investmentExpensesLabel')}</Label>
+                            <TextInput
+                                id="investmentExpenses"
+                                name="investmentExpenses"
+                                type="text"
+                                value={int1099Info?.investmentExpenses ? `$${int1099Info.investmentExpenses}` : ''}
+                                onChange={(e) => handleInputChange('investmentExpenses', e.target.value)}
+                                readOnly
+                            />
+                        </Grid>
                     </Grid>
-                    <Grid col={3}>
-                        <Label htmlFor="federalIncomeWithheld">Federal Income Tax Withheld</Label>
-                        <TextInput
-                            id="federalIncomeWithheld"
-                            name="federalIncomeWithheld"
-                            type="text"
-                            value={w2Info?.federalIncomeWithheld ? `$${w2Info.federalIncomeWithheld}` : ''}
-                            onChange={(e) => handleInputChange('federalIncomeWithheld', e.target.value)}
-                            readOnly
-                        />
-                    </Grid>
-                </Grid>
-            </GridContainer>
-
-            <GridContainer>
-                <Grid row>
-                    <Grid col={12}>
-                        <a href="/int-1099-form" onClick={(e) => { e.preventDefault(); navigate('/int-1099-form'); }}>
-                            <h3>1099-INT Form</h3>
-                        </a>
-                    </Grid>
-                </Grid>
-                <Grid row>
-                    <Grid col={3}>
-                        <Label htmlFor="payerName">Payer Name</Label>
-                        <TextInput
-                            id="payerName"
-                            name="payerName"
-                            type="text"
-                            value={int1099Info?.payerName || ''}
-                            onChange={(e) => handleInputChange('payerName', e.target.value)}
-                            readOnly
-                        />
-                    </Grid>
-                    <Grid col={3}>
-                        <Label htmlFor="interestIncome">Interest Income</Label>
-                        <TextInput
-                            id="interestIncome"
-                            name="interestIncome"
-                            type="text"
-                            value={int1099Info?.interestIncome ? `$${int1099Info.interestIncome}` : ''}
-                            onChange={(e) => handleInputChange('interestIncome', e.target.value)}
-                            readOnly
-                        />
-                    </Grid>
-                    <Grid col={3}>
-                        <Label htmlFor="federalIncomeTaxWithheld">Federal Income Tax Withheld</Label>
-                        <TextInput
-                            id="federalIncomeTaxWithheld"
-                            name="federalIncomeTaxWithheld"
-                            type="text"
-                            value={int1099Info?.federalIncomeTaxWithheld ? `$${int1099Info.federalIncomeTaxWithheld}` : ''}
-                            onChange={(e) => handleInputChange('federalIncomeTaxWithheld', e.target.value)}
-                            readOnly
-                        />
-                    </Grid>
-                    <Grid col={3}>
-                        <Label htmlFor="investmentExpenses">Investment Expenses</Label>
-                        <TextInput
-                            id="investmentExpenses"
-                            name="investmentExpenses"
-                            type="text"
-                            value={int1099Info?.investmentExpenses ? `$${int1099Info.investmentExpenses}` : ''}
-                            onChange={(e) => handleInputChange('investmentExpenses', e.target.value)}
-                            readOnly
-                        />
-                    </Grid>
-                </Grid>
-            </GridContainer>
-            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px', marginBottom: '20px' }}>
-                    <Button type="button" base onClick={handleBack}>Back</Button>
-                    <Button type="button" onClick={handleSubmit} style={{ marginRight: '33.5rem' }}>Submit</Button>
+                </GridContainer>
+                <div style={{ marginTop: '20px', marginBottom: '20px', justifyContent: 'center' }}>
+                    <Button type="button" base onClick={handleBack}>{t('backButton')}</Button>
+                    <Button type="button" onClick={handleSubmit}>{t('submitButton')}</Button>
                 </div>
             </div>
         </>

@@ -1,6 +1,7 @@
 import { Button, Grid, GridContainer, Label, TextInput } from "@trussworks/react-uswds";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 interface Constants {
     id: number;
@@ -79,11 +80,11 @@ interface User {
 
 const ResultsPage: React.FC = () => {
 
-    
+
     const User: User = {
         userId: 0,
     };
-    
+
     const [constants, setConstants] = useState<Constants | null>(null);
     const [personalInfo, setPersonalInfo] = useState<PersonalInfo | null>(null);
     const [w2Info, setW2Info] = useState<W2Info | null>(null);
@@ -95,6 +96,7 @@ const ResultsPage: React.FC = () => {
     const [initialUser, setInitialUser] = useState<User>(User);
 
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     useEffect(() => {
 
@@ -110,9 +112,9 @@ const ResultsPage: React.FC = () => {
                     console.log(data);
                 }
             } catch (error) {
-                    console.error('Error fetching current user:', error);
-                }
-            };
+                console.error('Error fetching current user:', error);
+            }
+        };
 
         const fetchData = async () => {
             try {
@@ -120,17 +122,17 @@ const ResultsPage: React.FC = () => {
                     credentials: 'include',
                     method: 'GET'
                 });
-                
+
                 const personalInfoResponse = await fetch(`http://localhost:8080/personalForms/user/${initialUser.userId}`, {
                     credentials: 'include',
                     method: 'GET'
                 });
-                
+
                 const w2InfoResponse = await fetch(`http://localhost:8080/w2Forms/user/${initialUser.userId}`, {
                     credentials: 'include',
                     method: 'GET'
                 });
-                
+
                 const int1099InfoResponse = await fetch(`http://localhost:8080/1099/user/${initialUser.userId}`, {
                     credentials: 'include',
                     method: 'GET'
@@ -223,18 +225,22 @@ const ResultsPage: React.FC = () => {
         navigate('/review-page');
     }
 
+    const handleHome = (e: React.MouseEvent<HTMLButtonElement>) => {
+        navigate('/home');
+    }
+
     return (
         <>
             <div>
                 <div style={{ maxWidth: '600px', margin: '0 auto', marginTop: '50px', border: '1px solid #ccc', padding: '20px' }}>
                     <GridContainer>
                         <Grid col={12}>
-                            <h1>Tax Breakdown</h1>
+                            <h1>{t('taxBreakdownTitle')}</h1>
                         </Grid>
                         <Grid row>
                             <Grid col={12} style={{ display: 'flex', justifyContent: 'center' }}>
                                 <div style={{ width: '50%' }}>
-                                    <h2 className="text-info-darker" style={{ fontWeight: 'bold', textDecoration: 'underline' }}>Total Income</h2>
+                                    <h2 className="text-info-darker" style={{ fontWeight: 'bold', textDecoration: 'underline' }}>{t('totalIncomeTitle')}</h2>
                                     <h3 className="text-bold">${totalIncome.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</h3>
                                 </div>
                             </Grid>
@@ -242,7 +248,7 @@ const ResultsPage: React.FC = () => {
                         <Grid row>
                             <Grid col={12} style={{ display: 'flex', justifyContent: 'center' }}>
                                 <div style={{ width: '50%' }}>
-                                    <h2 className="text-info-darker" style={{ fontWeight: 'bold', textDecoration: 'underline' }}>Total Taxes Owed</h2>
+                                    <h2 className="text-info-darker" style={{ fontWeight: 'bold', textDecoration: 'underline' }}>{t('totalTaxesOwedTitle')}</h2>
                                     <h3 className="text-bold">${taxesOwed.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</h3>
                                 </div>
                             </Grid>
@@ -250,7 +256,7 @@ const ResultsPage: React.FC = () => {
                         <Grid row>
                             <Grid col={12} style={{ display: 'flex', justifyContent: 'center' }}>
                                 <div>
-                                    <h2 className="text-info-darker" style={{ fontWeight: 'bold', textDecoration: 'underline' }}>Total Income After Taxes</h2>
+                                    <h2 className="text-info-darker" style={{ fontWeight: 'bold', textDecoration: 'underline' }}>{t('totalIncomeAfterTaxesTitle')}</h2>
                                     <h3 className="text-bold">${totalIncomeAfterTaxes.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</h3>
                                 </div>
                             </Grid>
@@ -258,7 +264,7 @@ const ResultsPage: React.FC = () => {
                         <Grid row>
                             <Grid col={12} style={{ display: 'flex', justifyContent: 'center' }}>
                                 <div style={{ width: '50%' }}>
-                                    <h2 className="text-info-darker" style={{ fontWeight: 'bold', textDecoration: 'underline' }}>Highest Tax Bracket</h2>
+                                    <h2 className="text-info-darker" style={{ fontWeight: 'bold', textDecoration: 'underline' }}>{t('highestTaxBracketTitle')}</h2>
                                     <h3 className="text-bold">{taxBracket.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</h3>
                                 </div>
                             </Grid>
@@ -266,9 +272,9 @@ const ResultsPage: React.FC = () => {
                     </GridContainer>
                 </div>
 
-                <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px', marginBottom: '20px' }}>
-                    <Button type="button" base onClick={handleBack}>Back</Button>
-                    <Button type="button" style={{ marginRight: '44.8Rem' }}>Continue</Button>
+                <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+                    <Button type="button" base onClick={handleBack}>{t('backButton')}</Button>
+                    <Button type="button" onClick={handleHome}>{t('homeButton')}</Button>
                 </div>
             </div>
         </>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Form, GridContainer, Grid, TextInput, Label, Button, Select, FormGroup, DateInputGroup, Fieldset, DatePicker, DateInput, Table, Alert } from '@trussworks/react-uswds';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 interface W2FormData {
     id?: string;
@@ -52,6 +53,7 @@ export default function W2Form() {
     const [initialUser, setInitialUser] = useState<User>(User);
 
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     const fetchCurrentUser = async () => {
         try {
@@ -65,9 +67,9 @@ export default function W2Form() {
                 console.log(data);
             }
         } catch (error) {
-                console.error('Error fetching current user:', error);
-            }
-        };
+            console.error('Error fetching current user:', error);
+        }
+    };
 
     const fetchData = async () => {
         try {
@@ -196,20 +198,20 @@ export default function W2Form() {
             <div>
                 {showAlert && (
                     <Alert type="error" heading="Error status" headingLevel="h4" style={{ maxWidth: '400px', margin: '0 auto' }}>
-                        Form is missing content
+                        {t('formMissingContent')}
                     </Alert>
                 )}
                 {isSuccess && (
                     <Alert type="success" heading="Success status" headingLevel="h4" style={{ maxWidth: '400px', margin: '0 auto' }}>
-                        Form is successfully filled out.
+                        {t('formSuccessfullyFilled')}
                     </Alert>
                 )}
-                <h1>W2 Form</h1>
+                <h1>{t('w2FormHeading')}</h1>
                 <GridContainer>
                     <Grid row>
-                    <Grid col={2}/>
+                        <Grid col={2} />
                         <Grid col={4}>
-                            <Label htmlFor="income" className="text-bold text-underline text-info-darker">Income</Label>
+                            <Label htmlFor="income" className="text-bold text-underline text-info-darker">{t('incomeLabel')}</Label>
                             <TextInput
                                 id="income"
                                 name="income"
@@ -217,11 +219,11 @@ export default function W2Form() {
                                 onChange={handleChange}
                                 style={{ width: "calc(100% - 16px)" }}
                                 type="number"
-                                placeholder="Example: 20000"
+                                placeholder={t('incomePlaceholder')}
                             />
                         </Grid>
                         <Grid col={4}>
-                            <Label htmlFor="federalIncomeWithheld" className="text-bold text-underline text-info-darker">Federal Income Withheld</Label>
+                            <Label htmlFor="federalIncomeWithheld" className="text-bold text-underline text-info-darker">{t('federalIncomeWithheldLabel')}</Label>
                             <TextInput
                                 id="federalIncomeWithheld"
                                 name="federalIncomeWithheld"
@@ -229,13 +231,13 @@ export default function W2Form() {
                                 onChange={handleChange}
                                 style={{ width: "calc(100% - 16px)" }}
                                 type="number"
-                                placeholder="Example: 2000"
+                                placeholder={t('federalIncomeWithheldPlaceholder')}
                             />
                         </Grid>
-                        <Grid col={2}/>
-                        <Grid col={2}/>
+                        <Grid col={2} />
+                        <Grid col={2} />
                         <Grid col={4}>
-                            <Label htmlFor="medicareWages" className="text-bold text-underline text-info-darker">Medicare Wages</Label>
+                            <Label htmlFor="medicareWages" className="text-bold text-underline text-info-darker">{t('medicareWagesLabel')}</Label>
                             <TextInput
                                 id="medicareWages"
                                 name="medicareWages"
@@ -243,12 +245,11 @@ export default function W2Form() {
                                 onChange={handleChange}
                                 style={{ width: "calc(100% - 16px)" }}
                                 type="number"
-                                placeholder="Example: 20000"
+                                placeholder={t('medicareWagesPlaceholder')}
                             />
                         </Grid>
-                        
                         <Grid col={4}>
-                            <Label htmlFor="medicareTaxWithheld" className="text-bold text-underline text-info-darker">Medicare Tax Withheld</Label>
+                            <Label htmlFor="medicareTaxWithheld" className="text-bold text-underline text-info-darker">{t('medicareTaxWithheldLabel')}</Label>
                             <TextInput
                                 id="medicareTaxWithheld"
                                 name="medicareTaxWithheld"
@@ -256,13 +257,13 @@ export default function W2Form() {
                                 onChange={handleChange}
                                 style={{ width: "calc(100% - 16px)" }}
                                 type="number"
-                                placeholder="Example: 1000"
+                                placeholder={t('medicareTaxWithheldPlaceholder')}
                             />
                         </Grid>
-                        <Grid col={2}/>
-                        <Grid col={2}/>
+                        <Grid col={2} />
+                        <Grid col={2} />
                         <Grid col={4}>
-                            <Label htmlFor="socialSecurityWages" className="text-bold text-underline text-info-darker">Social Security Wages</Label>
+                            <Label htmlFor="socialSecurityWages" className="text-bold text-underline text-info-darker">{t('socialSecurityWagesLabel')}</Label>
                             <TextInput
                                 id="socialSecurityWages"
                                 name="socialSecurityWages"
@@ -270,11 +271,11 @@ export default function W2Form() {
                                 onChange={handleChange}
                                 style={{ width: "calc(100% - 16px)" }}
                                 type="number"
-                                placeholder="Example: 20000"
+                                placeholder={t('socialSecurityWagesPlaceholder')}
                             />
                         </Grid>
                         <Grid col={4}>
-                            <Label htmlFor="socialSecurityTaxWithheld" className="text-bold text-underline text-info-darker">Social Security Tax Withheld</Label>
+                            <Label htmlFor="socialSecurityTaxWithheld" className="text-bold text-underline text-info-darker">{t('socialSecurityTaxWithheldLabel')}</Label>
                             <TextInput
                                 id="socialSecurityTaxWithheld"
                                 name="socialSecurityTaxWithheld"
@@ -282,13 +283,13 @@ export default function W2Form() {
                                 onChange={handleChange}
                                 style={{ width: "calc(100% - 16px)" }}
                                 type="number"
-                                placeholder="Example: 5000"
+                                placeholder={t('socialSecurityTaxWithheldPlaceholder')}
                             />
                         </Grid>
-                        <Grid col={2}/>
-                        <Grid col={2}/>
+                        <Grid col={2} />
+                        <Grid col={2} />
                         <Grid col={4}>
-                            <Label htmlFor="streetAddress1" className="text-bold text-underline text-info-darker">Employer Street Address 1</Label>
+                            <Label htmlFor="streetAddress1" className="text-bold text-underline text-info-darker">{t('employerStreetAddress1Label')}</Label>
                             <TextInput
                                 id="streetAddress1"
                                 name="streetAddress1"
@@ -296,12 +297,11 @@ export default function W2Form() {
                                 onChange={handleChange}
                                 style={{ width: "calc(100% - 16px)" }}
                                 type="text"
-                                placeholder="Example: 123 Main St"
+                                placeholder={t('employerStreetAddress1Placeholder')}
                             />
                         </Grid>
-
                         <Grid col={4}>
-                            <Label htmlFor="streetAddress2" className="text-bold text-underline text-info-darker">Employer Street Address 2 <span className="text-italic">- optional</span></Label>
+                            <Label htmlFor="streetAddress2" className="text-bold text-underline text-info-darker">{t('employerStreetAddress2Label')} <span className="text-italic">- {t('optional')}</span></Label>
                             <TextInput
                                 id="streetAddress2"
                                 name="streetAddress2"
@@ -309,14 +309,13 @@ export default function W2Form() {
                                 onChange={handleChange}
                                 style={{ width: "calc(100% - 16px)" }}
                                 type="text"
-                                placeholder="Example: Apt 101"
+                                placeholder={t('employerStreetAddress2Placeholder')}
                             />
                         </Grid>
-                        <Grid col={2}/>
-                        <Grid col={2}/>
-
+                        <Grid col={2} />
+                        <Grid col={2} />
                         <Grid col={3}>
-                            <Label htmlFor="city" className="text-bold text-underline text-info-darker">Employer City</Label>
+                            <Label htmlFor="city" className="text-bold text-underline text-info-darker">{t('employerCityLabel')}</Label>
                             <TextInput
                                 id="city"
                                 name="city"
@@ -324,11 +323,11 @@ export default function W2Form() {
                                 onChange={handleChange}
                                 style={{ width: "calc(100% - 16px)" }}
                                 type="text"
-                                placeholder="Example: Anytown"
+                                placeholder={t('employerCityPlaceholder')}
                             />
                         </Grid>
                         <Grid col={3} className="usa-form-group">
-                            <Label htmlFor="state" className="text-bold text-underline text-info-darker">Employer State</Label>
+                            <Label htmlFor="state" className="text-bold text-underline text-info-darker">{t('employerStateLabel')}</Label>
                             <Select
                                 id="state"
                                 name="state"
@@ -336,82 +335,83 @@ export default function W2Form() {
                                 onChange={handleStateChange}
                                 style={{ width: "calc(100% - 16px)" }}
                             >
-                                <option value="">- Select your state-</option>
-                                <option value="Alabama">Alabama</option>
-                                <option value="Alaska">Alaska</option>
-                                <option value="Arizona">Arizona</option>
-                                <option value="Arkansas">Arkansas</option>
-                                <option value="California">California</option>
-                                <option value="Colorado">Colorado</option>
-                                <option value="Connecticut">Connecticut</option>
-                                <option value="Delaware">Delaware</option>
-                                <option value="District Of Columbia">District Of Columbia</option>
-                                <option value="Florida">Florida</option>
-                                <option value="Georgia">Georgia</option>
-                                <option value="Hawaii">Hawaii</option>
-                                <option value="Idaho">Idaho</option>
-                                <option value="Illinois">Illinois</option>
-                                <option value="Indiana">Indiana</option>
-                                <option value="Iowa">Iowa</option>
-                                <option value="Kansas">Kansas</option>
-                                <option value="Kentucky">Kentucky</option>
-                                <option value="Louisiana">Louisiana</option>
-                                <option value="Maine">Maine</option>
-                                <option value="Maryland">Maryland</option>
-                                <option value="Massachusetts">Massachusetts</option>
-                                <option value="Michigan">Michigan</option>
-                                <option value="Minnesota">Minnesota</option>
-                                <option value="Mississippi">Mississippi</option>
-                                <option value="Missouri">Missouri</option>
-                                <option value="Montana">Montana</option>
-                                <option value="Nebraska">Nebraska</option>
-                                <option value="Nevada">Nevada</option>
-                                <option value="New Hampshire">New Hampshire</option>
-                                <option value="New Jersey">New Jersey</option>
-                                <option value="New Mexico">New Mexico</option>
-                                <option value="New York">New York</option>
-                                <option value="North Carolina">North Carolina</option>
-                                <option value="North Dakota">North Dakota</option>
-                                <option value="Ohio">Ohio</option>
-                                <option value="OklahomaK">Oklahoma</option>
-                                <option value="Oregon">Oregon</option>
-                                <option value="Pennsylvania">Pennsylvania</option>
-                                <option value="Rhode Island">Rhode Island</option>
-                                <option value="South Carolina">South Carolina</option>
-                                <option value="South Dakota">South Dakota</option>
-                                <option value="Tennessee">Tennessee</option>
-                                <option value="Texas">Texas</option>
-                                <option value="Utah">Utah</option>
-                                <option value="Vermont">Vermont</option>
-                                <option value="Virginia">Virginia</option>
-                                <option value="Washington">Washington</option>
-                                <option value="West Virginia">West Virginia</option>
-                                <option value="Wisconsin">Wisconsin</option>
-                                <option value="Wyoming">Wyoming</option>
+                                <option value="">{t('statePlaceholder')}</option>
+                                <option value="Alabama">{t('alabama')}</option>
+                                <option value="Alaska">{t('alaska')}</option>
+                                <option value="Arizona">{t('arizona')}</option>
+                                <option value="Arkansas">{t('arkansas')}</option>
+                                <option value="California">{t('california')}</option>
+                                <option value="Colorado">{t('colorado')}</option>
+                                <option value="Connecticut">{t('connecticut')}</option>
+                                <option value="Delaware">{t('delaware')}</option>
+                                <option value="District Of Columbia">{t('districtOfColumbia')}</option>
+                                <option value="Florida">{t('florida')}</option>
+                                <option value="Georgia">{t('georgia')}</option>
+                                <option value="Hawaii">{t('hawaii')}</option>
+                                <option value="Idaho">{t('idaho')}</option>
+                                <option value="Illinois">{t('illinois')}</option>
+                                <option value="Indiana">{t('indiana')}</option>
+                                <option value="Iowa">{t('iowa')}</option>
+                                <option value="Kansas">{t('kansas')}</option>
+                                <option value="Kentucky">{t('kentucky')}</option>
+                                <option value="Louisiana">{t('louisiana')}</option>
+                                <option value="Maine">{t('maine')}</option>
+                                <option value="Maryland">{t('maryland')}</option>
+                                <option value="Massachusetts">{t('massachusetts')}</option>
+                                <option value="Michigan">{t('michigan')}</option>
+                                <option value="Minnesota">{t('minnesota')}</option>
+                                <option value="Mississippi">{t('mississippi')}</option>
+                                <option value="Missouri">{t('missouri')}</option>
+                                <option value="Montana">{t('montana')}</option>
+                                <option value="Nebraska">{t('nebraska')}</option>
+                                <option value="Nevada">{t('nevada')}</option>
+                                <option value="New Hampshire">{t('newHampshire')}</option>
+                                <option value="New Jersey">{t('newJersey')}</option>
+                                <option value="New Mexico">{t('newMexico')}</option>
+                                <option value="New York">{t('newYork')}</option>
+                                <option value="North Carolina">{t('northCarolina')}</option>
+                                <option value="North Dakota">{t('northDakota')}</option>
+                                <option value="Ohio">{t('ohio')}</option>
+                                <option value="Oklahoma">{t('oklahoma')}</option>
+                                <option value="Oregon">{t('oregon')}</option>
+                                <option value="Pennsylvania">{t('pennsylvania')}</option>
+                                <option value="Rhode Island">{t('rhodeIsland')}</option>
+                                <option value="South Carolina">{t('southCarolina')}</option>
+                                <option value="South Dakota">{t('southDakota')}</option>
+                                <option value="Tennessee">{t('tennessee')}</option>
+                                <option value="Texas">{t('texas')}</option>
+                                <option value="Utah">{t('utah')}</option>
+                                <option value="Vermont">{t('vermont')}</option>
+                                <option value="Virginia">{t('virginia')}</option>
+                                <option value="Washington">{t('washington')}</option>
+                                <option value="West Virginia">{t('westVirginia')}</option>
+                                <option value="Wisconsin">{t('wisconsin')}</option>
+                                <option value="Wyoming">{t('wyoming')}</option>
+
                             </Select>
                         </Grid>
                         <Grid col={2}>
-                            <Label htmlFor="zip" className="text-bold text-underline text-info-darker">Employer ZIP Code</Label>
+                            <Label htmlFor="zip" className="text-bold text-underline text-info-darker">{t('zipLabel')}</Label>
                             <TextInput
                                 id="zip" name="zip"
                                 value={formData.zip}
                                 onChange={handleChange}
                                 style={{ width: "calc(100% - 16px)" }}
                                 type="text"
-                                placeholder="Example: 12345"
+                                placeholder={t('zipPlaceholder')}
                             />
                         </Grid>
 
                     </Grid>
                 </GridContainer>
-                <GridContainer style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '2rem' }}>
-                        <Grid row>
-                            <Grid col={12}>
-                                <Button type="button" base onClick={handleBack} style={{ marginRight: '1rem' }}>Back</Button>
-                                <Button type="button" onClick={handleSubmit}style={{ marginRight: '11rem' }}>Continue</Button>
-                            </Grid>
+                <GridContainer>
+                    <Grid row>
+                        <Grid col={12}>
+                            <Button type="button" base onClick={handleBack} style={{ marginTop: '20px', marginBottom: '20px' }}>{t('backButton')}</Button>
+                            <Button type="button" onClick={handleSubmit}>{t('continueButton')}</Button>
                         </Grid>
-                    </GridContainer>
+                    </Grid>
+                </GridContainer>
             </div>
         </>
     );
