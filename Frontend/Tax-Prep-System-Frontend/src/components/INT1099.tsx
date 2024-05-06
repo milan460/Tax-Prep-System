@@ -3,6 +3,11 @@ import { Form, GridContainer, Grid, TextInput, Label, Button, Select, FormGroup,
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
+// TypeScript interface for the props
+interface ComponentProps{
+    setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+}
+
 interface INT1099Form {
     formId?: number;
     user?: {
@@ -23,8 +28,9 @@ interface User {
     role?: string;
 }
 
-export default function INT1099() {
+const INT1099: React.FC<ComponentProps> = ({ setCurrentPage }) => {
 
+    setCurrentPage(4);
 
     const User: User = {
         userId: 0,
@@ -264,3 +270,5 @@ export default function INT1099() {
     )
 
 }
+
+export default INT1099;

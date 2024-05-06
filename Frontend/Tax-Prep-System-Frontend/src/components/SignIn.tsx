@@ -19,7 +19,6 @@ const SignIn: React.FC = () => {
 
         console.log(user)
 
-        
         fetch('http://localhost:8080/login', {
             method: 'POST',
             headers: {
@@ -42,49 +41,9 @@ const SignIn: React.FC = () => {
         });
         
     }
-
-  // const handleSingleSignOn = () => {
-  //   fetch('http://localhost:8080/signin', {
-  //     credentials: 'include', 
-  //     method: 'GET'
-  //   })
-  //   .then(response => response.json())
-  //   .then(user => {
-  //     storeUser(user);
-  //     console.log('User stored successfully', user);
-  //     window.location.replace("http://localhost:8080/accessToken");  // Redirect to fetch the access token
-  //   })
-  //   .catch(error => {
-  //     console.error('Error fetching user:', error);
-  //   });
-  // }
-  
-  // // Function to handle storing the user
-  // const storeUser = (user) => {
-  //     localStorage.setItem('user', JSON.stringify(user));  // Use sessionStorage if preferred
-  // }
-  
   
     const handleSingleSignOn = () => {
         window.location.replace("http://localhost:8080/signin");
-
-        // //fetch the access token and store it as a cookie
-        // fetch('http://localhost:8080/accessToken', {
-        //     credentials: 'include', 
-        //     method: 'GET'
-        // })
-        // .then(response => {
-        //     console.log('Access token should now be stored as a cookie');
-        // })
-        // .then(data => {
-        //   localStorage.setItem('accessToken', JSON.stringify(data));
-        //   console.log('success', data);
-        //   window.location.replace("http://localhost:5173/personal-info-form");
-        // })
-        // .catch(error => {
-        //     console.error('Error fetching access token:', error);
-        // });
-
     }
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
