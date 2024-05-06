@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Form, GridContainer, Grid, TextInput, Label, Button, Select, FormGroup, DateInputGroup, Fieldset, DatePicker, DateInput, Table, Alert } from '@trussworks/react-uswds';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 interface INT1099Form {
     formId?: number;
@@ -24,7 +25,7 @@ interface User {
 
 export default function INT1099() {
 
-   
+
     const User: User = {
         userId: 0,
         username: "",
@@ -51,6 +52,7 @@ export default function INT1099() {
 
 
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     const fetchCurrentUser = async () => {
         try {
@@ -64,9 +66,9 @@ export default function INT1099() {
                 console.log(data);
             }
         } catch (error) {
-                console.error('Error fetching current user:', error);
-            }
-        };
+            console.error('Error fetching current user:', error);
+        }
+    };
 
     const fetchData = async () => {
         try {
@@ -160,20 +162,20 @@ export default function INT1099() {
             <div>
                 {showAlert && (
                     <Alert type="error" heading="Error status" headingLevel="h4" style={{ maxWidth: '400px', margin: '0 auto' }}>
-                        Form is missing content
+                        {t('formMissingContent')}
                     </Alert>
                 )}
                 {isSuccess && (
                     <Alert type="success" heading="Success status" headingLevel="h4" style={{ maxWidth: '400px', margin: '0 auto' }}>
-                        Form is successfully filled out.
+                        {t('formSuccessfullyFilled')}
                     </Alert>
                 )}
-                <h1>1099-INT Form</h1>
+                <h1>{t('1099INTForm')}</h1>
                 <GridContainer>
                     <Grid row>
                         <Grid col={3} />
                         <Grid col={3}>
-                            <Label htmlFor="payerName" className="text-bold text-underline text-info-darker">Payer Name</Label>
+                            <Label htmlFor="payerName" className="text-bold text-underline text-info-darker">{t('payerNameLabel')}</Label>
                             <TextInput
                                 id="payerName"
                                 name="payerName"
@@ -181,9 +183,9 @@ export default function INT1099() {
                                 onChange={handleChange}
                                 style={{ width: "calc(100% - 16px)" }}
                                 type="text"
-                                placeholder="Example: John Doe"
+                                placeholder={`${t('exPlaceholder')}John Doe`}
                             />
-                            <Label htmlFor="federalIncomeTaxWithheld" className="text-bold text-underline text-info-darker">Federal Income Tax Withheld</Label>
+                            <Label htmlFor="federalIncomeTaxWithheld" className="text-bold text-underline text-info-darker">{t('federalIncomeTaxWithheldLabel')}</Label>
                             <TextInput
                                 id="federalIncomeTaxWithheld"
                                 name="federalIncomeTaxWithheld"
@@ -191,11 +193,11 @@ export default function INT1099() {
                                 onChange={handleChange}
                                 style={{ width: "calc(100% - 16px)" }}
                                 type="number"
-                                placeholder="Example: 5000"
+                                placeholder={`${t('exPlaceholder')}5000`}
                             />
                         </Grid>
                         <Grid col={3}>
-                        <Label htmlFor="interestIncome" className="text-bold text-underline text-info-darker">Interest Income</Label>
+                            <Label htmlFor="interestIncome" className="text-bold text-underline text-info-darker">{t('interestIncomeLabel')}</Label>
                             <TextInput
                                 id="interestIncome"
                                 name="interestIncome"
@@ -203,9 +205,9 @@ export default function INT1099() {
                                 onChange={handleChange}
                                 style={{ width: "calc(100% - 16px)" }}
                                 type="number"
-                                placeholder="Example: 10000"
+                                placeholder={`${t('exPlaceholder')}10000`}
                             />
-                            <Label htmlFor="investmentExpenses" className="text-bold text-underline text-info-darker">Investment Expenses</Label>
+                            <Label htmlFor="investmentExpenses" className="text-bold text-underline text-info-darker">{t('investmentExpensesLabel')}</Label>
                             <TextInput
                                 id="investmentExpenses"
                                 name="investmentExpenses"
@@ -213,14 +215,14 @@ export default function INT1099() {
                                 onChange={handleChange}
                                 style={{ width: "calc(100% - 16px)" }}
                                 type="number"
-                                placeholder="Example: 5000"
+                                placeholder={`${t('exPlaceholder')}5000`}
                             />
                         </Grid>
                     </Grid>
                     <Grid row>
                         <Grid col={3} />
                         <Grid col={6}>
-                            <Label htmlFor="savingsBondsAndTreasuryInterest" className="text-bold text-underline text-info-darker">Savings Bonds And Treasury Interest</Label>
+                            <Label htmlFor="savingsBondsAndTreasuryInterest" className="text-bold text-underline text-info-darker">{t('savingsBondsAndTreasuryInterestLabel')}</Label>
                             <TextInput
                                 id="savingsBondsAndTreasuryInterest"
                                 name="savingsBondsAndTreasuryInterest"
@@ -228,14 +230,14 @@ export default function INT1099() {
                                 onChange={handleChange}
                                 style={{ width: "calc(100% - 16px)" }}
                                 type="number"
-                                placeholder="Example: 5000"
+                                placeholder={`${t('exPlaceholder')}5000`}
                             />
                         </Grid>
                     </Grid>
                     <Grid row>
                         <Grid col={3} />
                         <Grid col={6}>
-                            <Label htmlFor="marketDiscount" className="text-bold text-underline text-info-darker">Market Discount</Label>
+                            <Label htmlFor="marketDiscount" className="text-bold text-underline text-info-darker">{t('marketDiscountLabel')}</Label>
                             <TextInput
                                 id="marketDiscount"
                                 name="marketDiscount"
@@ -243,20 +245,19 @@ export default function INT1099() {
                                 onChange={handleChange}
                                 style={{ width: "calc(100% - 16px)" }}
                                 type="number"
-                                placeholder="Example: 5000"
+                                placeholder={`${t('exPlaceholder')}5000`}
                             />
                         </Grid>
                     </Grid>
-                    
                 </GridContainer>
-                <GridContainer style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '2rem' }}>
-                        <Grid row>
-                            <Grid col={12}>
-                                <Button type="button" base onClick={handleBack} style={{ marginRight: '1rem' }}>Back</Button>
-                                <Button type="button" onClick={handleSubmit}style={{ marginRight: '16rem' }}>Continue</Button>
-                            </Grid>
+                <GridContainer>
+                    <Grid row>
+                        <Grid col={12}>
+                            <Button type="button" base onClick={handleBack} style={{ marginTop: '20px', marginBottom: '20px', justifyContent: 'center' }}>{t('backButton')}</Button>
+                            <Button type="button" onClick={handleSubmit}>{t('continueButton')}</Button>
                         </Grid>
-                    </GridContainer>
+                    </Grid>
+                </GridContainer>
             </div>
         </>
 
