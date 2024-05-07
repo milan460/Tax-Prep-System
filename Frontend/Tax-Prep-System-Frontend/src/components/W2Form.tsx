@@ -32,7 +32,7 @@ interface User {
 
 const W2Form: React.FC<ComponentProps> = ({ setCurrentPage }) => {
 
-    setCurrentPage(3);
+    setCurrentPage(2);
     
     const initialFormData: W2FormData = {
         income: "",

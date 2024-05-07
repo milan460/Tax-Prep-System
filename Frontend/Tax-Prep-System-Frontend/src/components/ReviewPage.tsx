@@ -76,7 +76,7 @@ interface User {
 
 const ReviewPage: React.FC<ComponentProps> = ({ setCurrentPage }) => {
 
-    setCurrentPage(5);
+    setCurrentPage(4);
 
     const User: User = {
         userId: 0,
@@ -345,8 +345,8 @@ const ReviewPage: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                             <TextInput
                                 id="dependents"
                                 name="dependents"
-                                type="number"
-                                value={personalInfo?.dependents ? personalInfo.dependents.toString() : ''}
+                                type="text"
+                                value={personalInfo?.dependents || personalInfo?.dependents == 0 ? personalInfo.dependents.toString() : ''}
                                 onChange={(e) => handleInputChange('dependents', e.target.value)}
                                 readOnly
                             />
