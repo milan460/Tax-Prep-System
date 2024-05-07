@@ -96,7 +96,7 @@ const Header: React.FC<ComponentProps> = ({ currentPage }) => {
                     >
                     <ol className="usa-step-indicator__segments">
                         
-                        {/* Home */}
+                        {/* Personal Info */}
                         <li className={
                             currentPage === 1
                             ? "usa-step-indicator__segment usa-step-indicator__segment--current"
@@ -105,11 +105,11 @@ const Header: React.FC<ComponentProps> = ({ currentPage }) => {
                             : "usa-step-indicator__segment usa-step-indicator__segment--complete"
                         }>
                             <span className="usa-step-indicator__segment-label">
-                                {t('home')} {currentPage > 1 && <span className="usa-sr-only">completed</span>}
+                                {t('personalInfo')} {currentPage > 1 && <span className="usa-sr-only">completed</span>}
                             </span>
                         </li>
 
-                        {/* Personal Info */}
+                        {/* W2 */}
                         <li className={
                             currentPage === 2
                             ? "usa-step-indicator__segment usa-step-indicator__segment--current"
@@ -118,11 +118,11 @@ const Header: React.FC<ComponentProps> = ({ currentPage }) => {
                             : "usa-step-indicator__segment usa-step-indicator__segment--complete"
                         }>
                             <span className="usa-step-indicator__segment-label">
-                                {t('personalInfo')} {currentPage > 2 && <span className="usa-sr-only">completed</span>}
+                                W2 {currentPage > 2 && <span className="usa-sr-only">completed</span>}
                             </span>
                         </li>
 
-                        {/* W2 */}
+                        {/* 1099 */}
                         <li className={
                             currentPage === 3
                             ? "usa-step-indicator__segment usa-step-indicator__segment--current"
@@ -131,11 +131,11 @@ const Header: React.FC<ComponentProps> = ({ currentPage }) => {
                             : "usa-step-indicator__segment usa-step-indicator__segment--complete"
                         } aria-current={currentPage === 3 ? "true" : undefined}>
                             <span className="usa-step-indicator__segment-label">
-                                W2 {currentPage > 3 && <span className="usa-sr-only">completed</span>}
+                                1099 {currentPage > 3 && <span className="usa-sr-only">completed</span>}
                             </span>
                         </li>
 
-                        {/* 1099 */}
+                        {/* Review */}
                         <li className={
                             currentPage === 4
                             ? "usa-step-indicator__segment usa-step-indicator__segment--current"
@@ -144,11 +144,11 @@ const Header: React.FC<ComponentProps> = ({ currentPage }) => {
                             : "usa-step-indicator__segment usa-step-indicator__segment--complete"
                         }>
                             <span className="usa-step-indicator__segment-label">
-                                1099 {currentPage > 4 ? <span className="usa-sr-only">completed</span> : <span className="usa-sr-only">not completed</span>}
+                                {t('review')} {currentPage > 4 ? <span className="usa-sr-only">completed</span> : <span className="usa-sr-only">not completed</span>}
                             </span>
                         </li>
 
-                        {/* Review*/}
+                        {/* Results*/}
                         <li className={
                             currentPage === 5
                             ? "usa-step-indicator__segment usa-step-indicator__segment--current"
@@ -157,23 +157,9 @@ const Header: React.FC<ComponentProps> = ({ currentPage }) => {
                             : "usa-step-indicator__segment usa-step-indicator__segment--complete"
                         }>
                             <span className="usa-step-indicator__segment-label">
-                                {t('review')} {currentPage > 5 ? <span className="usa-sr-only">completed</span> : <span className="usa-sr-only">not completed</span>}
+                                {t('results')} {currentPage > 5 ? <span className="usa-sr-only">completed</span> : <span className="usa-sr-only">not completed</span>}
                             </span>
                         </li>
-
-                        {/* Results*/}
-                        <li className={
-                            currentPage === 6
-                            ? "usa-step-indicator__segment usa-step-indicator__segment--current"
-                            : currentPage < 6
-                            ? "usa-step-indicator__segment"
-                            : "usa-step-indicator__segment usa-step-indicator__segment--complete"
-                        }>
-                            <span className="usa-step-indicator__segment-label">
-                                {t('results')} {currentPage > 6 ? <span className="usa-sr-only">completed</span> : <span className="usa-sr-only">not completed</span>}
-                            </span>
-                        </li>
-
                     </ol>
                     </div>
                 )

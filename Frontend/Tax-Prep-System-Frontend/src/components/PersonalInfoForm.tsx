@@ -34,7 +34,7 @@ interface User {
 
 const PersonalInfoForm: React.FC<ComponentProps> = ({ setCurrentPage }) => {
 
-    setCurrentPage(2);
+    setCurrentPage(1);
 
     const initialFormData: PersonalInfoFormData = {
         firstName: "",

@@ -64,6 +64,8 @@
 .usa-step-indicator__segments{
     display: flex;
     justify-content: center;
+    width: 50vw;
+    padding-left: 7.5vw;
 }
 
 #extended-logo{
