@@ -1,0 +1,231 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders INT1099 correctly 1`] = `
+<div>
+  <h1>
+    1099INTForm
+  </h1>
+  <div
+    className="grid-container"
+    data-testid="gridContainer"
+  >
+    <div
+      className="grid-row"
+      data-testid="grid"
+    >
+      <div
+        className="grid-col-3"
+        data-testid="grid"
+      />
+      <div
+        className="grid-col-3"
+        data-testid="grid"
+      >
+        <label
+          className="usa-label text-bold text-underline text-info-darker"
+          data-testid="label"
+          htmlFor="payerName"
+        >
+          payerNameLabel
+        </label>
+        <input
+          className="usa-input"
+          data-testid="textInput"
+          id="payerName"
+          name="payerName"
+          onChange={[Function]}
+          placeholder="exPlaceholderJohn Doe"
+          style={
+            {
+              "width": "calc(100% - 16px)",
+            }
+          }
+          type="text"
+          value=""
+        />
+        <label
+          className="usa-label text-bold text-underline text-info-darker"
+          data-testid="label"
+          htmlFor="federalIncomeTaxWithheld"
+        >
+          federalIncomeTaxWithheldLabel
+        </label>
+        <input
+          className="usa-input"
+          data-testid="textInput"
+          id="federalIncomeTaxWithheld"
+          name="federalIncomeTaxWithheld"
+          onChange={[Function]}
+          placeholder="exPlaceholder5000"
+          style={
+            {
+              "width": "calc(100% - 16px)",
+            }
+          }
+          type="number"
+          value=""
+        />
+      </div>
+      <div
+        className="grid-col-3"
+        data-testid="grid"
+      >
+        <label
+          className="usa-label text-bold text-underline text-info-darker"
+          data-testid="label"
+          htmlFor="interestIncome"
+        >
+          interestIncomeLabel
+        </label>
+        <input
+          className="usa-input"
+          data-testid="textInput"
+          id="interestIncome"
+          name="interestIncome"
+          onChange={[Function]}
+          placeholder="exPlaceholder10000"
+          style={
+            {
+              "width": "calc(100% - 16px)",
+            }
+          }
+          type="number"
+          value=""
+        />
+        <label
+          className="usa-label text-bold text-underline text-info-darker"
+          data-testid="label"
+          htmlFor="investmentExpenses"
+        >
+          investmentExpensesLabel
+        </label>
+        <input
+          className="usa-input"
+          data-testid="textInput"
+          id="investmentExpenses"
+          name="investmentExpenses"
+          onChange={[Function]}
+          placeholder="exPlaceholder5000"
+          style={
+            {
+              "width": "calc(100% - 16px)",
+            }
+          }
+          type="number"
+          value=""
+        />
+      </div>
+    </div>
+    <div
+      className="grid-row"
+      data-testid="grid"
+    >
+      <div
+        className="grid-col-3"
+        data-testid="grid"
+      />
+      <div
+        className="grid-col-6"
+        data-testid="grid"
+      >
+        <label
+          className="usa-label text-bold text-underline text-info-darker"
+          data-testid="label"
+          htmlFor="savingsBondsAndTreasuryInterest"
+        >
+          savingsBondsAndTreasuryInterestLabel
+        </label>
+        <input
+          className="usa-input"
+          data-testid="textInput"
+          id="savingsBondsAndTreasuryInterest"
+          name="savingsBondsAndTreasuryInterest"
+          onChange={[Function]}
+          placeholder="exPlaceholder5000"
+          style={
+            {
+              "width": "calc(100% - 16px)",
+            }
+          }
+          type="number"
+          value=""
+        />
+      </div>
+    </div>
+    <div
+      className="grid-row"
+      data-testid="grid"
+    >
+      <div
+        className="grid-col-3"
+        data-testid="grid"
+      />
+      <div
+        className="grid-col-6"
+        data-testid="grid"
+      >
+        <label
+          className="usa-label text-bold text-underline text-info-darker"
+          data-testid="label"
+          htmlFor="marketDiscount"
+        >
+          marketDiscountLabel
+        </label>
+        <input
+          className="usa-input"
+          data-testid="textInput"
+          id="marketDiscount"
+          name="marketDiscount"
+          onChange={[Function]}
+          placeholder="exPlaceholder5000"
+          style={
+            {
+              "width": "calc(100% - 16px)",
+            }
+          }
+          type="number"
+          value=""
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    className="grid-container"
+    data-testid="gridContainer"
+  >
+    <div
+      className="grid-row"
+      data-testid="grid"
+    >
+      <div
+        className="grid-col-12"
+        data-testid="grid"
+      >
+        <button
+          className="usa-button usa-button--base"
+          data-testid="button"
+          onClick={[Function]}
+          style={
+            {
+              "justifyContent": "center",
+              "marginBottom": "20px",
+              "marginTop": "20px",
+            }
+          }
+          type="button"
+        >
+          backButton
+        </button>
+        <button
+          className="usa-button"
+          data-testid="button"
+          onClick={[Function]}
+          type="button"
+        >
+          continueButton
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
