@@ -214,257 +214,257 @@ exports[`renders correctly 1`] = `
           <option
             value="Alabama"
           >
-            alabama
+            Alabama
           </option>
           <option
             value="Alaska"
           >
-            alaska
+            Alaska
           </option>
           <option
             value="Arizona"
           >
-            arizona
+            Arizona
           </option>
           <option
             value="Arkansas"
           >
-            arkansas
+            Arkansas
           </option>
           <option
             value="California"
           >
-            california
+            California
           </option>
           <option
             value="Colorado"
           >
-            colorado
+            Colorado
           </option>
           <option
             value="Connecticut"
           >
-            connecticut
+            Connecticut
           </option>
           <option
             value="Delaware"
           >
-            delaware
+            Delaware
           </option>
           <option
             value="District Of Columbia"
           >
-            districtOfColumbia
+            District Of Columbia
           </option>
           <option
             value="Florida"
           >
-            florida
+            Florida
           </option>
           <option
             value="Georgia"
           >
-            georgia
+            Georgia
           </option>
           <option
             value="Hawaii"
           >
-            hawaii
+            Hawaii
           </option>
           <option
             value="Idaho"
           >
-            idaho
+            Idaho
           </option>
           <option
             value="Illinois"
           >
-            illinois
+            Illinois
           </option>
           <option
             value="Indiana"
           >
-            indiana
+            Indiana
           </option>
           <option
             value="Iowa"
           >
-            iowa
+            Iowa
           </option>
           <option
             value="Kansas"
           >
-            kansas
+            Kansas
           </option>
           <option
             value="Kentucky"
           >
-            kentucky
+            Kentucky
           </option>
           <option
             value="Louisiana"
           >
-            louisiana
+            Louisiana
           </option>
           <option
             value="Maine"
           >
-            maine
+            Maine
           </option>
           <option
             value="Maryland"
           >
-            maryland
+            Maryland
           </option>
           <option
             value="Massachusetts"
           >
-            massachusetts
+            Massachusetts
           </option>
           <option
             value="Michigan"
           >
-            michigan
+            Michigan
           </option>
           <option
             value="Minnesota"
           >
-            minnesota
+            Minnesota
           </option>
           <option
             value="Mississippi"
           >
-            mississippi
+            Mississippi
           </option>
           <option
             value="Missouri"
           >
-            missouri
+            Missouri
           </option>
           <option
             value="Montana"
           >
-            montana
+            Montana
           </option>
           <option
             value="Nebraska"
           >
-            nebraska
+            Nebraska
           </option>
           <option
             value="Nevada"
           >
-            nevada
+            Nevada
           </option>
           <option
             value="New Hampshire"
           >
-            newHampshire
+            New Hampshire
           </option>
           <option
             value="New Jersey"
           >
-            newJersey
+            New Jersey
           </option>
           <option
             value="New Mexico"
           >
-            newMexico
+            New Mexico
           </option>
           <option
             value="New York"
           >
-            newYork
+            New York
           </option>
           <option
             value="North Carolina"
           >
-            northCarolina
+            North Carolina
           </option>
           <option
             value="North Dakota"
           >
-            northDakota
+            North Dakota
           </option>
           <option
             value="Ohio"
           >
-            ohio
+            Ohio
           </option>
           <option
             value="Oklahoma"
           >
-            oklahoma
+            Oklahoma
           </option>
           <option
             value="Oregon"
           >
-            oregon
+            Oregon
           </option>
           <option
             value="Pennsylvania"
           >
-            pennsylvania
+            Pennsylvania
           </option>
           <option
             value="Rhode Island"
           >
-            rhodeIsland
+            Rhode Island
           </option>
           <option
             value="South Carolina"
           >
-            southCarolina
+            South Carolina
           </option>
           <option
             value="South Dakota"
           >
-            southDakota
+            South Dakota
           </option>
           <option
             value="Tennessee"
           >
-            tennessee
+            Tennessee
           </option>
           <option
             value="Texas"
           >
-            texas
+            Texas
           </option>
           <option
             value="Utah"
           >
-            utah
+            Utah
           </option>
           <option
             value="Vermont"
           >
-            vermont
+            Vermont
           </option>
           <option
             value="Virginia"
           >
-            virginia
+            Virginia
           </option>
           <option
             value="Washington"
           >
-            washington
+            Washington
           </option>
           <option
             value="West Virginia"
           >
-            westVirginia
+            West Virginia
           </option>
           <option
             value="Wisconsin"
           >
-            wisconsin
+            Wisconsin
           </option>
           <option
             value="Wyoming"
           >
-            wyoming
+            Wyoming
           </option>
         </select>
       </div>
@@ -634,7 +634,7 @@ exports[`renders correctly 1`] = `
               <option
                 value=""
               >
-                selectMonth
+                monthPlaceholder
               </option>
               <option
                 value="01"
@@ -707,7 +707,7 @@ exports[`renders correctly 1`] = `
               data-testid="label"
               htmlFor="day"
             >
-              Day
+              dayLabel
             </label>
             <input
               className="usa-input"
@@ -738,7 +738,7 @@ exports[`renders correctly 1`] = `
               data-testid="label"
               htmlFor="year"
             >
-              Year
+              yearLabel
             </label>
             <input
               className="usa-input"
