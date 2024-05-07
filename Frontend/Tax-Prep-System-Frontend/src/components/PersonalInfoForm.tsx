@@ -162,7 +162,7 @@ const PersonalInfoForm: React.FC<ComponentProps> = ({ setCurrentPage }) => {
         }
 
         // Prepare the request options with updated formData
-        const requestOptions = {
+        const requestOptions: RequestInit = {
             credentials: 'include',
             method: formData.id ? 'PUT' : 'POST',
             headers: {'Content-Type': 'application/json'},
