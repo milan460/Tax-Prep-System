@@ -104,8 +104,4 @@ public class AuthenticationController { //Authentication Controller to handle us
         cookie.setHttpOnly(false);
         return cookie;
     }
-
-
-
-
 }

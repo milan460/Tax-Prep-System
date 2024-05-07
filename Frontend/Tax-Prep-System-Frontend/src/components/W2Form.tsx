@@ -32,7 +32,7 @@ interface User {
 
 const W2Form: React.FC<ComponentProps> = ({ setCurrentPage }) => {
 
-    setCurrentPage(3);
+    setCurrentPage(2);
     
     const initialFormData: W2FormData = {
         income: "",
@@ -345,57 +345,57 @@ const W2Form: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                                 style={{ width: "calc(100% - 16px)" }}
                             >
                                 <option value="">{t('statePlaceholder')}</option>
-                                <option value="Alabama">{t('alabama')}</option>
-                                <option value="Alaska">{t('alaska')}</option>
-                                <option value="Arizona">{t('arizona')}</option>
-                                <option value="Arkansas">{t('arkansas')}</option>
-                                <option value="California">{t('california')}</option>
-                                <option value="Colorado">{t('colorado')}</option>
-                                <option value="Connecticut">{t('connecticut')}</option>
-                                <option value="Delaware">{t('delaware')}</option>
-                                <option value="District Of Columbia">{t('districtOfColumbia')}</option>
-                                <option value="Florida">{t('florida')}</option>
-                                <option value="Georgia">{t('georgia')}</option>
-                                <option value="Hawaii">{t('hawaii')}</option>
-                                <option value="Idaho">{t('idaho')}</option>
-                                <option value="Illinois">{t('illinois')}</option>
-                                <option value="Indiana">{t('indiana')}</option>
-                                <option value="Iowa">{t('iowa')}</option>
-                                <option value="Kansas">{t('kansas')}</option>
-                                <option value="Kentucky">{t('kentucky')}</option>
-                                <option value="Louisiana">{t('louisiana')}</option>
-                                <option value="Maine">{t('maine')}</option>
-                                <option value="Maryland">{t('maryland')}</option>
-                                <option value="Massachusetts">{t('massachusetts')}</option>
-                                <option value="Michigan">{t('michigan')}</option>
-                                <option value="Minnesota">{t('minnesota')}</option>
-                                <option value="Mississippi">{t('mississippi')}</option>
-                                <option value="Missouri">{t('missouri')}</option>
-                                <option value="Montana">{t('montana')}</option>
-                                <option value="Nebraska">{t('nebraska')}</option>
-                                <option value="Nevada">{t('nevada')}</option>
-                                <option value="New Hampshire">{t('newHampshire')}</option>
-                                <option value="New Jersey">{t('newJersey')}</option>
-                                <option value="New Mexico">{t('newMexico')}</option>
-                                <option value="New York">{t('newYork')}</option>
-                                <option value="North Carolina">{t('northCarolina')}</option>
-                                <option value="North Dakota">{t('northDakota')}</option>
-                                <option value="Ohio">{t('ohio')}</option>
-                                <option value="Oklahoma">{t('oklahoma')}</option>
-                                <option value="Oregon">{t('oregon')}</option>
-                                <option value="Pennsylvania">{t('pennsylvania')}</option>
-                                <option value="Rhode Island">{t('rhodeIsland')}</option>
-                                <option value="South Carolina">{t('southCarolina')}</option>
-                                <option value="South Dakota">{t('southDakota')}</option>
-                                <option value="Tennessee">{t('tennessee')}</option>
-                                <option value="Texas">{t('texas')}</option>
-                                <option value="Utah">{t('utah')}</option>
-                                <option value="Vermont">{t('vermont')}</option>
-                                <option value="Virginia">{t('virginia')}</option>
-                                <option value="Washington">{t('washington')}</option>
-                                <option value="West Virginia">{t('westVirginia')}</option>
-                                <option value="Wisconsin">{t('wisconsin')}</option>
-                                <option value="Wyoming">{t('wyoming')}</option>
+                                <option value="Alabama">Alabama</option>
+                                <option value="Alaska">Alaska</option>
+                                <option value="Arizona">Arizona</option>
+                                <option value="Arkansas">Arkansas</option>
+                                <option value="California">California</option>
+                                <option value="Colorado">Colorado</option>
+                                <option value="Connecticut">Connecticut</option>
+                                <option value="Delaware">Delaware</option>
+                                <option value="District Of Columbia">District Of Columbia</option>
+                                <option value="Florida">Florida</option>
+                                <option value="Georgia">Georgia</option>
+                                <option value="Hawaii">Hawaii</option>
+                                <option value="Idaho">Idaho</option>
+                                <option value="Illinois">Illinois</option>
+                                <option value="Indiana">Indiana</option>
+                                <option value="Iowa">Iowa</option>
+                                <option value="Kansas">Kansas</option>
+                                <option value="Kentucky">Kentucky</option>
+                                <option value="Louisiana">Louisiana</option>
+                                <option value="Maine">Maine</option>
+                                <option value="Maryland">Maryland</option>
+                                <option value="Massachusetts">Massachusetts</option>
+                                <option value="Michigan">Michigan</option>
+                                <option value="Minnesota">Minnesota</option>
+                                <option value="Mississippi">Mississippi</option>
+                                <option value="Missouri">Missouri</option>
+                                <option value="Montana">Montana</option>
+                                <option value="Nebraska">Nebraska</option>
+                                <option value="Nevada">Nevada</option>
+                                <option value="New Hampshire">New Hampshire</option>
+                                <option value="New Jersey">New Jersey</option>
+                                <option value="New Mexico">New Mexico</option>
+                                <option value="New York">New York</option>
+                                <option value="North Carolina">North Carolina</option>
+                                <option value="North Dakota">North Dakota</option>
+                                <option value="Ohio">Ohio</option>
+                                <option value="Oklahoma">Oklahoma</option>
+                                <option value="Oregon">Oregon</option>
+                                <option value="Pennsylvania">Pennsylvania</option>
+                                <option value="Rhode Island">Rhode Island</option>
+                                <option value="South Carolina">South Carolina</option>
+                                <option value="South Dakota">South Dakota</option>
+                                <option value="Tennessee">Tennessee</option>
+                                <option value="Texas">Texas</option>
+                                <option value="Utah">Utah</option>
+                                <option value="Vermont">Vermont</option>
+                                <option value="Virginia">Virginia</option>
+                                <option value="Washington">Washington</option>
+                                <option value="West Virginia">West Virginia</option>
+                                <option value="Wisconsin">Wisconsin</option>
+                                <option value="Wyoming">Wyoming</option>
 
                             </Select>
                         </Grid>

@@ -1,4 +1,4 @@
-import { Button, Grid, GridContainer, Label, TextInput } from "@trussworks/react-uswds";
+import { Button, Grid, GridContainer } from "@trussworks/react-uswds";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -85,7 +85,7 @@ interface User {
 
 const ResultsPage: React.FC<ComponentProps> = ({ setCurrentPage }) => {
 
-    setCurrentPage(6);
+    setCurrentPage(5);
 
     const User: User = {
         userId: 0,
@@ -227,11 +227,12 @@ const ResultsPage: React.FC<ComponentProps> = ({ setCurrentPage }) => {
         fetchData();
     }, [initialUser.userId]);
 
-    const handleBack = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const handleBack = () => {
         navigate('/review-page');
     }
 
-    const handleHome = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const handleHome = () => {
+        setCurrentPage(0);
         navigate('/home');
     }
 

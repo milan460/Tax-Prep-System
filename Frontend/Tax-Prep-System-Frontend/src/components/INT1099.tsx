@@ -30,7 +30,7 @@ interface User {
 
 const INT1099: React.FC<ComponentProps> = ({ setCurrentPage }) => {
 
-    setCurrentPage(4);
+    setCurrentPage(3);
 
     const User: User = {
         userId: 0,

@@ -3,7 +3,7 @@ import './header.css';
 import buildingIcon from '/building-icon.svg';
 import flagIcon from '/flag-icon.webp';
 import lockIcon from '/lock-icon.svg';
-import { Banner, BannerButton, BannerContent, BannerFlag, BannerGuidance, BannerHeader, BannerIcon, Button, LanguageSelector, MediaBlockBody} from '@trussworks/react-uswds';
+import { Banner, BannerButton, BannerContent, BannerFlag, BannerGuidance, BannerHeader, BannerIcon, Button, LanguageSelector, MediaBlockBody, Title} from '@trussworks/react-uswds';
 import { useTranslation } from 'react-i18next';
 
 
@@ -29,7 +29,7 @@ const Header: React.FC<ComponentProps> = ({ currentPage }) => {
     
 
     return (
-        <>
+        <div id='headerDiv'>
             <Banner aria-label={t('bannerLabel')}>
                 <BannerHeader isOpen={isOpen} flagImg={<BannerFlag src={flagIcon} aria-hidden alt="" />} headerText={t('headerText')} headerActionText={t('actionText')}>
                     <BannerButton isOpen={isOpen} aria-controls="custom-banner" onClick={(): void => {
@@ -43,10 +43,10 @@ const Header: React.FC<ComponentProps> = ({ currentPage }) => {
                      <BannerGuidance className="tablet:grid-col-6">
                          <BannerIcon src={buildingIcon} alt="" />
                          <MediaBlockBody>
-                          {t('actionText')}
                              <p>
-                                 <strong>{t('officialWebsitesUseGov')}</strong>
-                                 <br />{t('govWebsiteOwnership')}
+                                {t('actionText')}
+                                {t('officialWebsitesUseGov')}
+                                {t('govWebsiteOwnership')}
                              </p>
                          </MediaBlockBody>
                      </BannerGuidance>
@@ -54,8 +54,8 @@ const Header: React.FC<ComponentProps> = ({ currentPage }) => {
                          <BannerIcon src={lockIcon} alt="" />
                          <MediaBlockBody>
                          <p>
-                             <strong>{t('secureGovWebsitesUseHttps')}</strong>
-                             <br />{t('lockDescription')}
+                             {t('secureGovWebsitesUseHttps')}
+                             {t('lockDescription')}
                          </p>
                          </MediaBlockBody>
                      </BannerGuidance>
@@ -63,7 +63,7 @@ const Header: React.FC<ComponentProps> = ({ currentPage }) => {
                 </BannerContent>
                 <div id='containerToCenterLanguageSelectorAndLogoutButtonContainer'>
                     <div id='languageSelectorAndLogoutButtonContainer'>
-                        <Button id='logoutButton' type={'button'} onClick={handleLogout}>{t('logout')}</Button>
+                    {currentPage < 1 ? "" : (<Button id='logoutButton' type={'button'} onClick={handleLogout}>{t('logout')}</Button>)}
                         <LanguageSelector
                             langs={[
                                 {
@@ -81,94 +81,91 @@ const Header: React.FC<ComponentProps> = ({ currentPage }) => {
                         />
                     </div>
                 </div>
-                <div
-                className="usa-step-indicator usa-step-indicator--counters-sm"
-                aria-label="progress"
-                >
-                <ol className="usa-step-indicator__segments">
-                    
-                    {/* Home */}
-                    <li className={
-                        currentPage === 1
-                        ? "usa-step-indicator__segment usa-step-indicator__segment--current"
-                        : currentPage < 1
-                        ? "usa-step-indicator__segment"
-                        : "usa-step-indicator__segment usa-step-indicator__segment--complete"
-                    }>
-                        <span className="usa-step-indicator__segment-label">
-                            {t('home')} {currentPage > 1 && <span className="usa-sr-only">completed</span>}
-                        </span>
-                    </li>
+                <div className="usa-navbar">
+          <Title id="extended-logo">
+            <h1 id='federalTaxCalculator' title="Home" aria-label="Home">
+              {t('federalTaxCalculator')}
+            </h1>
+          </Title>
+        </div>
+        {
+            currentPage < 1 ? "" : (
+                    <div
+                    className="usa-step-indicator usa-step-indicator--counters-sm"
+                    aria-label="progress"
+                    >
+                    <ol className="usa-step-indicator__segments">
+                        
+                        {/* Personal Info */}
+                        <li className={
+                            currentPage === 1
+                            ? "usa-step-indicator__segment usa-step-indicator__segment--current"
+                            : currentPage < 1
+                            ? "usa-step-indicator__segment"
+                            : "usa-step-indicator__segment usa-step-indicator__segment--complete"
+                        }>
+                            <span className="usa-step-indicator__segment-label">
+                                {t('personalInfo')} {currentPage > 1 && <span className="usa-sr-only">completed</span>}
+                            </span>
+                        </li>
 
-                    {/* Personal Info */}
-                    <li className={
-                        currentPage === 2
-                        ? "usa-step-indicator__segment usa-step-indicator__segment--current"
-                        : currentPage < 2
-                        ? "usa-step-indicator__segment"
-                        : "usa-step-indicator__segment usa-step-indicator__segment--complete"
-                    }>
-                        <span className="usa-step-indicator__segment-label">
-                            {t('personalInfo')} {currentPage > 2 && <span className="usa-sr-only">completed</span>}
-                        </span>
-                    </li>
+                        {/* W2 */}
+                        <li className={
+                            currentPage === 2
+                            ? "usa-step-indicator__segment usa-step-indicator__segment--current"
+                            : currentPage < 2
+                            ? "usa-step-indicator__segment"
+                            : "usa-step-indicator__segment usa-step-indicator__segment--complete"
+                        }>
+                            <span className="usa-step-indicator__segment-label">
+                                W2 {currentPage > 2 && <span className="usa-sr-only">completed</span>}
+                            </span>
+                        </li>
 
-                    {/* W2 */}
-                    <li className={
-                        currentPage === 3
-                        ? "usa-step-indicator__segment usa-step-indicator__segment--current"
-                        : currentPage < 3
-                        ? "usa-step-indicator__segment"
-                        : "usa-step-indicator__segment usa-step-indicator__segment--complete"
-                    } aria-current={currentPage === 3 ? "true" : undefined}>
-                        <span className="usa-step-indicator__segment-label">
-                            W2 {currentPage > 3 && <span className="usa-sr-only">completed</span>}
-                        </span>
-                    </li>
+                        {/* 1099 */}
+                        <li className={
+                            currentPage === 3
+                            ? "usa-step-indicator__segment usa-step-indicator__segment--current"
+                            : currentPage < 3
+                            ? "usa-step-indicator__segment"
+                            : "usa-step-indicator__segment usa-step-indicator__segment--complete"
+                        } aria-current={currentPage === 3 ? "true" : undefined}>
+                            <span className="usa-step-indicator__segment-label">
+                                1099 {currentPage > 3 && <span className="usa-sr-only">completed</span>}
+                            </span>
+                        </li>
 
-                    {/* 1099 */}
-                    <li className={
-                        currentPage === 4
-                        ? "usa-step-indicator__segment usa-step-indicator__segment--current"
-                        : currentPage < 4
-                        ? "usa-step-indicator__segment"
-                        : "usa-step-indicator__segment usa-step-indicator__segment--complete"
-                    }>
-                        <span className="usa-step-indicator__segment-label">
-                            1099 {currentPage > 4 ? <span className="usa-sr-only">completed</span> : <span className="usa-sr-only">not completed</span>}
-                        </span>
-                    </li>
+                        {/* Review */}
+                        <li className={
+                            currentPage === 4
+                            ? "usa-step-indicator__segment usa-step-indicator__segment--current"
+                            : currentPage < 4
+                            ? "usa-step-indicator__segment"
+                            : "usa-step-indicator__segment usa-step-indicator__segment--complete"
+                        }>
+                            <span className="usa-step-indicator__segment-label">
+                                {t('review')} {currentPage > 4 ? <span className="usa-sr-only">completed</span> : <span className="usa-sr-only">not completed</span>}
+                            </span>
+                        </li>
 
-                    {/* Review*/}
-                    <li className={
-                        currentPage === 5
-                        ? "usa-step-indicator__segment usa-step-indicator__segment--current"
-                        : currentPage < 5
-                        ? "usa-step-indicator__segment"
-                        : "usa-step-indicator__segment usa-step-indicator__segment--complete"
-                    }>
-                        <span className="usa-step-indicator__segment-label">
-                            {t('review')} {currentPage > 5 ? <span className="usa-sr-only">completed</span> : <span className="usa-sr-only">not completed</span>}
-                        </span>
-                    </li>
-
-                    {/* Results*/}
-                    <li className={
-                        currentPage === 6
-                        ? "usa-step-indicator__segment usa-step-indicator__segment--current"
-                        : currentPage < 6
-                        ? "usa-step-indicator__segment"
-                        : "usa-step-indicator__segment usa-step-indicator__segment--complete"
-                    }>
-                        <span className="usa-step-indicator__segment-label">
-                            {t('results')} {currentPage > 6 ? <span className="usa-sr-only">completed</span> : <span className="usa-sr-only">not completed</span>}
-                        </span>
-                    </li>
-
-                </ol>
-                </div>
+                        {/* Results*/}
+                        <li className={
+                            currentPage === 5
+                            ? "usa-step-indicator__segment usa-step-indicator__segment--current"
+                            : currentPage < 5
+                            ? "usa-step-indicator__segment"
+                            : "usa-step-indicator__segment usa-step-indicator__segment--complete"
+                        }>
+                            <span className="usa-step-indicator__segment-label">
+                                {t('results')} {currentPage > 5 ? <span className="usa-sr-only">completed</span> : <span className="usa-sr-only">not completed</span>}
+                            </span>
+                        </li>
+                    </ol>
+                    </div>
+                )
+            }
             </Banner> 
-        </>
+        </div>
     );
 }
 

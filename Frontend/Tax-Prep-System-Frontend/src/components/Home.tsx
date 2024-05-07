@@ -2,14 +2,7 @@ import { Grid, GridContainer, MediaBlockBody } from '@trussworks/react-uswds';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-// TypeScript interface for the props
-interface ComponentProps{
-    setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
-}
-
-const Home: React.FC<ComponentProps> = ({ setCurrentPage }) => {
-
-    setCurrentPage(1);
+const Home: React.FC = () => {
 
     const navigate = useNavigate();
     const { t } = useTranslation();
