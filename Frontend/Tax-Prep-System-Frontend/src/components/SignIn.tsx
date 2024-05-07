@@ -58,16 +58,6 @@ const SignIn: React.FC = () => {
       <a className="usa-skipnav" href="#main-content">
         {t('skipToMainContent')}
       </a>
-      <Header extended>
-        <div className="usa-navbar">
-          <Title id="extended-logo">
-            <h3 title="Home" aria-label="Home">
-              {t('federalTaxCalculator')}
-            </h3>
-          </Title>
-        </div>
-      </Header>
-
       <main id="main-content">
         <div className="bg-base-lightest">
           <GridContainer className="usa-section">
@@ -103,7 +93,7 @@ const SignIn: React.FC = () => {
 
                 <p className="text-center">
                   {t('dontHaveAccount')}
-                  <Link href="javascript:void();">{t('createYourAccountNow')}</Link>
+                  <Link href="/register">{t('createYourAccountNow')}</Link>
                   .
                 </p>
               </Grid>
