@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`W2Form Component renders correctly 1`] = `
+exports[`renders correctly 1`] = `
 <div>
   <h1>
     w2FormHeading
