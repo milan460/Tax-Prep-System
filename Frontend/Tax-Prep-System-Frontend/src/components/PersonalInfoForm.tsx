@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useCallback } from "react";
-import { Form, GridContainer, Grid, TextInput, Label, Button, Select, FormGroup, DateInputGroup, Fieldset, DatePicker, DateInput, Table, Alert } from '@trussworks/react-uswds';
+import { GridContainer, Grid, TextInput, Label, Button, Select, FormGroup, DateInputGroup, DateInput, Alert } from '@trussworks/react-uswds';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -232,6 +232,7 @@ const PersonalInfoForm: React.FC<ComponentProps> = ({ setCurrentPage }) => {
     };
 
     const handleHome = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
         navigate('/home')
     };
 
