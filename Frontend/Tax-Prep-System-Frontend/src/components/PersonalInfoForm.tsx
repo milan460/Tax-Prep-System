@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useCallback } from "react";
 import { GridContainer, Grid, TextInput, Label, Button, Select, FormGroup, DateInputGroup, DateInput, Alert } from '@trussworks/react-uswds';
 import 'react-toastify/dist/ReactToastify.css';
@@ -123,78 +122,63 @@ const PersonalInfoForm: React.FC<ComponentProps> = ({ setCurrentPage }) => {
         }));
     };
 
+    const [isDateOfBirthUpdated, setIsDateOfBirthUpdated] = useState(false);
 
-    const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-
-        const isEmptyField = Object.values(formData)
-            .filter((_, index) => index !== Object.keys(formData).indexOf('streetAddress2'))
-            .some(value => value === '');
-        if (isEmptyField) {
-            setShowAlert(true);
-            setIsSuccess(false);
-            return;
-        }
-
+    const updateDateOfBirth = () => {
         const dateOfBirth = `${selectedYear}-${selectedMonth.padStart(2, '0')}-${selectedDay.padStart(2, '0')}`;
-        const isValidDate = isValidInputDate(selectedYear, selectedMonth, selectedDay);
-        if (!isValidDate) {
+        if (!isValidInputDate(selectedYear, selectedMonth, selectedDay)) {
+            console.log("Invalid Date of Birth:", dateOfBirth);
+            setShowAlert(true);
+            setIsSuccess(false);
+            return Promise.reject("Invalid date");
+        }
+
+        setFormData(prevData => ({
+            ...prevData,
+            dateOfBirth: dateOfBirth
+        }));
+        setIsDateOfBirthUpdated(true);
+    };
+
+    useEffect(() => {
+        if (isDateOfBirthUpdated) {
+            handleSubmit();
+            setIsDateOfBirthUpdated(false);
+        }
+    }, [isDateOfBirthUpdated]);
+
+    
+    
+    const handleSubmit = async () => {
+    
+        const { streetAddress2, dependents, ...otherFields } = formData;
+        const isEmptyField = Object.values(otherFields).some(value => value === '');
+    
+        if (isEmptyField) {
+            console.log("Empty fields detected in:", otherFields);
             setShowAlert(true);
             setIsSuccess(false);
             return;
         }
 
-        const userId: number = initialUser.userId;
-
-        let requestOptions: any;
-        const formDataToSend = {
-            user: {
-                userId: initialUser.userId,
-            },
-            firstName: formData.firstName,
-            lastName: formData.lastName,
-            email: formData.email,
-            streetAddress1: formData.streetAddress1,
-            streetAddress2: formData.streetAddress2,
-            city: formData.city,
-            state: formData.state,
-            zip: formData.zip,
-            dateOfBirth: dateOfBirth,
-            ssn: formData.ssn,
-            filingStatus: formData.filingStatus,
-            dependents: formData.dependents
+        // Prepare the request options with updated formData
+        const requestOptions = {
+            credentials: 'include',
+            method: formData.id ? 'PUT' : 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                user: { userId: initialUser.userId },
+                ...formData
+            })
         };
 
-        if (formData.id) {
-            requestOptions = {
-                credentials: 'include',
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formDataToSend)
-            };
-        } else {
-            requestOptions = {
-                credentials: 'include',
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formDataToSend)
-            };
-        }
-
         try {
-            let url = 'http://localhost:8080/personalForms/createPersonalForm';
-            if (formData.id) {
-                url = `http://localhost:8080/personalForms/updatePersonalInfo/${userId}`;
-            }
-
+            const url = formData.id ? `http://localhost:8080/personalForms/updatePersonalInfo/${initialUser.userId}` : 'http://localhost:8080/personalForms/createPersonalForm';
             const response = await fetch(url, requestOptions);
             setIsSuccess(true);
             setShowAlert(false);
             navigate('/w2-form');
+
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
@@ -203,13 +187,13 @@ const PersonalInfoForm: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                 if (formId) {
                     localStorage.setItem('formId', formId);
                 }
-
                 fetchData();
             }
         } catch (error) {
             console.error('There was a problem with the fetch operation:', error);
         }
     };
+    
 
     const handleFilingStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const { value } = e.target;
@@ -381,57 +365,57 @@ const PersonalInfoForm: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                                 style={{ width: "calc(100% - 16px)" }}
                             >
                                 <option value="">{t('statePlaceholder')}</option>
-                                <option value="Alabama">{t('alabama')}</option>
-                                <option value="Alaska">{t('alaska')}</option>
-                                <option value="Arizona">{t('arizona')}</option>
-                                <option value="Arkansas">{t('arkansas')}</option>
-                                <option value="California">{t('california')}</option>
-                                <option value="Colorado">{t('colorado')}</option>
-                                <option value="Connecticut">{t('connecticut')}</option>
-                                <option value="Delaware">{t('delaware')}</option>
-                                <option value="District Of Columbia">{t('districtOfColumbia')}</option>
-                                <option value="Florida">{t('florida')}</option>
-                                <option value="Georgia">{t('georgia')}</option>
-                                <option value="Hawaii">{t('hawaii')}</option>
-                                <option value="Idaho">{t('idaho')}</option>
-                                <option value="Illinois">{t('illinois')}</option>
-                                <option value="Indiana">{t('indiana')}</option>
-                                <option value="Iowa">{t('iowa')}</option>
-                                <option value="Kansas">{t('kansas')}</option>
-                                <option value="Kentucky">{t('kentucky')}</option>
-                                <option value="Louisiana">{t('louisiana')}</option>
-                                <option value="Maine">{t('maine')}</option>
-                                <option value="Maryland">{t('maryland')}</option>
-                                <option value="Massachusetts">{t('massachusetts')}</option>
-                                <option value="Michigan">{t('michigan')}</option>
-                                <option value="Minnesota">{t('minnesota')}</option>
-                                <option value="Mississippi">{t('mississippi')}</option>
-                                <option value="Missouri">{t('missouri')}</option>
-                                <option value="Montana">{t('montana')}</option>
-                                <option value="Nebraska">{t('nebraska')}</option>
-                                <option value="Nevada">{t('nevada')}</option>
-                                <option value="New Hampshire">{t('newHampshire')}</option>
-                                <option value="New Jersey">{t('newJersey')}</option>
-                                <option value="New Mexico">{t('newMexico')}</option>
-                                <option value="New York">{t('newYork')}</option>
-                                <option value="North Carolina">{t('northCarolina')}</option>
-                                <option value="North Dakota">{t('northDakota')}</option>
-                                <option value="Ohio">{t('ohio')}</option>
-                                <option value="Oklahoma">{t('oklahoma')}</option>
-                                <option value="Oregon">{t('oregon')}</option>
-                                <option value="Pennsylvania">{t('pennsylvania')}</option>
-                                <option value="Rhode Island">{t('rhodeIsland')}</option>
-                                <option value="South Carolina">{t('southCarolina')}</option>
-                                <option value="South Dakota">{t('southDakota')}</option>
-                                <option value="Tennessee">{t('tennessee')}</option>
-                                <option value="Texas">{t('texas')}</option>
-                                <option value="Utah">{t('utah')}</option>
-                                <option value="Vermont">{t('vermont')}</option>
-                                <option value="Virginia">{t('virginia')}</option>
-                                <option value="Washington">{t('washington')}</option>
-                                <option value="West Virginia">{t('westVirginia')}</option>
-                                <option value="Wisconsin">{t('wisconsin')}</option>
-                                <option value="Wyoming">{t('wyoming')}</option>
+                                <option value="Alabama">Alabama</option>
+                                <option value="Alaska">Alaska</option>
+                                <option value="Arizona">Arizona</option>
+                                <option value="Arkansas">Arkansas</option>
+                                <option value="California">California</option>
+                                <option value="Colorado">Colorado</option>
+                                <option value="Connecticut">Connecticut</option>
+                                <option value="Delaware">Delaware</option>
+                                <option value="District Of Columbia">District Of Columbia</option>
+                                <option value="Florida">Florida</option>
+                                <option value="Georgia">Georgia</option>
+                                <option value="Hawaii">Hawaii</option>
+                                <option value="Idaho">Idaho</option>
+                                <option value="Illinois">Illinois</option>
+                                <option value="Indiana">Indiana</option>
+                                <option value="Iowa">Iowa</option>
+                                <option value="Kansas">Kansas</option>
+                                <option value="Kentucky">Kentucky</option>
+                                <option value="Louisiana">Louisiana</option>
+                                <option value="Maine">Maine</option>
+                                <option value="Maryland">Maryland</option>
+                                <option value="Massachusetts">Massachusetts</option>
+                                <option value="Michigan">Michigan</option>
+                                <option value="Minnesota">Minnesota</option>
+                                <option value="Mississippi">Mississippi</option>
+                                <option value="Missouri">Missouri</option>
+                                <option value="Montana">Montana</option>
+                                <option value="Nebraska">Nebraska</option>
+                                <option value="Nevada">Nevada</option>
+                                <option value="New Hampshire">New Hampshire</option>
+                                <option value="New Jersey">New Jersey</option>
+                                <option value="New Mexico">New Mexico</option>
+                                <option value="New York">New York</option>
+                                <option value="North Carolina">North Carolina</option>
+                                <option value="North Dakota">North Dakota</option>
+                                <option value="Ohio">Ohio</option>
+                                <option value="Oklahoma">Oklahoma</option>
+                                <option value="Oregon">Oregon</option>
+                                <option value="Pennsylvania">Pennsylvania</option>
+                                <option value="Rhode Island">Rhode Island</option>
+                                <option value="South Carolina">South Carolina</option>
+                                <option value="South Dakota">South Dakota</option>
+                                <option value="Tennessee">Tennessee</option>
+                                <option value="Texas">Texas</option>
+                                <option value="Utah">Utah</option>
+                                <option value="Vermont">Vermont</option>
+                                <option value="Virginia">Virginia</option>
+                                <option value="Washington">Washington</option>
+                                <option value="West Virginia">West Virginia</option>
+                                <option value="Wisconsin">Wisconsin</option>
+                                <option value="Wyoming">Wyoming</option>
                             </Select>
                         </Grid>
                         <Grid col={4} className="usa-form-group">
@@ -495,7 +479,7 @@ const PersonalInfoForm: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                                 <FormGroup className="usa-form-group--month usa-form-group--select">
                                     <Label htmlFor="month">{t('monthLabel')}</Label>
                                     <Select id="month" name="month" value={selectedMonth} onChange={handleMonthChange}>
-                                        <option value="">{t('selectMonth')}</option>
+                                        <option value="">{t('monthPlaceholder')}</option>
                                         <option value="01">{t('january')}</option>
                                         <option value="02">{t('february')}</option>
                                         <option value="03">{t('march')}</option>
@@ -510,8 +494,8 @@ const PersonalInfoForm: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                                         <option value="12">{t('december')}</option>
                                     </Select>
                                 </FormGroup>
-                                <DateInput id="day" name="day" label="Day" unit="day" maxLength={2} minLength={2} value={selectedDay} onChange={handleDayChange} style={{ marginRight: '8px' }} placeholder="Ex:7" />
-                                <DateInput id="year" name="year" label="Year" unit="year" maxLength={4} minLength={4} value={selectedYear} onChange={handleYearChange} placeholder="Ex:2000" />
+                                <DateInput id="day" name="day" label={t("dayLabel")} unit="day" maxLength={2} minLength={2} value={selectedDay} onChange={handleDayChange} style={{ marginRight: '8px' }} placeholder="Ex:7" />
+                                <DateInput id="year" name="year" label={t("yearLabel")} unit="year" maxLength={4} minLength={4} value={selectedYear} onChange={handleYearChange} placeholder="Ex:2000" />
                             </DateInputGroup>
                         </Grid>
                     </Grid>
@@ -521,7 +505,15 @@ const PersonalInfoForm: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                     <Grid row>
                         <Grid col={12} className="usa-form-group">
                             <Button type="button" base style={{ marginBottom: '20px' }} onClick={handleHome}>{t('homeButton')}</Button>
-                            <Button type="button" onClick={handleSubmit}>{t('continueButton')}</Button>
+                            <Button type="button" onClick={async (e) => {
+                                e.preventDefault();
+                                try {
+                                    await updateDateOfBirth();
+                                } catch (error) {
+                                    console.error("Error updating Date of Birth:", error);
+                                }
+                            }}>{t('continueButton')}</Button>
+
                         </Grid>
                     </Grid>
                 </GridContainer>

@@ -1,5 +1,6 @@
 .usa-banner{
     width: 100%;
+    background-color: #dfe1e2;
 }
 
 .usa-language-container{
@@ -13,6 +14,7 @@
     width: 100%;
     display: flex;
     justify-content: center;
+    background-color: #dfe1e2;
 }
 
 #languageSelectorAndLogoutButtonContainer{
@@ -22,6 +24,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    background-color: #dfe1e2;
 }
 
 #containerToCenterHeaderGrid{
@@ -29,11 +32,13 @@
     display: flex;
     justify-content: center;
     padding-top: 20px;
+    background-color: #dfe1e2;
 }
 
 #headerGrid{
     width: 64rem;
     display: flex;
+    background-color: #dfe1e2;
 }
 
 .headerGridElement{
@@ -44,14 +49,28 @@
     align-items: center;
 }
 
+.usa-navbar{
+    height: 15vh;
+}
+
 .usa-step-indicator{
     display: flex;
     justify-content: center;
-    background-color: #f0f0f0;
-    padding-top: 20px;
+    background-color: #dfe1e2;
+    margin-bottom: 0%;
+    padding-bottom: 1vh;
 }
 
 .usa-step-indicator__segments{
     display: flex;
     justify-content: center;
+}
+
+#extended-logo{
+    margin-top: 0%;
+    background-color: #dfe1e2;
+}
+
+#federalTaxCalculator{
+    margin-top: 2vh;
 }
