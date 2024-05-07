@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, GridContainer, Grid, TextInput, Label, Button, Select, FormGroup, DateInputGroup, Fieldset, DatePicker, DateInput, Table, Alert } from '@trussworks/react-uswds';
+import {  GridContainer, Grid, TextInput, Label, Button, Alert } from '@trussworks/react-uswds';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
@@ -186,6 +186,7 @@ const ReviewPage: React.FC<ComponentProps> = ({ setCurrentPage }) => {
     };
 
     const handleBack = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
         navigate('/int-1099-form');
     }
 
