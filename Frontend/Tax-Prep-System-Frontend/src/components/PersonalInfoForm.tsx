@@ -217,6 +217,7 @@ const PersonalInfoForm: React.FC<ComponentProps> = ({ setCurrentPage }) => {
 
     const handleHome = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
+        setCurrentPage(0);
         navigate('/home')
     };
 
