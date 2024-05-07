@@ -3,9 +3,9 @@ import './header.css';
 import buildingIcon from '/building-icon.svg';
 import flagIcon from '/flag-icon.webp';
 import lockIcon from '/lock-icon.svg';
-import { Banner, BannerButton, BannerContent, BannerFlag, BannerGuidance, BannerHeader, BannerIcon, Button, GridContainer, Icon, LanguageSelector, MediaBlockBody} from '@trussworks/react-uswds';
+import { Banner, BannerButton, BannerContent, BannerFlag, BannerGuidance, BannerHeader, BannerIcon, Button, LanguageSelector, MediaBlockBody} from '@trussworks/react-uswds';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from "react-router-dom";
+
 
 // TypeScript interface for the props
 interface ComponentProps {
@@ -16,7 +16,7 @@ const Header: React.FC<ComponentProps> = ({ currentPage }) => {
 
     const [isOpen, setIsOpen] = useState(false);
     const { t, i18n } = useTranslation();
-    const navigate = useNavigate();
+    
 
     const handleLanguageChange = (language: string) => {
         i18n.changeLanguage(language);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Form, GridContainer, Grid, TextInput, Label, Button, Select, FormGroup, DateInputGroup, Fieldset, DatePicker, DateInput, Table, Alert } from '@trussworks/react-uswds';
+import { GridContainer, Grid, TextInput, Label, Button, Select, Alert } from '@trussworks/react-uswds';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
@@ -117,6 +117,7 @@ const W2Form: React.FC<ComponentProps> = ({ setCurrentPage }) => {
     };
 
     const handleBack = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
         navigate('/personal-info-form');
     }
 
