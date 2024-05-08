@@ -79,6 +79,22 @@ const W2Form: React.FC<ComponentProps> = ({ setCurrentPage }) => {
         }
     };
 
+    function getCookie(name: string | any[]) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '='))
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            }
+        }
+        return cookieValue;
+    }
+
+    const csrfToken = getCookie('XSRF-TOKEN');
+
+    
     const fetchData = async () => {
         try {
             const response = await fetch(`http://localhost:8080/w2Forms/user/${initialUser.userId}`, {
@@ -98,6 +114,7 @@ const W2Form: React.FC<ComponentProps> = ({ setCurrentPage }) => {
     useEffect(() => {
         fetchCurrentUser();
         fetchData();
+        
     }, [initialUser.userId]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -160,7 +177,9 @@ const W2Form: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                 credentials: 'include',
                 method: 'PUT',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'X-XSRF-TOKEN': csrfToken
+                    
                 },
                 body: JSON.stringify(formDataToSend)
             };
@@ -169,7 +188,8 @@ const W2Form: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                 credentials: 'include',
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'X-XSRF-TOKEN': csrfToken
                 },
                 body: JSON.stringify(formDataToSend)
             };

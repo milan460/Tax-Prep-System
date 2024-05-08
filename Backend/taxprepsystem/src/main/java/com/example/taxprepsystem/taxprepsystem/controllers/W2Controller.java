@@ -1,7 +1,9 @@
 package com.example.taxprepsystem.taxprepsystem.controllers;
 
+import java.util.Enumeration;
 import java.util.List;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,7 +59,7 @@ public class W2Controller {
     //Post request to create a new W2 form 
     @PostMapping("/createW2Form")
     public ResponseEntity<W2> createW2Form(@RequestBody W2 w2Form) {
-        
+
         W2 newW2Form = w2Service.createW2Form(w2Form);
         
         return new ResponseEntity<W2>(newW2Form, HttpStatus.CREATED);
