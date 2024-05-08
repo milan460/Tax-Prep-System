@@ -85,7 +85,7 @@ interface User {
 
 const ResultsPage: React.FC<ComponentProps> = ({ setCurrentPage }) => {
 
-    setCurrentPage(5);
+    setCurrentPage(6);
 
     const User: User = {
         userId: 0,
@@ -227,12 +227,13 @@ const ResultsPage: React.FC<ComponentProps> = ({ setCurrentPage }) => {
         fetchData();
     }, [initialUser.userId]);
 
-    const handleBack = () => {
+    const handleBack = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
         navigate('/review-page');
     }
 
-    const handleHome = () => {
-        setCurrentPage(0);
+    const handleHome = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
         navigate('/home');
     }
 
