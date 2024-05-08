@@ -64,7 +64,7 @@ const Header: React.FC<ComponentProps> = ({ currentPage }) => {
                 </BannerContent>
                 <div id='containerToCenterLanguageSelectorAndLogoutButtonContainer'>
                     <div id='languageSelectorAndLogoutButtonContainer'>
-                        {currentPage < 1 ? "" : (<Button id='logoutButton' type={'button'} onClick={handleLogout}>{t('logout')}</Button>)}
+                        {currentPage == 0 ? "" : (<Button id='logoutButton' type={'button'} onClick={handleLogout}>{t('logout')}</Button>)}
                         <LanguageSelector
                             langs={[
                                 {
