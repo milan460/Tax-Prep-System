@@ -48,26 +48,6 @@ CREATE TABLE w2_form (
     w2_zip VARCHAR(20)
 );
 
--- Create Financial (1099-NEC) Form table
--- CREATE TABLE nec_1099_form (
---    form_id SERIAL PRIMARY KEY,
---    user_id INT REFERENCES Users(user_id) ON DELETE CASCADE,
---    payer_name VARCHAR(100),
---    payer_TIN VARCHAR(20),
---    payer_street_address VARCHAR(100),
---    payer_city VARCHAR(50),
---    payer_state VARCHAR(50),
---    payer_country VARCHAR(50),
---    payer_zip VARCHAR(20),
---    recipient_TIN VARCHAR(20),
---    recipient_street_address_1 VARCHAR(100),
---    recipient_street_address_2 VARCHAR(100),
---    recipient_city VARCHAR(50),
---    recipient_state VARCHAR(50),
---    recipient_zip VARCHAR(20),
---    non_employee_compensation DECIMAL(12, 2),
---    amount_withheld DECIMAL(12, 2)
--- );
 
 CREATE TABLE int_1099_form (
     form_id SERIAL PRIMARY KEY,

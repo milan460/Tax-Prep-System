@@ -40,6 +40,23 @@ export default function AdminPage() {
     const [showAlert, setShowAlert] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
 
+    // Function to retrieve a cookie value by name
+    function getCookie(name: string | any[]) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')){
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    const csrfToken = getCookie('XSRF-TOKEN');
+
     // Fetches initial data for the form
     const fetchData = async () => {
         try {
@@ -92,7 +109,8 @@ export default function AdminPage() {
                 credentials: "include",
                 method: 'PUT',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'X-XSRF-TOKEN': csrfToken
                 },
                 body: JSON.stringify(formDataToSend)
             });

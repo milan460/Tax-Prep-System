@@ -69,7 +69,8 @@ const PersonalInfoForm: React.FC<ComponentProps> = ({ setCurrentPage }) => {
     const navigate = useNavigate();
     const { t } = useTranslation();
 
-    // Function to fetch the current user's data
+
+    //fetching the current user and setting the initial user to extract the userId
     const fetchCurrentUser = async () => {
         try {
             const response = await fetch('http://localhost:8080/currentUser', {
@@ -86,7 +87,24 @@ const PersonalInfoForm: React.FC<ComponentProps> = ({ setCurrentPage }) => {
         }
     };
 
-    // Function to fetch personal info form data based on the user's ID
+
+    //function to read the csrf token from the cookie to be used in the fetch request
+    function getCookie(name: string | any[]) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '='))
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            }
+        }
+        return cookieValue;
+    }
+
+    const csrfToken = getCookie('XSRF-TOKEN');
+
+     // Function to fetch personal info form data based on the user's ID
     const fetchData = useCallback(async () => {
         try {
             const response = await fetch(`http://localhost:8080/personalForms/user/${initialUser.userId}`, {
@@ -162,7 +180,10 @@ const PersonalInfoForm: React.FC<ComponentProps> = ({ setCurrentPage }) => {
         const requestOptions: RequestInit = {
             credentials: 'include',
             method: formData.id ? 'PUT' : 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: {
+                'Content-Type': 'application/json', 
+                'X-XSRF-TOKEN': csrfToken
+            } as HeadersInit,
             body: JSON.stringify({
                 user: { userId: initialUser.userId },
                 ...formData
