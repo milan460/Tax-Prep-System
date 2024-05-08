@@ -63,6 +63,7 @@ const W2Form: React.FC<ComponentProps> = ({ setCurrentPage }) => {
     const navigate = useNavigate();
     const { t } = useTranslation();
 
+    // Function to fetch current user details
     const fetchCurrentUser = async () => {
         try {
             const response = await fetch('http://localhost:8080/currentUser', {
@@ -79,14 +80,16 @@ const W2Form: React.FC<ComponentProps> = ({ setCurrentPage }) => {
         }
     };
 
+    // Function to retrieve a cookie value by name
     function getCookie(name: string | any[]) {
         let cookieValue = null;
         if (document.cookie && document.cookie !== '') {
             const cookies = document.cookie.split(';');
             for (let i = 0; i < cookies.length; i++) {
                 const cookie = cookies[i].trim();
-                if (cookie.substring(0, name.length + 1) === (name + '='))
+                if (cookie.substring(0, name.length + 1) === (name + '=')){
                     cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                }
             }
         }
         return cookieValue;
@@ -94,7 +97,7 @@ const W2Form: React.FC<ComponentProps> = ({ setCurrentPage }) => {
 
     const csrfToken = getCookie('XSRF-TOKEN');
 
-    
+    // Function to fetch existing W2 form data for the user
     const fetchData = async () => {
         try {
             const response = await fetch(`http://localhost:8080/w2Forms/user/${initialUser.userId}`, {
@@ -111,12 +114,14 @@ const W2Form: React.FC<ComponentProps> = ({ setCurrentPage }) => {
         }
     };
 
+    // Effect to fetch user and form data on component mount or user ID change
     useEffect(() => {
         fetchCurrentUser();
         fetchData();
         
     }, [initialUser.userId]);
 
+    // Handlers for form input changes
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({
@@ -133,27 +138,25 @@ const W2Form: React.FC<ComponentProps> = ({ setCurrentPage }) => {
         }));
     };
 
+    // Navigation handler for going back
     const handleBack = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         navigate('/personal-info-form');
     }
 
+    // Handler for submitting the form data
     const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-
         const requiredFields = ["income", "streetAddress1", "city", "state", "zip"];
         const isEmptyField = Object.entries(formData)
             .filter(([key]) => requiredFields.includes(key))
             .some(([, value]) => value === '');
-
         if (isEmptyField) {
             setShowAlert(true);
             setIsSuccess(false);
             return;
         }
-
         const userId: number = initialUser.userId;
-
         let requestOptions: any;
         const formDataToSend = {
             user: {
@@ -171,7 +174,6 @@ const W2Form: React.FC<ComponentProps> = ({ setCurrentPage }) => {
             state: formData.state,
             zip: formData.zip
         };
-
         if (formData.id) {
             requestOptions = {
                 credentials: 'include',
@@ -179,7 +181,6 @@ const W2Form: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                 headers: {
                     'Content-Type': 'application/json',
                     'X-XSRF-TOKEN': csrfToken
-                    
                 },
                 body: JSON.stringify(formDataToSend)
             };
@@ -194,15 +195,12 @@ const W2Form: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                 body: JSON.stringify(formDataToSend)
             };
         }
-
         try {
             let url = 'http://localhost:8080/w2Forms/createW2Form';
             if (formData.id) {
                 url = `http://localhost:8080/w2Forms/updateW2Form/${userId}`;
             }
-
             const response = await fetch(url, requestOptions);
-
             setIsSuccess(true);
             setShowAlert(false);
             navigate('/int-1099-form');
@@ -214,7 +212,6 @@ const W2Form: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                 if (formId) {
                     localStorage.setItem('formId', formId);
                 }
-
                 fetchData();
             }
         } catch (error) {
@@ -416,7 +413,6 @@ const W2Form: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                                 <option value="West Virginia">West Virginia</option>
                                 <option value="Wisconsin">Wisconsin</option>
                                 <option value="Wyoming">Wyoming</option>
-
                             </Select>
                         </Grid>
                         <Grid col={2}>
@@ -430,7 +426,6 @@ const W2Form: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                                 placeholder={t('zipPlaceholder')}
                             />
                         </Grid>
-
                     </Grid>
                 </GridContainer>
                 <GridContainer>
