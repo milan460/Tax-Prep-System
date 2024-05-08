@@ -89,7 +89,7 @@ const PersonalInfoForm: React.FC<ComponentProps> = ({ setCurrentPage }) => {
 
 
     //function to read the csrf token from the cookie to be used in the fetch request
-    function getCookie(name: string | any[]) {
+    function getCookie(name: string | unknown[]) {
         let cookieValue = null;
         if (document.cookie && document.cookie !== '') {
             const cookies = document.cookie.split(';');
@@ -163,11 +163,13 @@ const PersonalInfoForm: React.FC<ComponentProps> = ({ setCurrentPage }) => {
             handleSubmit();
             setIsDateOfBirthUpdated(false);
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isDateOfBirthUpdated]);
 
     
     // Function to handle the submission of the form
     const handleSubmit = async () => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { streetAddress2, dependents, ...otherFields } = formData;
         const isEmptyField = Object.values(otherFields).some(value => value === '');
         if (isEmptyField) {

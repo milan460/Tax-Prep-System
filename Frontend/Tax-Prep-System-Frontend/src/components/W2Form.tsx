@@ -81,7 +81,7 @@ const W2Form: React.FC<ComponentProps> = ({ setCurrentPage }) => {
     };
 
     // Function to retrieve a cookie value by name
-    function getCookie(name: string | any[]) {
+    function getCookie(name: string | unknown[]) {
         let cookieValue = null;
         if (document.cookie && document.cookie !== '') {
             const cookies = document.cookie.split(';');
@@ -119,6 +119,7 @@ const W2Form: React.FC<ComponentProps> = ({ setCurrentPage }) => {
         fetchCurrentUser();
         fetchData();
         
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [initialUser.userId]);
 
     // Handlers for form input changes
@@ -157,6 +158,7 @@ const W2Form: React.FC<ComponentProps> = ({ setCurrentPage }) => {
             return;
         }
         const userId: number = initialUser.userId;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let requestOptions: any;
         const formDataToSend = {
             user: {

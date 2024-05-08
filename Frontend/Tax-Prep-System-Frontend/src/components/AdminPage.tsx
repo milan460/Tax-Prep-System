@@ -23,6 +23,8 @@ interface AdminFormData {
     [key: string]: number; // Allows for indexing by string keys
 }
 
+
+
 const AdminPage: React.FC<ComponentProps> = ({ setCurrentPage }) => {
     setCurrentPage(-1);
     // Initial state for form data
@@ -46,7 +48,7 @@ const AdminPage: React.FC<ComponentProps> = ({ setCurrentPage }) => {
     const [isSuccess, setIsSuccess] = useState(false);
 
     // Function to retrieve a cookie value by name
-    function getCookie(name: string | any[]) {
+    function getCookie(name: string | unknown[]) {
         let cookieValue = null;
         if (document.cookie && document.cookie !== '') {
             const cookies = document.cookie.split(';');
@@ -82,6 +84,7 @@ const AdminPage: React.FC<ComponentProps> = ({ setCurrentPage }) => {
     // Effect hook to fetch data on component mount
     useEffect(() => {
         fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     // Handles field input
@@ -110,13 +113,14 @@ const AdminPage: React.FC<ComponentProps> = ({ setCurrentPage }) => {
             taxBracket7: formData.taxBracket7
         };
         try {
+            const headers: HeadersInit = {
+                'Content-Type': 'application/json',
+                'X-XSRF-TOKEN': csrfToken || undefined
+            } as HeadersInit;
             const response = await fetch('http://localhost:8080/constants/updateConstants', {
                 credentials: "include",
                 method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-XSRF-TOKEN': csrfToken
-                },
+                headers: headers,
                 body: JSON.stringify(formDataToSend)
             });
             setIsSuccess(true);
