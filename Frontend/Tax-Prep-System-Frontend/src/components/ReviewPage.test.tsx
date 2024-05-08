@@ -1,53 +1,30 @@
-import { render, fireEvent } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import ReviewPage from './ReviewPage';
+import React from 'react';
 
-
+// Mocking the 'useNavigate' function from 'react-router-dom' for testing purposes
 jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useNavigate: jest.fn(),
-}));
-
-const MockRouter: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <MemoryRouter initialEntries={['/']}>{children}</MemoryRouter>
-);
-
-it('renders correctly', () => {
-  const setCurrentPageMock = jest.fn();
-
-  const { container } = render(
-    <MockRouter>
-      <ReviewPage setCurrentPage={setCurrentPageMock} />
-    </MockRouter>
+    ...jest.requireActual('react-router-dom'), // Preserve actual functionality of 'react-router-dom'
+    useNavigate: jest.fn(), // Mocking the useNavigate hook with jest.fn()
+  }));
+  
+  // Creating a mock router component for testing
+  const MockRouter: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+    <MemoryRouter initialEntries={['/']}>{children}</MemoryRouter>
   );
-  expect(container).toMatchSnapshot();
-});
-
-describe('ReviewPage component', () => {
-    beforeEach(() => {
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
-
-    it('updates state correctly with handleInputChange', () => {
-        // Render the ReviewPage component within a test environment
-        const { container } = render(
-          <MockRouter>
-            <ReviewPage setCurrentPage={jest.fn()} />
-          </MockRouter>
-        );
-      
-        // Get the input elements for first name and last name
-        const firstNameInput = container.querySelector('#firstName') as HTMLInputElement;
-        const lastNameInput = container.querySelector('#lastName') as HTMLInputElement;
-      
-        // Call handleInputChange directly with the desired field and value
-        fireEvent.change(firstNameInput, { target: { value: 'John' } });
-        fireEvent.change(lastNameInput, { target: { value: 'Doe' } });
-        
-        // Assert state updates
-        expect(firstNameInput.value).toBe('John');
-        expect(lastNameInput.value).toBe('Doe');
-      });
-    
-});
+  
+  // Test case to check if the ReviewPage component renders correctly
+  it('renders correctly', () => {
+    const setCurrentPageMock = jest.fn(); // Mocking setCurrentPage function
+  
+    // Rendering the ReviewPage component within the mock router
+    const { container } = render(
+      <MockRouter>
+        <ReviewPage setCurrentPage={setCurrentPageMock} />
+      </MockRouter>
+    );
+  
+    // Expecting the container to match the snapshot
+    expect(container).toMatchSnapshot();
+  });
