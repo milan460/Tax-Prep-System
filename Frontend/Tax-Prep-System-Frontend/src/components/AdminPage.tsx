@@ -2,6 +2,11 @@ import React, { useEffect, useState } from 'react';
 import './adminPage.css';
 import { Alert, Button, Grid, GridContainer, Label, TextInput } from '@trussworks/react-uswds';
 
+// TypeScript interface for the props
+interface ComponentProps{
+    setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+}
+
 // Interface for the admin form data structure
 interface AdminFormData {
     id: number;
@@ -18,8 +23,8 @@ interface AdminFormData {
     [key: string]: number; // Allows for indexing by string keys
 }
 
-export default function AdminPage() {
-
+const AdminPage: React.FC<ComponentProps> = ({ setCurrentPage }) => {
+    setCurrentPage(-1);
     // Initial state for form data
     const initialFormData: AdminFormData = {
         id: 1,
@@ -173,3 +178,5 @@ export default function AdminPage() {
         </>
     );
 }
+
+export default AdminPage;
