@@ -58,7 +58,6 @@ const PersonalInfoForm: React.FC<ComponentProps> = ({ setCurrentPage }) => {
         role: ""
     };
 
-
     const [formData, setFormData] = useState<PersonalInfoFormData>(initialFormData);
     const [selectedMonth, setSelectedMonth] = useState<string>('');
     const [selectedDay, setSelectedDay] = useState<string>('');
@@ -70,8 +69,7 @@ const PersonalInfoForm: React.FC<ComponentProps> = ({ setCurrentPage }) => {
     const navigate = useNavigate();
     const { t } = useTranslation();
 
-
-
+    // Function to fetch the current user's data
     const fetchCurrentUser = async () => {
         try {
             const response = await fetch('http://localhost:8080/currentUser', {
@@ -88,8 +86,8 @@ const PersonalInfoForm: React.FC<ComponentProps> = ({ setCurrentPage }) => {
         }
     };
 
+    // Function to fetch personal info form data based on the user's ID
     const fetchData = useCallback(async () => {
-
         try {
             const response = await fetch(`http://localhost:8080/personalForms/user/${initialUser.userId}`, {
                 credentials: 'include',
@@ -98,7 +96,6 @@ const PersonalInfoForm: React.FC<ComponentProps> = ({ setCurrentPage }) => {
             if (response.ok) {
                 const data: PersonalInfoFormData = await response.json();
                 setFormData(data);
-
                 const [year, month, day] = data.dateOfBirth.split('-');
                 setSelectedYear(year);
                 setSelectedMonth(month);
@@ -109,11 +106,13 @@ const PersonalInfoForm: React.FC<ComponentProps> = ({ setCurrentPage }) => {
         }
     }, [initialUser.userId]);
 
+    // Effect hook to fetch current user and form data when component mounts or user ID changes
     useEffect(() => {
         fetchCurrentUser();
         fetchData();
     }, [fetchData, initialUser.userId]);
 
+    // Function to handle input changes and update the corresponding state
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({
@@ -124,6 +123,7 @@ const PersonalInfoForm: React.FC<ComponentProps> = ({ setCurrentPage }) => {
 
     const [isDateOfBirthUpdated, setIsDateOfBirthUpdated] = useState(false);
 
+    // Function to validate and update the date of birth in the form data
     const updateDateOfBirth = () => {
         const dateOfBirth = `${selectedYear}-${selectedMonth.padStart(2, '0')}-${selectedDay.padStart(2, '0')}`;
         if (!isValidInputDate(selectedYear, selectedMonth, selectedDay)) {
@@ -132,7 +132,6 @@ const PersonalInfoForm: React.FC<ComponentProps> = ({ setCurrentPage }) => {
             setIsSuccess(false);
             return Promise.reject("Invalid date");
         }
-
         setFormData(prevData => ({
             ...prevData,
             dateOfBirth: dateOfBirth
@@ -140,6 +139,7 @@ const PersonalInfoForm: React.FC<ComponentProps> = ({ setCurrentPage }) => {
         setIsDateOfBirthUpdated(true);
     };
 
+    // Effect hook to automatically submit the form when the date of birth is updated
     useEffect(() => {
         if (isDateOfBirthUpdated) {
             handleSubmit();
@@ -148,20 +148,17 @@ const PersonalInfoForm: React.FC<ComponentProps> = ({ setCurrentPage }) => {
     }, [isDateOfBirthUpdated]);
 
     
-    
+    // Function to handle the submission of the form
     const handleSubmit = async () => {
-    
         const { streetAddress2, dependents, ...otherFields } = formData;
         const isEmptyField = Object.values(otherFields).some(value => value === '');
-    
         if (isEmptyField) {
             console.log("Empty fields detected in:", otherFields);
             setShowAlert(true);
             setIsSuccess(false);
             return;
         }
-
-        // Prepare the request options with updated formData
+        // Prepare the request options with updated form data
         const requestOptions: RequestInit = {
             credentials: 'include',
             method: formData.id ? 'PUT' : 'POST',
@@ -171,14 +168,12 @@ const PersonalInfoForm: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                 ...formData
             })
         };
-
         try {
             const url = formData.id ? `http://localhost:8080/personalForms/updatePersonalInfo/${initialUser.userId}` : 'http://localhost:8080/personalForms/createPersonalForm';
             const response = await fetch(url, requestOptions);
             setIsSuccess(true);
             setShowAlert(false);
             navigate('/w2-form');
-
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
@@ -193,8 +188,8 @@ const PersonalInfoForm: React.FC<ComponentProps> = ({ setCurrentPage }) => {
             console.error('There was a problem with the fetch operation:', error);
         }
     };
-    
 
+    // Additional functions to handle changes in specific form fields like filing status and state
     const handleFilingStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const { value } = e.target;
         if (value === "Married") {
@@ -241,11 +236,11 @@ const PersonalInfoForm: React.FC<ComponentProps> = ({ setCurrentPage }) => {
         setSelectedYear(e.target.value);
     };
 
+    // Function to validate the input date
     const isValidInputDate = (year: string, month: string, day: string) => {
         const parsedYear = parseInt(year);
         const parsedMonth = parseInt(month);
         const parsedDay = parseInt(day);
-
         if (
             isNaN(parsedYear) ||
             isNaN(parsedMonth) ||
@@ -259,7 +254,6 @@ const PersonalInfoForm: React.FC<ComponentProps> = ({ setCurrentPage }) => {
         ) {
             return false;
         }
-
         return true;
     };
 
@@ -292,6 +286,7 @@ const PersonalInfoForm: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                                 placeholder={t('firstNamePlaceholder')}
                             />
                         </Grid>
+
                         <Grid col={4} className="usa-form-group">
                             <Label htmlFor="lastName" className="text-bold text-underline text-info-darker">{t('lastNameLabel')}</Label>
                             <TextInput
@@ -304,6 +299,7 @@ const PersonalInfoForm: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                                 placeholder={t('lastNamePlaceholder')}
                             />
                         </Grid>
+
                         <Grid col={4} className="usa-form-group">
                             <Label htmlFor="email" className="text-bold text-underline text-info-darker">{t('emailLabel')}</Label>
                             <TextInput
@@ -316,7 +312,6 @@ const PersonalInfoForm: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                                 placeholder={t('emailPlaceholder')}
                             />
                         </Grid>
-
 
                         <Grid col={6} className="usa-form-group">
                             <Label htmlFor="streetAddress1" className="text-bold text-underline text-info-darker">{t('streetAddress1Label')}</Label>
@@ -331,7 +326,6 @@ const PersonalInfoForm: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                             />
                         </Grid>
 
-
                         <Grid col={6} className="usa-form-group">
                             <Label htmlFor="streetAddress2" className="text-bold text-underline text-info-darker">{t('streetAddress2Label')} <span className="text-italic">- {t('optional')}</span></Label>
                             <TextInput
@@ -344,6 +338,7 @@ const PersonalInfoForm: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                                 placeholder={t('streetAddress2Placeholder')}
                             />
                         </Grid>
+
                         <Grid col={4} className="usa-form-group">
                             <Label htmlFor="city" className="text-bold text-underline text-info-darker">{t('cityLabel')}</Label>
                             <TextInput
@@ -356,6 +351,7 @@ const PersonalInfoForm: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                                 placeholder={t('cityPlaceholder')}
                             />
                         </Grid>
+
                         <Grid col={4} className="usa-form-group">
                             <Label htmlFor="state" className="text-bold text-underline text-info-darker">{t('stateLabel')}</Label>
                             <Select
@@ -419,6 +415,7 @@ const PersonalInfoForm: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                                 <option value="Wyoming">Wyoming</option>
                             </Select>
                         </Grid>
+
                         <Grid col={4} className="usa-form-group">
                             <Label htmlFor="zip" className="text-bold text-underline text-info-darker">{t('zipLabel')}</Label>
                             <TextInput
@@ -431,6 +428,7 @@ const PersonalInfoForm: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                                 placeholder="Ex: 12345"
                             />
                         </Grid>
+
                         <Grid col={4} className="usa-form-group">
                             <Label htmlFor="ssn" className="text-bold text-underline text-info-darker">{t('ssnLabel')}</Label>
                             <TextInput
@@ -461,6 +459,7 @@ const PersonalInfoForm: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                                 <option value="Married File Separate">{t('marriedFileSeparate')}</option>
                             </Select>
                         </Grid>
+
                         <Grid col={4} className="usa-form-group">
                             <Label htmlFor="dependents" className="text-bold text-underline text-info-darker">{t('dependentsLabel')}</Label>
                             <TextInput
@@ -499,8 +498,8 @@ const PersonalInfoForm: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                                 <DateInput id="year" name="year" label={t("yearLabel")} unit="year" maxLength={4} minLength={4} value={selectedYear} onChange={handleYearChange} placeholder="Ex:2000" />
                             </DateInputGroup>
                         </Grid>
-                    </Grid>
 
+                    </Grid>
                 </GridContainer>
                 <GridContainer>
                     <Grid row>
@@ -514,14 +513,12 @@ const PersonalInfoForm: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                                     console.error("Error updating Date of Birth:", error);
                                 }
                             }}>{t('continueButton')}</Button>
-
                         </Grid>
                     </Grid>
                 </GridContainer>
             </div>
         </>
     );
-
 }
 
 export default PersonalInfoForm;
