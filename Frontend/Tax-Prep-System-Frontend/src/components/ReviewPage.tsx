@@ -358,7 +358,7 @@ const ReviewPage: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                     <Grid row>
                         <Grid col={12}>
                             <a href="/w2-form" onClick={(e) => { e.preventDefault(); navigate('/w2-form'); }}>
-                                <h3>{t('w2Form')}</h3>
+                                <h3>W2</h3>
                             </a>
                         </Grid>
                     </Grid>
@@ -413,7 +413,7 @@ const ReviewPage: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                     <Grid row>
                         <Grid col={12}>
                             <a href="/int-1099-form" onClick={(e) => { e.preventDefault(); navigate('/int-1099-form'); }}>
-                                <h3>{t('int1099Form')}</h3>
+                                <h3>INT1099</h3>
                             </a>
                         </Grid>
                     </Grid>

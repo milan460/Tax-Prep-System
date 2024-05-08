@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './adminPage.css';
 import { Alert, Button, Grid, GridContainer, Label, TextInput } from '@trussworks/react-uswds';
 
+// Interface for the admin form data structure
 interface AdminFormData {
     id: number;
     dependentsConstant: number;
@@ -14,10 +15,12 @@ interface AdminFormData {
     taxBracket5: number;
     taxBracket6: number;
     taxBracket7: number;
-    [key: string]: number;
+    [key: string]: number; // Allows for indexing by string keys
 }
 
 export default function AdminPage() {
+
+    // Initial state for form data
     const initialFormData: AdminFormData = {
         id: 1,
         dependentsConstant: 0,
@@ -32,11 +35,12 @@ export default function AdminPage() {
         taxBracket7: 0
     };
     
-
+    // State hooks for form data, alert visibility, and submission success
     const [formData, setFormData] = useState<AdminFormData>(initialFormData);
     const [showAlert, setShowAlert] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
 
+    // Fetches initial data for the form
     const fetchData = async () => {
         try {
             const response = await fetch(`http://localhost:8080/constants`, {
@@ -46,7 +50,6 @@ export default function AdminPage() {
             if (response.ok) {
                 const data = await response.json();
                 const dataObject = data[0]
-                console.log("Fetched Constants Data:", dataObject);
                 setFormData({ ...initialFormData, ...dataObject });
             }
         } catch (error) {
@@ -54,11 +57,12 @@ export default function AdminPage() {
         }
     };
     
-
+    // Effect hook to fetch data on component mount
     useEffect(() => {
         fetchData();
     }, []);
 
+    // Handles field input
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({
@@ -67,6 +71,7 @@ export default function AdminPage() {
         }));
     };
 
+    // Handles form submission
     const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         const formDataToSend = {
@@ -82,7 +87,6 @@ export default function AdminPage() {
             taxBracket6: formData.taxBracket6,
             taxBracket7: formData.taxBracket7
         };
-        console.log(formDataToSend);
         try {
             const response = await fetch('http://localhost:8080/constants/updateConstants', {
                 credentials: "include",
@@ -140,14 +144,13 @@ export default function AdminPage() {
                                     </Grid>
                                 );
                             }
-                            return null; // Do not render anything for the 'id' key
+                            return null; 
                         })}
                     </Grid>
                     <div style={{ marginTop: '20px', textAlign: 'center' }}>
                         <Button type="button" id='adminSubmitChangesButton' onClick={handleSubmit}>Submit Changes</Button>
                     </div>
                 </GridContainer>
-
             </div>
         </>
     );

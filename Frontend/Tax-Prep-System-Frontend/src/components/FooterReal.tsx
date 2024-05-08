@@ -1,4 +1,3 @@
-// import React, { useState } from 'react';
 import './footerReal.css';
 import { Address, Footer, Logo } from '@trussworks/react-uswds';
 import { useTranslation } from 'react-i18next';
