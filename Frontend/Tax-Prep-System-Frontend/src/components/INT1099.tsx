@@ -83,6 +83,23 @@ const INT1099: React.FC<ComponentProps> = ({ setCurrentPage }) => {
         }
     };
 
+    // Function to retrieve a cookie value by name
+    function getCookie(name: string | any[]) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')){
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    const csrfToken = getCookie('XSRF-TOKEN');
+
      // Function to fetch 1099-INT form data
     const fetchData = async () => {
         try {
@@ -150,6 +167,7 @@ const INT1099: React.FC<ComponentProps> = ({ setCurrentPage }) => {
             method: method,
             headers: {
                 'Content-Type': 'application/json',
+                'X-XSRF-TOKEN': csrfToken
             },
             body: JSON.stringify(formDataToSend),
         })
