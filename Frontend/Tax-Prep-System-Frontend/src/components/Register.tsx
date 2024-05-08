@@ -7,6 +7,10 @@ const Register: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { t } = useTranslation();
 
+  const handleConsoleLog = () => {
+    console.log("You pressed the login button.")
+  }
+
   return( 
     <>
       <a className="usa-skipnav" href="#main-content">
@@ -28,7 +32,7 @@ const Register: React.FC = () => {
                 </h1>
                 <div className="bg-white padding-y-3 padding-x-5 border border-base-lighter">
                   <h1 className="margin-bottom-0">{t('createAccount')}</h1>
-                  <Form onSubmit={undefined}>
+                  <Form onSubmit={handleConsoleLog}>
                   <Fieldset legend={t('getStartedWithAnAccount')}>
                     <p>
                       <abbr title="required" className="usa-hint usa-hint--required">

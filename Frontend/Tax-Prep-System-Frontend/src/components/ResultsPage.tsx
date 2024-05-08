@@ -8,76 +8,76 @@ interface ComponentProps{
     setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
-interface Constants {
-    id: number;
-    dependentsConstant: number;
-    singleStatus: number;
-    marriedStatus: number;
-    taxBracket1: number;
-    taxBracket2: number;
-    taxBracket3: number;
-    taxBracket4: number;
-    taxBracket5: number;
-    taxBracket6: number;
-    taxBracket7: number;
-}
+// interface Constants {
+//     id: number;
+//     dependentsConstant: number;
+//     singleStatus: number;
+//     marriedStatus: number;
+//     taxBracket1: number;
+//     taxBracket2: number;
+//     taxBracket3: number;
+//     taxBracket4: number;
+//     taxBracket5: number;
+//     taxBracket6: number;
+//     taxBracket7: number;
+// }
 
-interface PersonalInfo {
-    user: {
-        userId: number;
-        username: string;
-        password: string;
-        role: string;
-    };
-    firstName: string;
-    lastName: string;
-    email: string;
-    streetAddress1: string;
-    streetAddress2: string;
-    city: string;
-    state: string;
-    zip: string;
-    dateOfBirth: string;
-    ssn: string;
-    filingStatus: string;
-    dependents: number;
-}
-interface W2Info {
-    id: number;
-    user: {
-        userId: number;
-        username: string;
-        password: string;
-        role: string;
-    };
-    income: number;
-    socialSecurityWages: number;
-    medicareWages: number;
-    socialSecurityTaxWithheld: number;
-    medicareTaxWithheld: number;
-    federalIncomeWithheld: number;
-    streetAddress1: string;
-    streetAddress2: string;
-    city: string;
-    state: string;
-    zip: string;
-}
+// interface PersonalInfo {
+//     user: {
+//         userId: number;
+//         username: string;
+//         password: string;
+//         role: string;
+//     };
+//     firstName: string;
+//     lastName: string;
+//     email: string;
+//     streetAddress1: string;
+//     streetAddress2: string;
+//     city: string;
+//     state: string;
+//     zip: string;
+//     dateOfBirth: string;
+//     ssn: string;
+//     filingStatus: string;
+//     dependents: number;
+// }
+// interface W2Info {
+//     id: number;
+//     user: {
+//         userId: number;
+//         username: string;
+//         password: string;
+//         role: string;
+//     };
+//     income: number;
+//     socialSecurityWages: number;
+//     medicareWages: number;
+//     socialSecurityTaxWithheld: number;
+//     medicareTaxWithheld: number;
+//     federalIncomeWithheld: number;
+//     streetAddress1: string;
+//     streetAddress2: string;
+//     city: string;
+//     state: string;
+//     zip: string;
+// }
 
-interface INT1099Info {
-    formId: number;
-    user: {
-        userId: number;
-        username: string;
-        password: string;
-        role: string;
-    };
-    payerName: string;
-    interestIncome: number;
-    federalIncomeTaxWithheld: number;
-    savingsBondsAndTreasuryInterest: number;
-    investmentExpenses: number;
-    marketDiscount: number;
-}
+// interface INT1099Info {
+//     formId: number;
+//     user: {
+//         userId: number;
+//         username: string;
+//         password: string;
+//         role: string;
+//     };
+//     payerName: string;
+//     interestIncome: number;
+//     federalIncomeTaxWithheld: number;
+//     savingsBondsAndTreasuryInterest: number;
+//     investmentExpenses: number;
+//     marketDiscount: number;
+// }
 
 interface User {
     userId: number;
@@ -95,10 +95,10 @@ const ResultsPage: React.FC<ComponentProps> = ({ setCurrentPage }) => {
     };
 
     // Initialize state variables using useState hook
-    const [constants, setConstants] = useState<Constants | null>(null);
-    const [personalInfo, setPersonalInfo] = useState<PersonalInfo | null>(null);
-    const [w2Info, setW2Info] = useState<W2Info | null>(null);
-    const [int1099Info, setInt1099Info] = useState<INT1099Info | null>(null);
+    // const [constants, setConstants] = useState<Constants | null>(null);
+    // const [personalInfo, setPersonalInfo] = useState<PersonalInfo | null>(null);
+    // const [w2Info, setW2Info] = useState<W2Info | null>(null);
+    // const [int1099Info, setInt1099Info] = useState<INT1099Info | null>(null);
     const [taxesOwed, setTaxesOwed] = useState<number>(0);
     const [taxBracket, setTaxBracket] = useState<string>('');
     const [totalIncome, setTotalIncome] = useState<number>(0);
@@ -173,10 +173,10 @@ const ResultsPage: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                     ]);
 
                     // Set state variables with fetched data
-                    setConstants(constantsData[0]);
-                    setPersonalInfo(personalInfoData);
-                    setW2Info(w2InfoData);
-                    setInt1099Info(int1099InfoData);
+                    // setConstants(constantsData[0]);
+                    // setPersonalInfo(personalInfoData);
+                    // setW2Info(w2InfoData);
+                    // setInt1099Info(int1099InfoData);
 
                      // Perform calculations based on fetched data
                     if (constantsData.length > 0 && personalInfoData && w2InfoData && int1099InfoData) {

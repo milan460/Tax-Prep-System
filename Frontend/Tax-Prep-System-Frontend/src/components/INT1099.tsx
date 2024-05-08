@@ -84,7 +84,7 @@ const INT1099: React.FC<ComponentProps> = ({ setCurrentPage }) => {
     };
 
     // Function to retrieve a cookie value by name
-    function getCookie(name: string | any[]) {
+    function getCookie(name: string | unknown[]) {
         let cookieValue = null;
         if (document.cookie && document.cookie !== '') {
             const cookies = document.cookie.split(';');
@@ -123,6 +123,7 @@ const INT1099: React.FC<ComponentProps> = ({ setCurrentPage }) => {
     useEffect(() => {
         fetchCurrentUser();
         fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [initialUser.userId]);
 
     // Function to handle form submission
@@ -160,15 +161,15 @@ const INT1099: React.FC<ComponentProps> = ({ setCurrentPage }) => {
         const URL = formData.formId ? `http://localhost:8080/1099/updateINTForm/user/${initialUser.userId}` : 'http://localhost:8080/1099/createINTForm';
 
         console.log(method)
-
+        const headers: HeadersInit = {
+            'Content-Type': 'application/json',
+            'X-XSRF-TOKEN': csrfToken || undefined
+        } as HeadersInit;
         // Send data to the backend
         fetch(URL, {
             credentials: 'include',
             method: method,
-            headers: {
-                'Content-Type': 'application/json',
-                'X-XSRF-TOKEN': csrfToken
-            },
+            headers: headers,
             body: JSON.stringify(formDataToSend),
         })
             .then(response => response.json())
@@ -317,4 +318,5 @@ const INT1099: React.FC<ComponentProps> = ({ setCurrentPage }) => {
 
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export default INT1099;
