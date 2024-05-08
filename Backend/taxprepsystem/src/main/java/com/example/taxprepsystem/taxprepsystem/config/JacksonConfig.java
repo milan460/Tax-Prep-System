@@ -30,8 +30,8 @@ public class JacksonConfig {
 
         //registering the module to the ObjectMapper
         mapper.registerModule(module);
-        //registering the JavaTimeModule to the ObjectMapper
 
+        //registering the JavaTimeModule to the ObjectMapper
         mapper.registerModule(new JavaTimeModule());
 
         //ignoring unknown properties

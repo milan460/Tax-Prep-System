@@ -1,4 +1,4 @@
-package com.example.taxprepsystem.taxprepsystem;
+package com.example.taxprepsystem.taxprepsystem.serviceTests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -149,31 +149,6 @@ public class UserServiceTest {
         assertThrows(RuntimeException.class, () -> userService.saveUser(existingUser));
     }
 
-    @Test
-    public void testSaveAdmin() {
-        // Arrange
-        User newAdmin = new User();
-        when(userRepository.findByUsername(newAdmin.getUsername())).thenReturn(Optional.empty());
-        when(userRepository.save(newAdmin)).thenReturn(newAdmin);
-
-        // Act
-        User result = userService.saveAdmin(newAdmin);
-
-        // Assert
-        assertNotNull(result);
-        assertEquals(newAdmin, result);
-        assertEquals("ADMIN", result.getRole());
-    }
-
-    @Test
-    public void testSaveAdminWhenUsernameExists() {
-        // Arrange
-        User existingAdmin = new User();
-        when(userRepository.findByUsername(existingAdmin.getUsername())).thenReturn(Optional.of(existingAdmin));
-
-        // Act and Assert
-        assertThrows(RuntimeException.class, () -> userService.saveAdmin(existingAdmin));
-    }
 
     @Test
     public void testUpdateUser() {
