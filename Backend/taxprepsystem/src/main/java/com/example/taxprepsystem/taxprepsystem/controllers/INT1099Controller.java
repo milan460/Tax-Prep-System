@@ -20,7 +20,7 @@ import com.example.taxprepsystem.taxprepsystem.models.INT1099;
 import com.example.taxprepsystem.taxprepsystem.services.INT1099Service;
 
 @RestController
-@CrossOrigin
+@CrossOrigin("http://localhost:5173/")
 @RequestMapping("/1099")
 public class INT1099Controller {
 

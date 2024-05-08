@@ -76,18 +76,6 @@ public class UserService implements UserDetailsService {
         return userRepository.save(user);
     }
 
-    // Save a new admin
-    public User saveAdmin(User user) throws RuntimeException{
-        Optional<User> foundAdmin = userRepository.findByUsername(user.getUsername());
-
-        if(foundAdmin.isPresent()){
-            throw new RuntimeException("Admin with that username already exists.");
-        }
-
-        user.setRole("ADMIN");
-
-        return userRepository.save(user);
-    }
 
     // Update a user
     public int updateUser(int userId, String newUsername, String newPassword, String newRole) {

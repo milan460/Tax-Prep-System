@@ -28,7 +28,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 
 @RestController
-@CrossOrigin
+@CrossOrigin("http://localhost:5173/")
 public class AuthenticationController { //Authentication Controller to handle user registration, login, and logout
 
 

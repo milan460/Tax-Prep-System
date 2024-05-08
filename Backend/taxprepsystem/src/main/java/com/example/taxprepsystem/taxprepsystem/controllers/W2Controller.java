@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @RestController
-@CrossOrigin
+@CrossOrigin("http://localhost:5173/")
 @RequestMapping("/w2Forms")
 
 
