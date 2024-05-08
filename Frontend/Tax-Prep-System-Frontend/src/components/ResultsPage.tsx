@@ -83,14 +83,18 @@ interface User {
     userId: number;
 }
 
+// Define ResultsPage component with props
 const ResultsPage: React.FC<ComponentProps> = ({ setCurrentPage }) => {
 
+    // Set current page to 6
     setCurrentPage(6);
 
+    // Initialize the user Id
     const User: User = {
         userId: 0,
     };
 
+    // Initialize state variables using useState hook
     const [constants, setConstants] = useState<Constants | null>(null);
     const [personalInfo, setPersonalInfo] = useState<PersonalInfo | null>(null);
     const [w2Info, setW2Info] = useState<W2Info | null>(null);
@@ -101,11 +105,14 @@ const ResultsPage: React.FC<ComponentProps> = ({ setCurrentPage }) => {
     const [totalIncomeAfterTaxes, setTotalIncomeAfterTaxes] = useState<number>(0);
     const [initialUser, setInitialUser] = useState<User>(User);
 
+     // Initialize navigate function and useTranslation hook
     const navigate = useNavigate();
     const { t } = useTranslation();
 
+    // Use useEffect hook to fetch data when initialUser.userId changes
     useEffect(() => {
 
+         // Function to fetch current user data with GET request
         const fetchCurrentUser = async () => {
             try {
                 const response = await fetch('http://localhost:8080/currentUser', {
@@ -113,6 +120,7 @@ const ResultsPage: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                     method: 'GET'
                 });
                 if (response.ok) {
+                    // Initialize the User data
                     const data: User = await response.json();
                     setInitialUser(data);
                     console.log(data);
@@ -122,34 +130,41 @@ const ResultsPage: React.FC<ComponentProps> = ({ setCurrentPage }) => {
             }
         };
 
+        // Function to fetch all necessary data for tax calculations
         const fetchData = async () => {
             try {
+                // Fetch constants with GET request
                 const constantsResponse = await fetch(`http://localhost:8080/constants`, {
                     credentials: 'include',
                     method: 'GET'
                 });
 
+                // Fetch personal info with GET request
                 const personalInfoResponse = await fetch(`http://localhost:8080/personalForms/user/${initialUser.userId}`, {
                     credentials: 'include',
                     method: 'GET'
                 });
 
+                // Fetch W2 info with GET request
                 const w2InfoResponse = await fetch(`http://localhost:8080/w2Forms/user/${initialUser.userId}`, {
                     credentials: 'include',
                     method: 'GET'
                 });
 
+                // Fetch 1099-int info with GET request
                 const int1099InfoResponse = await fetch(`http://localhost:8080/1099/user/${initialUser.userId}`, {
                     credentials: 'include',
                     method: 'GET'
                 });
 
+                // Check if all responses are OK
                 if (
                     constantsResponse.ok &&
                     personalInfoResponse.ok &&
                     w2InfoResponse.ok &&
                     int1099InfoResponse.ok
                 ) {
+                    // Parse response data
                     const [constantsData, personalInfoData, w2InfoData, int1099InfoData] = await Promise.all([
                         constantsResponse.json(),
                         personalInfoResponse.json(),
@@ -157,15 +172,18 @@ const ResultsPage: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                         int1099InfoResponse.json(),
                     ]);
 
+                    // Set state variables with fetched data
                     setConstants(constantsData[0]);
                     setPersonalInfo(personalInfoData);
                     setW2Info(w2InfoData);
                     setInt1099Info(int1099InfoData);
 
+                     // Perform calculations based on fetched data
                     if (constantsData.length > 0 && personalInfoData && w2InfoData && int1099InfoData) {
                         const { dependentsConstant, singleStatus, marriedStatus, taxBracket1, taxBracket2, taxBracket3, taxBracket4, taxBracket5, taxBracket6, taxBracket7 } = constantsData[0];
                         const { filingStatus, dependents } = personalInfoData;
 
+                        // Define tax brackets and thresholds
                         const bracket1Threshold = 9950;
                         const bracket2Threshold = 40525;
                         const bracket3Threshold = 86375;
@@ -173,17 +191,22 @@ const ResultsPage: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                         const bracket5Threshold = 209425;
                         const bracket6Threshold = 523600;
 
+                        // Calculate deductions, income, and taxes owed
                         const standardDeduction = filingStatus === 'Single' || filingStatus === 'Married File Separate' ? singleStatus : marriedStatus;
                         const dependentsDeduction = dependentsConstant * (dependents || 0);
 
+                        // Calculate total deductions and income
                         const totalDeductions = standardDeduction + dependentsDeduction;
                         const income = (w2InfoData.income || 0) + (int1099InfoData.interestIncome || 0);
 
+                        // Check if income and deductions are valid for tax calculation
                         if (!isNaN(income) && !isNaN(totalDeductions) && income >= totalDeductions) {
                             const taxableIncome = income - totalDeductions;
 
+                            // Initialize taxesOwed
                             let taxesOwed = 0;
 
+                            // Calculate taxes based on tax brackets and thresholds and set calculatedTaxBracket to show on Tax Breakdown
                             if (taxableIncome > 0) {
                                 let calculatedTaxBracket = '';
                                 if (taxableIncome <= bracket1Threshold) {
@@ -209,6 +232,7 @@ const ResultsPage: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                                     calculatedTaxBracket = '37%';
                                 }
 
+                                 // Set tax bracket, taxes owed, total income, and total income after taxes
                                 setTaxBracket(calculatedTaxBracket);
                                 setTaxesOwed(taxesOwed);
                                 setTotalIncome(income);
@@ -227,24 +251,29 @@ const ResultsPage: React.FC<ComponentProps> = ({ setCurrentPage }) => {
         fetchData();
     }, [initialUser.userId]);
 
+    // Function to navigate back to review page
     const handleBack = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         navigate('/review-page');
     }
 
+     // Function to navigate to home page
     const handleHome = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         navigate('/home');
     }
 
+    // Return ResultsPage component
     return (
         <>
+        {/* Tax breakdown section */}
             <div>
                 <div style={{ maxWidth: '600px', margin: '0 auto', marginTop: '50px', border: '1px solid #ccc', padding: '20px' }}>
                     <GridContainer>
                         <Grid col={12}>
                             <h1>{t('taxBreakdownTitle')}</h1>
                         </Grid>
+                         {/* Total income section */}
                         <Grid row>
                             <Grid col={12} style={{ display: 'flex', justifyContent: 'center' }}>
                                 <div style={{ width: '50%' }}>
@@ -253,6 +282,7 @@ const ResultsPage: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                                 </div>
                             </Grid>
                         </Grid>
+                          {/* Total taxes owed section */}
                         <Grid row>
                             <Grid col={12} style={{ display: 'flex', justifyContent: 'center' }}>
                                 <div style={{ width: '50%' }}>
@@ -261,6 +291,7 @@ const ResultsPage: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                                 </div>
                             </Grid>
                         </Grid>
+                          {/* Total income after taxes section */}
                         <Grid row>
                             <Grid col={12} style={{ display: 'flex', justifyContent: 'center' }}>
                                 <div>
@@ -269,6 +300,7 @@ const ResultsPage: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                                 </div>
                             </Grid>
                         </Grid>
+                          {/* Highest tax bracket section */}
                         <Grid row>
                             <Grid col={12} style={{ display: 'flex', justifyContent: 'center' }}>
                                 <div style={{ width: '50%' }}>
@@ -280,6 +312,7 @@ const ResultsPage: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                     </GridContainer>
                 </div>
 
+                {/* Navigation buttons */}
                 <div style={{ marginTop: '20px', marginBottom: '20px' }}>
                     <Button type="button" base onClick={handleBack}>{t('backButton')}</Button>
                     <Button type="button" onClick={handleHome}>{t('homeButton')}</Button>
