@@ -1,139 +1,201 @@
 package com.example.taxprepsystem.taxprepsystem;
+
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.example.taxprepsystem.taxprepsystem.models.User;
+import com.example.taxprepsystem.taxprepsystem.repositories.UserRepository;
 import com.example.taxprepsystem.taxprepsystem.services.UserService;
 
 public class UserServiceTest {
 
-    private static UserService userService;
-    private User user1;
-    private User user2;
-    private User user3;
+    @Mock
+    private UserRepository userRepository;
 
-    @BeforeClass
-    public static void setUpClass() {
-        userService = new UserService();
-    }
+    @InjectMocks
+    private UserService userService;
+    private AutoCloseable closeable;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        user1 = new User("testuser1", "password1", "ROLE_USER");
-        user2 = new User("testuser2", "password2", "ROLE_USER");
-        user3 = new User("testuser3", "password3", "ROLE_ADMIN");
-
-        userService.saveUser(user1);
-        userService.saveUser(user2);
-        userService.saveUser(user3);
+        closeable = MockitoAnnotations.openMocks(this);
     }
 
-    @After
-    public void tearDown() {
-        userService.deleteUser(user1.getUserId());
-        userService.deleteUser(user2.getUserId());
-        userService.deleteUser(user3.getUserId());
+    @AfterEach
+    public void tearDown() throws Exception {
+        closeable.close();
     }
 
     @Test
-    public void testFindUserByUsername_existingUser() {
-        User foundUser = userService.findUserByUsername("testuser1");
-        assertNotNull(foundUser);
-        assertEquals(user1.getUsername(), foundUser.getUsername());
-        assertEquals(user1.getPassword(), foundUser.getPassword());
-        assertEquals(user1.getRole(), foundUser.getRole());
+    public void testLoadUserByUsernameWhenFound() {
+        // Arrange
+        User expectedUser = new User();
+        when(userRepository.findByUsername("test")).thenReturn(Optional.of(expectedUser));
+
+        // Act
+        UserDetails result = userService.loadUserByUsername("test");
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(expectedUser, result);
     }
 
     @Test
-    public void testFindUserByUsername_nonExistingUser() {
-        User foundUser = userService.findUserByUsername("nonexistent");
-        assertNull(foundUser);
+    public void testLoadUserByUsernameWhenNotFound() {
+        // Arrange
+        when(userRepository.findByUsername("test")).thenReturn(Optional.empty());
+
+        // Act and Assert
+        assertThrows(UsernameNotFoundException.class, () -> userService.loadUserByUsername("test"));
+    }
+
+    @Test
+    public void testFindUserByUsername() {
+        // Arrange
+        User expectedUser = new User();
+        when(userRepository.findByUsername("test")).thenReturn(Optional.of(expectedUser));
+
+        // Act
+        User result = userService.findUserByUsername("test");
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(expectedUser, result);
     }
 
     @Test
     public void testGetAllUsers() {
-        List<User> allUsers = userService.getAllUsers();
-        assertNotNull(allUsers);
-        assertFalse(allUsers.isEmpty());
-        assertEquals(3, allUsers.size());
+        // Arrange
+        List<User> expectedList = Arrays.asList(new User(), new User());
+        when(userRepository.findAll()).thenReturn(expectedList);
+
+        // Act
+        List<User> result = userService.getAllUsers();
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(2, result.size());
+        assertEquals(expectedList, result);
     }
 
     @Test
-    public void testGetUserById_existingUser() {
-        User foundUser = userService.getUserById(user1.getUserId());
-        assertNotNull(foundUser);
-        assertEquals(user1.getUsername(), foundUser.getUsername());
-        assertEquals(user1.getPassword(), foundUser.getPassword());
-        assertEquals(user1.getRole(), foundUser.getRole());
+    public void testGetUserByIdWhenFound() {
+        // Arrange
+        User expectedUser = new User();
+        when(userRepository.findById(1)).thenReturn(Optional.of(expectedUser));
+
+        // Act
+        User result = userService.getUserById(1);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(expectedUser, result);
     }
 
     @Test
-    public void testGetUserById_nonExistingUser() {
-        User foundUser = userService.getUserById(-1);
-        assertNull(foundUser);
+    public void testGetUserByIdWhenNotFound() {
+        // Arrange
+        when(userRepository.findById(1)).thenReturn(Optional.empty());
+
+        // Act
+        User result = userService.getUserById(1);
+
+        // Assert
+        assertNull(result);
     }
 
     @Test
-    public void testSaveUser_newUser() {
-        User newUser = new User("newuser", "newpassword", "ROLE_USER");
-        User savedUser = userService.saveUser(newUser);
-        assertNotNull(savedUser);
-        assertEquals(newUser.getUsername(), savedUser.getUsername());
-        assertEquals(newUser.getPassword(), savedUser.getPassword());
-        assertEquals(newUser.getRole(), savedUser.getRole());
+    public void testSaveUser() {
+        // Arrange
+        User newUser = new User();
+        when(userRepository.findByUsername(newUser.getUsername())).thenReturn(Optional.empty());
+        when(userRepository.save(newUser)).thenReturn(newUser);
+
+        // Act
+        User result = userService.saveUser(newUser);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(newUser, result);
     }
 
     @Test
-    public void testSaveUser_existingUser() {
-        User existingUser = new User("testuser1", "newpassword", "ROLE_USER");
+    public void testSaveUserWhenUsernameExists() {
+        // Arrange
+        User existingUser = new User();
+        when(userRepository.findByUsername(existingUser.getUsername())).thenReturn(Optional.of(existingUser));
+
+        // Act and Assert
         assertThrows(RuntimeException.class, () -> userService.saveUser(existingUser));
     }
 
     @Test
-    public void testSaveAdmin_newAdmin() {
-        User newAdmin = new User("newadmin", "newpassword", "ROLE_ADMIN");
-        User savedAdmin = userService.saveAdmin(newAdmin);
-        assertNotNull(savedAdmin);
-        assertEquals(newAdmin.getUsername(), savedAdmin.getUsername());
-        assertEquals(newAdmin.getPassword(), savedAdmin.getPassword());
-        assertEquals(newAdmin.getRole(), savedAdmin.getRole());
+    public void testSaveAdmin() {
+        // Arrange
+        User newAdmin = new User();
+        when(userRepository.findByUsername(newAdmin.getUsername())).thenReturn(Optional.empty());
+        when(userRepository.save(newAdmin)).thenReturn(newAdmin);
+
+        // Act
+        User result = userService.saveAdmin(newAdmin);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(newAdmin, result);
+        assertEquals("ADMIN", result.getRole());
     }
 
     @Test
-    public void testSaveAdmin_existingAdmin() {
-        User existingAdmin = new User("admin", "password", "ROLE_ADMIN");
+    public void testSaveAdminWhenUsernameExists() {
+        // Arrange
+        User existingAdmin = new User();
+        when(userRepository.findByUsername(existingAdmin.getUsername())).thenReturn(Optional.of(existingAdmin));
+
+        // Act and Assert
         assertThrows(RuntimeException.class, () -> userService.saveAdmin(existingAdmin));
     }
 
     @Test
     public void testUpdateUser() {
-        String newUsername = "updateduser";
-        String newPassword = "newpassword";
-        String newRole = "ROLE_USER";
-        int updatedRows = userService.updateUser(user1.getUserId(), newUsername, newPassword, newRole);
-        assertEquals(1, updatedRows);
-        User updatedUser = userService.getUserById(user1.getUserId());
-        assertNotNull(updatedUser);
-        assertEquals(newUsername, updatedUser.getUsername());
-        assertEquals(newPassword, updatedUser.getPassword());
-        assertEquals(newRole, updatedUser.getRole());
+        // Arrange
+        User existingUser = new User();
+        when(userRepository.findById(1)).thenReturn(Optional.of(existingUser));
+        when(userRepository.updateUser(anyInt(), anyString(), anyString(), anyString())).thenReturn(1);
+                                                                                                        
+        // Act
+        int result = userService.updateUser(1, "newUsername", "newPassword", "newRole");
+
+        // Assert
+        assertEquals(1, result);
+        verify(userRepository, times(1)).updateUser(1, "newUsername", "newPassword", "newRole");
     }
 
     @Test
     public void testDeleteUser() {
-        userService.deleteUser(user3.getUserId());
-        User deletedUser = userService.getUserById(user3.getUserId());
-        assertNull(deletedUser);
+        // Arrange & Act
+        userService.deleteUser(1);
+
+        // Assert
+        verify(userRepository, times(1)).deleteById(1);
     }
 }
