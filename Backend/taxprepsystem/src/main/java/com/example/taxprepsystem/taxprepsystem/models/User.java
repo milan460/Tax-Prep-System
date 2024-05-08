@@ -82,11 +82,40 @@ public class User implements UserDetails {
     }
 
     @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        Set<SimpleGrantedAuthority> authorities = new HashSet<>();
+        SimpleGrantedAuthority userRole = new SimpleGrantedAuthority(role);
+        authorities.add(userRole);
+
+        return authorities;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    @Override
     public String toString() {
-        return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", role=" + role
-                + ", getUserId()=" + getUserId() + ", getUsername()=" + getUsername() + ", getPassword()="
-                + getPassword() + ", getClass()=" + getClass() + ", getRole()=" + getRole() + ", hashCode()="
-                + hashCode() + ", toString()=" + super.toString() + "]";
+        return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", role=" + role + "]";
+//                + ", getUserId()=" + getUserId() + ", getUsername()=" + getUsername() + ", getPassword()="
+//                + getPassword() + ", getClass()=" + getClass() + ", getRole()=" + getRole() + ", hashCode()="
+//                + hashCode() + ", toString()=" + super.toString() + "]";
     }
 
     @Override
@@ -129,31 +158,4 @@ public class User implements UserDetails {
         return true;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<SimpleGrantedAuthority> authorities = new HashSet<>();
-        SimpleGrantedAuthority userRole = new SimpleGrantedAuthority(role);
-        authorities.add(userRole);
-
-        return authorities;
-    }
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }
