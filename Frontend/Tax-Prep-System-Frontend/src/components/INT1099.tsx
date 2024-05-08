@@ -28,10 +28,13 @@ interface User {
     role?: string;
 }
 
+// Functional component for INT1099
 const INT1099: React.FC<ComponentProps> = ({ setCurrentPage }) => {
 
+    // Setting the current page when the component mounts
     setCurrentPage(3);
 
+    // Initializing User
     const User: User = {
         userId: 0,
         username: "",
@@ -39,6 +42,7 @@ const INT1099: React.FC<ComponentProps> = ({ setCurrentPage }) => {
         role: ""
     }
 
+    //Initializing 1099-int form
     const initial1099Form: INT1099Form = {
         // user: {
         //     userId: User.userId
@@ -51,15 +55,18 @@ const INT1099: React.FC<ComponentProps> = ({ setCurrentPage }) => {
         marketDiscount: ""
     }
 
+     // Initializing state variables using the useState hook
     const [formData, setFormData] = useState<INT1099Form>(initial1099Form);
     const [showAlert, setShowAlert] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
     const [initialUser, setInitialUser] = useState<User>(User);
 
 
+    // Initializing useNavigate and useTranslation
     const navigate = useNavigate();
     const { t } = useTranslation();
 
+     // Function to fetch the current user's data
     const fetchCurrentUser = async () => {
         try {
             const response = await fetch('http://localhost:8080/currentUser', {
@@ -76,12 +83,15 @@ const INT1099: React.FC<ComponentProps> = ({ setCurrentPage }) => {
         }
     };
 
+     // Function to fetch 1099-INT form data
     const fetchData = async () => {
         try {
+             // Fetching data from the backend with GET request
             const response = await fetch(`http://localhost:8080/1099/user/${initialUser.userId}`, {
                 credentials: 'include',
                 method: 'GET'
             });
+            // Setting the formdata if a response is successful
             if (response.ok) {
                 const data: INT1099Form = await response.json();
                 setFormData(data);
@@ -92,25 +102,30 @@ const INT1099: React.FC<ComponentProps> = ({ setCurrentPage }) => {
         }
     };
 
+    // Using the useEffect hook to run fetchCurrentUser and fetchData when initialUser.userId changes
     useEffect(() => {
         fetchCurrentUser();
         fetchData();
     }, [initialUser.userId]);
 
+    // Function to handle form submission
     const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
 
+        // Check if any required fields are empty
         const excludedFields = ["savingsBondsAndTreasuryInterest", "marketDiscount"];
         const isEmptyField = Object.entries(formData)
             .filter(([key]) => !excludedFields.includes(key))
             .some(([, value]) => value === '');
 
+        // Display alert if any required fields are empty
         if (isEmptyField) {
             setShowAlert(true);
             setIsSuccess(false);
             return;
         }
 
+        // Prepare data to send to the backend
         const formDataToSend = {
             user: {
                 userId: initialUser.userId
@@ -123,10 +138,13 @@ const INT1099: React.FC<ComponentProps> = ({ setCurrentPage }) => {
             marketDiscount: parseFloat(formData.marketDiscount)
         }
 
+        // Determine HTTP method based on formId existence
         const method = formData.formId ? 'PUT' : 'POST';
         const URL = formData.formId ? `http://localhost:8080/1099/updateINTForm/user/${initialUser.userId}` : 'http://localhost:8080/1099/createINTForm';
 
         console.log(method)
+
+        // Send data to the backend
         fetch(URL, {
             credentials: 'include',
             method: method,
@@ -138,16 +156,20 @@ const INT1099: React.FC<ComponentProps> = ({ setCurrentPage }) => {
             .then(response => response.json())
             .then(data => {
                 console.log('Success', data)
+
+                // Reload the data if successful POST or PUT request
                 fetchData();
 
+                // Sets the alerts to successful if all fields are filled out
                 setIsSuccess(true);
                 setShowAlert(false);
-                navigate("/review-page");
+                navigate("/review-page"); // Navigate to review page after successful form submission
             })
             .catch(error => console.error('error with request', error));
 
     };
 
+     // Function to handle input change
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
 
@@ -157,6 +179,7 @@ const INT1099: React.FC<ComponentProps> = ({ setCurrentPage }) => {
         }));
     };
 
+    // Function to navigate back to the previous page
     const handleBack = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         navigate('/w2-form');
@@ -164,8 +187,10 @@ const INT1099: React.FC<ComponentProps> = ({ setCurrentPage }) => {
 
 
 
+    // Rendering of the component with form elements and handlers
     return (
         <>
+        {/*Showing the alerts if there is an error or successful*/}
             <div>
                 {showAlert && (
                     <Alert type="error" heading="Error status" headingLevel="h4" style={{ maxWidth: '400px', margin: '0 auto' }}>
@@ -177,6 +202,7 @@ const INT1099: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                         {t('formSuccessfullyFilled')}
                     </Alert>
                 )}
+                {/*Display the 1099-int form*/}
                 <h1>{t('1099INTForm')}</h1>
                 <GridContainer>
                     <Grid row>
@@ -257,6 +283,7 @@ const INT1099: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                         </Grid>
                     </Grid>
                 </GridContainer>
+                {/*Buttons on the Form to go back or continue*/}
                 <GridContainer>
                     <Grid row>
                         <Grid col={12}>

@@ -74,10 +74,13 @@ interface User {
     role?: string;
 }
 
+// Define ReviewPage component with props
 const ReviewPage: React.FC<ComponentProps> = ({ setCurrentPage }) => {
 
+    // Set current page to 4
     setCurrentPage(4);
 
+    // Initialize a user
     const User: User = {
         userId: 0,
         username: "",
@@ -85,19 +88,23 @@ const ReviewPage: React.FC<ComponentProps> = ({ setCurrentPage }) => {
         role: ""
     };
 
+     // Initialize state variables using useState hook
     const [personalInfo, setPersonalInfo] = useState<PersonalInfo | null>(null);
     const [w2Info, setW2Info] = useState<W2Info | null>(null);
     const [int1099Info, setInt1099Info] = useState<INT1099Info | null>(null);
     const [showSubmitAlert, setShowSubmitAlert] = useState(false);
     const [initialUser, setInitialUser] = useState<User>(User);
 
+     // Initialize navigate function and useTranslation hook
     const navigate = useNavigate();
     const { t } = useTranslation();
 
 
 
+    // Use useEffect hook to fetch data when initialUser.userId changes
     useEffect(() => {
 
+        // Function to fetch current user data with GET request
         const fetchCurrentUser = async () => {
             try {
                 const response = await fetch('http://localhost:8080/currentUser', {
@@ -106,6 +113,7 @@ const ReviewPage: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                 });
                 if (response.ok) {
                     const data: User = await response.json();
+                    // Set the user data if fetch was successful
                     setInitialUser(data);
                     console.log(data);
                 }
@@ -114,15 +122,17 @@ const ReviewPage: React.FC<ComponentProps> = ({ setCurrentPage }) => {
             }
         };
 
+        // Function to fetch personal information with GET request
         const fetchPersonalInfo = async () => {
             try {
                 const response = await fetch(`http://localhost:8080/personalForms/user/${initialUser.userId}`, {
                     credentials: 'include',
                     method: 'GET'
                 });
-                const text = await response.text();  // Read the response as text first
+                const text = await response.text();  
                 try {
-                    const data = JSON.parse(text);  // Try parsing it as JSON
+                    const data = JSON.parse(text);  
+                    // Set the personal info data if fetch was successful
                     setPersonalInfo(data);
                 } catch (jsonError) {
                     console.error('Failed to parse JSON:', jsonError, 'Response received:', text);
@@ -135,6 +145,7 @@ const ReviewPage: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                 console.error('Error fetching personal information:', error);
             }
         };
+        // Function to fetch W2 information with GET request
         const fetchW2Info = async () => {
             try {
                 const response = await fetch(`http://localhost:8080/w2Forms/user/${initialUser.userId}`, {
@@ -143,6 +154,7 @@ const ReviewPage: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                 });
                 if (response.ok) {
                     const data: W2Info = await response.json();
+                    // Set the W2 info data if fetch was successful
                     setW2Info(data);
                 }
             } catch (error) {
@@ -150,6 +162,7 @@ const ReviewPage: React.FC<ComponentProps> = ({ setCurrentPage }) => {
             }
         };
 
+        // Function to fetch 1099-INT information with GET request
         const fetchINT1099Info = async () => {
             try {
                 const response = await fetch(`http://localhost:8080/1099/user/${initialUser.userId}`, {
@@ -158,18 +171,22 @@ const ReviewPage: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                 });
                 if (response.ok) {
                     const data: INT1099Info = await response.json();
+                    // Set 1099-int info if fetch was successful
                     setInt1099Info(data);
                 }
             } catch (error) {
                 console.error('Error fetching 1099-INT information:', error);
             }
         };
+
+        // Call all the fetch functions to load the data
         fetchCurrentUser();
         fetchINT1099Info();
         fetchW2Info();
         fetchPersonalInfo();
     }, [initialUser.userId]);
 
+     // Function to handle input changes for all forms
     const handleInputChange = (
         field: keyof PersonalInfo | keyof W2Info | keyof INT1099Info,
         value: string
@@ -185,18 +202,22 @@ const ReviewPage: React.FC<ComponentProps> = ({ setCurrentPage }) => {
         }
     };
 
+     // Function to navigate back
     const handleBack = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         navigate('/int-1099-form');
     }
 
+    // Function to handle form submission
     const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         setShowSubmitAlert(true);
     };
 
+     // Return ReviewPage component
     return (
         <>
+        {/*Shows the info from personal info form*/}
             <div>
                 <GridContainer>
                     <Grid row>
@@ -355,6 +376,7 @@ const ReviewPage: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                     </Grid>
                 </GridContainer>
 
+                {/*Shows the info from W2 form*/}
                 <GridContainer>
                     <Grid row>
                         <Grid col={12}>
@@ -410,6 +432,8 @@ const ReviewPage: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                         </Grid>
                     </Grid>
                 </GridContainer>
+
+                {/*Shows the info from 1099-int form*/}
                 <GridContainer>
                     <Grid row>
                         <Grid col={12}>
@@ -465,6 +489,7 @@ const ReviewPage: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                         </Grid>
                     </Grid>
                 </GridContainer>
+                {/*Buttons to go back or submit the review page*/}
                 <div style={{ marginTop: '20px', marginBottom: '20px', justifyContent: 'center' }}>
                     <Button type="button" base onClick={handleBack}>{t('backButton')}</Button>
                     <Button type="button" onClick={handleSubmit}>{t('submitButton')}</Button>
