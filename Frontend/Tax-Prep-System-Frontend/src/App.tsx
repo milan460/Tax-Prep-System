@@ -22,7 +22,7 @@ function App() {
             <Route path="/int-1099-form" element={<INT1099Form setCurrentPage={setCurrentPage}/>}/>
             <Route path="/review-page" element={<ReviewPage setCurrentPage={setCurrentPage}/>}/>
             <Route path="/results-page" element={<ResultsPage setCurrentPage={setCurrentPage}/>}/>
-            <Route path="/admin-page" element={<AdminPage/>}/>
+            <Route path="/admin-page" element={<AdminPage setCurrentPage={setCurrentPage}/>}/>
             <Route path="/home" element={<Home setCurrentPage={setCurrentPage}/>}/>
           </Routes>
           <FooterReal />
