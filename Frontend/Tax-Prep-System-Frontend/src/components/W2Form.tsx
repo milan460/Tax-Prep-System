@@ -66,7 +66,7 @@ const W2Form: React.FC<ComponentProps> = ({ setCurrentPage }) => {
     // Function to fetch current user details
     const fetchCurrentUser = async () => {
         try {
-            const response = await fetch('http://localhost:8080/currentUser', {
+            const response = await fetch('http://tyler-alex-milan-tax-system.skillstorm-congo.com:8080/currentUser', {
                 credentials: 'include',
                 method: 'GET'
             });
@@ -100,7 +100,7 @@ const W2Form: React.FC<ComponentProps> = ({ setCurrentPage }) => {
     // Function to fetch existing W2 form data for the user
     const fetchData = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/w2Forms/user/${initialUser.userId}`, {
+            const response = await fetch(`http://tyler-alex-milan-tax-system.skillstorm-congo.com:8080/w2Forms/user/${initialUser.userId}`, {
                 credentials: 'include',
                 method: 'GET'
             });
@@ -198,9 +198,9 @@ const W2Form: React.FC<ComponentProps> = ({ setCurrentPage }) => {
             };
         }
         try {
-            let url = 'http://localhost:8080/w2Forms/createW2Form';
+            let url = 'http://tyler-alex-milan-tax-system.skillstorm-congo.com:8080/w2Forms/createW2Form';
             if (formData.id) {
-                url = `http://localhost:8080/w2Forms/updateW2Form/${userId}`;
+                url = `http://tyler-alex-milan-tax-system.skillstorm-congo.com:8080/w2Forms/updateW2Form/${userId}`;
             }
             const response = await fetch(url, requestOptions);
             setIsSuccess(true);

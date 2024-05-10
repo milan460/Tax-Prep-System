@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  frontend:
+    build: ./Frontend/Tax-Prep-System-Frontend
+    ports:
+      - "5173:5173"
+    networks:
+      - tax-prep-system-network
+
+  backend:
+    build: ./Backend/taxprepsystem
+    ports:
+      - "8080:8080"
+    networks:
+      - tax-prep-system-network
+    depends_on:
+      - db
+
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: taxprepsystem
+      POSTGRES_USER: tylercausey
+      POSTGRES_PASSWORD: alpaca
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./Backend/taxprepsystem/src/resources/tax_prep_schema.sql:/docker-entrypoint-initdb.d/1-schema.sql
+      - ./Backend/taxprepsystem/src/resources/tax_prep_data.sql:/docker-entrypoint-initdb.d/2-data.sql
+    ports:
+      - "5432:5432"
+    networks:
+      - tax-prep-system-network
+
+networks:
+  tax-prep-system-network:
+
+volumes:
+  db_data:

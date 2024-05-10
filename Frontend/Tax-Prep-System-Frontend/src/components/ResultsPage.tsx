@@ -115,7 +115,7 @@ const ResultsPage: React.FC<ComponentProps> = ({ setCurrentPage }) => {
          // Function to fetch current user data with GET request
         const fetchCurrentUser = async () => {
             try {
-                const response = await fetch('http://localhost:8080/currentUser', {
+                const response = await fetch('http://tyler-alex-milan-tax-system.skillstorm-congo.com:8080/currentUser', {
                     credentials: 'include',
                     method: 'GET'
                 });
@@ -134,25 +134,25 @@ const ResultsPage: React.FC<ComponentProps> = ({ setCurrentPage }) => {
         const fetchData = async () => {
             try {
                 // Fetch constants with GET request
-                const constantsResponse = await fetch(`http://localhost:8080/constants`, {
+                const constantsResponse = await fetch(`http://tyler-alex-milan-tax-system.skillstorm-congo.com:8080/constants`, {
                     credentials: 'include',
                     method: 'GET'
                 });
 
                 // Fetch personal info with GET request
-                const personalInfoResponse = await fetch(`http://localhost:8080/personalForms/user/${initialUser.userId}`, {
+                const personalInfoResponse = await fetch(`http://tyler-alex-milan-tax-system.skillstorm-congo.com:8080/personalForms/user/${initialUser.userId}`, {
                     credentials: 'include',
                     method: 'GET'
                 });
 
                 // Fetch W2 info with GET request
-                const w2InfoResponse = await fetch(`http://localhost:8080/w2Forms/user/${initialUser.userId}`, {
+                const w2InfoResponse = await fetch(`http://tyler-alex-milan-tax-system.skillstorm-congo.com:8080/w2Forms/user/${initialUser.userId}`, {
                     credentials: 'include',
                     method: 'GET'
                 });
 
                 // Fetch 1099-int info with GET request
-                const int1099InfoResponse = await fetch(`http://localhost:8080/1099/user/${initialUser.userId}`, {
+                const int1099InfoResponse = await fetch(`http://tyler-alex-milan-tax-system.skillstorm-congo.com:8080/1099/user/${initialUser.userId}`, {
                     credentials: 'include',
                     method: 'GET'
                 });

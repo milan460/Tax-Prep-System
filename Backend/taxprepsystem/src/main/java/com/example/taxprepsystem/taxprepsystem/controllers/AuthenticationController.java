@@ -28,7 +28,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 
 @RestController
-@CrossOrigin("http://localhost:5173/")
+@CrossOrigin("http://tyler-alex-milan-tax-system.skillstorm-congo.com:5173/")
 public class AuthenticationController { //Authentication Controller to handle user registration, login, and logout
 
 
@@ -95,7 +95,7 @@ public class AuthenticationController { //Authentication Controller to handle us
             response.setStatus(HttpServletResponse.SC_OK);
         } else {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            return new RedirectView("http://localhost:5173");
+            return new RedirectView("http://tyler-alex-milan-tax-system.skillstorm-congo.com:5173");
         }
 
         //Redirecting the admin to the admin page
@@ -104,15 +104,15 @@ public class AuthenticationController { //Authentication Controller to handle us
             //creating a cookie with the role of the admin
             Cookie adminCookie = new Cookie("role", "admin");
             response.addCookie(adminCookie);
-            return new RedirectView("http://localhost:5173/admin-page");
+            return new RedirectView("http://tyler-alex-milan-tax-system.skillstorm-congo.com:5173/admin-page");
 
             //redirecting the user to the home page
         } else if (user.getRole().equals("ROLE_USER")) {
-            return new RedirectView("http://localhost:5173/home");
+            return new RedirectView("http://tyler-alex-milan-tax-system.skillstorm-congo.com:5173/home");
         }
         //if the user is not found, redirect to the home page
         else {
-            return new RedirectView("http://localhost:5173");
+            return new RedirectView("http://tyler-alex-milan-tax-system.skillstorm-congo.com:5173");
         }
     }
 }

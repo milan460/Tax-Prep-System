@@ -73,7 +73,7 @@ const PersonalInfoForm: React.FC<ComponentProps> = ({ setCurrentPage }) => {
     //fetching the current user and setting the initial user to extract the userId
     const fetchCurrentUser = async () => {
         try {
-            const response = await fetch('http://localhost:8080/currentUser', {
+            const response = await fetch('http://tyler-alex-milan-tax-system.skillstorm-congo.com:8080/currentUser', {
                 credentials: 'include',
                 method: 'GET'
             });
@@ -107,7 +107,7 @@ const PersonalInfoForm: React.FC<ComponentProps> = ({ setCurrentPage }) => {
      // Function to fetch personal info form data based on the user's ID
     const fetchData = useCallback(async () => {
         try {
-            const response = await fetch(`http://localhost:8080/personalForms/user/${initialUser.userId}`, {
+            const response = await fetch(`http://tyler-alex-milan-tax-system.skillstorm-congo.com:8080/personalForms/user/${initialUser.userId}`, {
                 credentials: 'include',
                 method: 'GET'
             });
@@ -192,7 +192,7 @@ const PersonalInfoForm: React.FC<ComponentProps> = ({ setCurrentPage }) => {
             })
         };
         try {
-            const url = formData.id ? `http://localhost:8080/personalForms/updatePersonalInfo/${initialUser.userId}` : 'http://localhost:8080/personalForms/createPersonalForm';
+            const url = formData.id ? `http://tyler-alex-milan-tax-system.skillstorm-congo.com:8080/personalForms/updatePersonalInfo/${initialUser.userId}` : 'http://tyler-alex-milan-tax-system.skillstorm-congo.com:8080/personalForms/createPersonalForm';
             const response = await fetch(url, requestOptions);
             setIsSuccess(true);
             setShowAlert(false);

@@ -16,7 +16,7 @@ const SignIn: React.FC = () => {
   // Function to handle user login on form submission
   const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    fetch('http://localhost:8080/login', {
+    fetch('http://tyler-alex-milan-tax-system.skillstorm-congo.com:8080/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -40,7 +40,7 @@ const SignIn: React.FC = () => {
 
   // Function to handle single sign-On
   const handleSingleSignOn = () => {
-    window.location.replace("http://localhost:8080/signin");
+    window.location.replace("http://tyler-alex-milan-tax-system.skillstorm-congo.com:8080/signin");
   }
 
   // Function to update state based on form input changes

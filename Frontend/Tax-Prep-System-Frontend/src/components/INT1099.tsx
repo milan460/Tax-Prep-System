@@ -69,7 +69,7 @@ const INT1099: React.FC<ComponentProps> = ({ setCurrentPage }) => {
      // Function to fetch the current user's data
     const fetchCurrentUser = async () => {
         try {
-            const response = await fetch('http://localhost:8080/currentUser', {
+            const response = await fetch('http://tyler-alex-milan-tax-system.skillstorm-congo.com:8080/currentUser', {
                 credentials: 'include',
                 method: 'GET'
             });
@@ -104,7 +104,7 @@ const INT1099: React.FC<ComponentProps> = ({ setCurrentPage }) => {
     const fetchData = async () => {
         try {
              // Fetching data from the backend with GET request
-            const response = await fetch(`http://localhost:8080/1099/user/${initialUser.userId}`, {
+            const response = await fetch(`http://tyler-alex-milan-tax-system.skillstorm-congo.com:8080/1099/user/${initialUser.userId}`, {
                 credentials: 'include',
                 method: 'GET'
             });
@@ -158,7 +158,7 @@ const INT1099: React.FC<ComponentProps> = ({ setCurrentPage }) => {
 
         // Determine HTTP method based on formId existence
         const method = formData.formId ? 'PUT' : 'POST';
-        const URL = formData.formId ? `http://localhost:8080/1099/updateINTForm/user/${initialUser.userId}` : 'http://localhost:8080/1099/createINTForm';
+        const URL = formData.formId ? `http://tyler-alex-milan-tax-system.skillstorm-congo.com:8080/1099/updateINTForm/user/${initialUser.userId}` : 'http://tyler-alex-milan-tax-system.skillstorm-congo.com:8080/1099/createINTForm';
 
         console.log(method)
         const headers: HeadersInit = {
