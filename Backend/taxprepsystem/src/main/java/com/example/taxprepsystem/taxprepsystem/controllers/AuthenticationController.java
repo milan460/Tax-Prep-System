@@ -55,6 +55,7 @@ public class AuthenticationController { //Authentication Controller to handle us
     }
 
 
+
     @GetMapping("/signin")
     public RedirectView signIn(@AuthenticationPrincipal OAuth2User oAuth2User, Authentication auth, HttpServletResponse response, HttpServletRequest request) {
 
@@ -81,14 +82,10 @@ public class AuthenticationController { //Authentication Controller to handle us
             OAuth2AuthorizedClient client = clientService.loadAuthorizedClient(authToken.getAuthorizedClientRegistrationId(), authToken.getName());
 
             Cookie cookie = new Cookie("accessToken", client.getAccessToken().getTokenValue());
-            Cookie csrfCookie = new Cookie("XSRF-TOKEN", csrfToken.getToken());
-
-            csrfCookie.setPath("/");
-            csrfCookie.setHttpOnly(false);
             cookie.setHttpOnly(false);
 
             response.addCookie(cookie);
-            response.addCookie(csrfCookie);
+
 
 
             //returning the value of the token
@@ -101,16 +98,17 @@ public class AuthenticationController { //Authentication Controller to handle us
         //Redirecting the admin to the admin page
         if (user.getRole().equals("ROLE_ADMIN")) {
 
-            //creating a cookie with the role of the admin
+            //creating a cookie with the role of the admin for identification purposes
             Cookie adminCookie = new Cookie("role", "admin");
             response.addCookie(adminCookie);
+
+            //redirect to the admin page
             return new RedirectView("http://tyler-alex-milan-tax-system.skillstorm-congo.com:5173/admin-page");
 
             //redirecting the user to the home page
         } else if (user.getRole().equals("ROLE_USER")) {
             return new RedirectView("http://tyler-alex-milan-tax-system.skillstorm-congo.com:5173/home");
         }
-        //if the user is not found, redirect to the home page
         else {
             return new RedirectView("http://tyler-alex-milan-tax-system.skillstorm-congo.com:5173");
         }

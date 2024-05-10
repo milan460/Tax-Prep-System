@@ -16,8 +16,13 @@ const SignIn: React.FC = () => {
   // Function to handle user login on form submission
   const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+<<<<<<< Updated upstream
     fetch('http://tyler-alex-milan-tax-system.skillstorm-congo.com:8080/login', {
       method: 'POST',
+=======
+    fetch('http://localhost:8080/login', {
+      method: 'GET',
+>>>>>>> Stashed changes
       headers: {
         'Content-Type': 'application/json'
       },

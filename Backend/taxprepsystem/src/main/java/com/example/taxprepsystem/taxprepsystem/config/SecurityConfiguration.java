@@ -50,6 +50,7 @@ public class SecurityConfiguration {
                 )
 
 
+
                 //setting the logout configuration to delete cookies with the session token and redirect to the logout_success page
                 .logout(logout -> logout
                         .deleteCookies("accessToken").invalidateHttpSession(true)
@@ -58,11 +59,12 @@ public class SecurityConfiguration {
                         .deleteCookies("XSRF-TOKEN").invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID").invalidateHttpSession(true)
                         .logoutUrl("/logout").logoutSuccessUrl("http://tyler-alex-milan-tax-system.skillstorm-congo.com:5173").permitAll()
+
                 )
 
                 //setting the csrf token to be stored in a cookie
                 .csrf(csrf -> csrf
-                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()) //WithHttpOnlyFalse allows the cookie to be accessed by the frontend
                         .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())
                 )
 
@@ -76,7 +78,6 @@ public class SecurityConfiguration {
                         //these are the allowed origins, methods, and headers
                         corsConfig.setAllowedOrigins(Arrays.asList("http://tyler-alex-milan-tax-system.skillstorm-congo.com:5173"));
                         corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
-//                        corsConfig.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
                         corsConfig.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-XSRF-TOKEN"));
                         corsConfig.setExposedHeaders(Arrays.asList("X-XSRF-TOKEN"));
                         corsConfig.setAllowCredentials(true);
@@ -102,7 +103,7 @@ public class SecurityConfiguration {
 
     @Bean
     public CsrfTokenRepository cookieCsrfTokenRepository(){
-        CookieCsrfTokenRepository repository = CookieCsrfTokenRepository.withHttpOnlyFalse();
+        CookieCsrfTokenRepository repository = CookieCsrfTokenRepository.withHttpOnlyFalse(); //
         repository.setHeaderName("X-XSRF-TOKEN");
         repository.setCookiePath("/");
 
