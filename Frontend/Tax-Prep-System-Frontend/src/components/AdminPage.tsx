@@ -67,7 +67,7 @@ const AdminPage: React.FC<ComponentProps> = ({ setCurrentPage }) => {
     // Fetches initial data for the form
     const fetchData = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/constants`, {
+            const response = await fetch(`http://tyler-alex-milan-tax-system.skillstorm-congo.com:8080/constants`, {
             credentials: "include",
             method: 'GET'
         });
@@ -117,7 +117,7 @@ const AdminPage: React.FC<ComponentProps> = ({ setCurrentPage }) => {
                 'Content-Type': 'application/json',
                 'X-XSRF-TOKEN': csrfToken || undefined
             } as HeadersInit;
-            const response = await fetch('http://localhost:8080/constants/updateConstants', {
+            const response = await fetch('http://tyler-alex-milan-tax-system.skillstorm-congo.com:8080/constants/updateConstants', {
                 credentials: "include",
                 method: 'PUT',
                 headers: headers,

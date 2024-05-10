@@ -19,7 +19,7 @@ import com.example.taxprepsystem.taxprepsystem.models.Constants;
 import com.example.taxprepsystem.taxprepsystem.services.ConstantsService;
 
 @RestController
-@CrossOrigin("http://localhost:5173/")
+@CrossOrigin("http://tyler-alex-milan-tax-system.skillstorm-congo.com:5173/")
 @RequestMapping("/constants")
 public class ConstantsController {
 

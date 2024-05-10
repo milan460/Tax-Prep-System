@@ -25,7 +25,7 @@ const Header: React.FC<ComponentProps> = ({ currentPage }) => {
     // Function to handle user logout
     const handleLogout = (event: { preventDefault: () => void; }) => {
         event.preventDefault();
-        window.location.replace("http://localhost:8080/logout");
+        window.location.replace("http://tyler-alex-milan-tax-system.skillstorm-congo.com:8080/logout");
     }
     
 
